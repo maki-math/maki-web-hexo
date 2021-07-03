@@ -1,0 +1,16 @@
+algebra:
+    name: Martin D'vloper
+    job: Developer
+    description: 一个课程
+    skills:
+      - python
+      - perl
+      - pascal
+analysis:
+    name: Tabitha Bitumen
+    job: Developer
+    description: 一个课程
+    skills:
+      - lisp
+      - fortran
+      - erlang

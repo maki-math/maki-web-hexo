@@ -1,0 +1,9 @@
+<% for (var link in site.data.courses) { %>
+    <a href="<%= site.data.courses[link] %>">
+        <%= link %> 
+        <%= site.data.courses[link].name %> 
+        <%= site.data.courses[link].jobs %> 
+        <%= site.data.courses[link].description %> 
+    </a>
+    <br>
+<% } %>
