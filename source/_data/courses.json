@@ -1,0 +1,64 @@
+[
+  {
+    "subjectKey": "math",
+    "fields": [
+      {
+        "fieldKey": "analysis",
+        "fieldTitle": "分析",
+        "fieldSubTitle": "很简单的分析啦~",
+        "courses": [
+          {
+            "courseKey": "mathematical-analysis",
+            "courseTitle": "数学分析",
+            "subjects": ["math"],
+            "lecturers": ["Bar Foo,", "Foo Bar"],
+            "description": "快乐数分，从我做起。",
+            "picture": "test-pic"
+          },
+          {
+            "courseKey": "",
+            "courseTitle": "泛函分析",
+            "subjects": ["math"],
+            "lecturers": ["Bar Foo,", "Foo Bar"],
+            "description": "泛函分析心泛寒。",
+            "picture": "test-pic"
+          }
+        ]
+      },
+      {
+        "fieldKey": "algebra",
+        "fieldTitle": "代数",
+        "fieldSubTitle": "白马非马，代数非数",
+        "courses": [
+          {
+            "courseKey": "algebra",
+            "courseTitle": "抽象代数",
+            "subjects": ["math"],
+            "lecturers": ["Foo Bar,", "Bar Foo"],
+            "description": "这是一个课程描述。",
+            "picture": "test-pic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "subjectKey": "cs",
+    "fields": [
+      {
+        "fieldKey": "mathematical-programming-tools",
+        "fieldTitle": "数学编程工具",
+        "fieldSubTitle": "重要的工具",
+        "courses": [
+          {
+            "courseTitle": "Matlab",
+            "subjects": ["cs", "math"],
+            "lecturers": ["Bar Foo,", "Foo Bar"],
+            "description": "快乐matlab，从我做起。",
+            "picture": "test-pic"
+          }
+        ]
+      }
+    ]
+  }
+]
