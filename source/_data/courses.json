@@ -1,6 +1,7 @@
 [
   {
     "subjectKey": "math",
+    "subjectName": "数学 Mathematics",
     "fields": [
       {
         "fieldKey": "analysis",
@@ -44,6 +45,7 @@
   },
   {
     "subjectKey": "cs",
+    "subjectName": "计算机 Computer Science",
     "fields": [
       {
         "fieldKey": "mathematical-programming-tools",
