@@ -12,7 +12,7 @@
             "courseKey": "mathematical-analysis",
             "courseTitle": "数学分析",
             "subjects": ["math"],
-            "lecturers": ["Bar Foo,", "Foo Bar"],
+            "lecturers": ["Bar Foo", "Foo Bar"],
             "description": "快乐数分，从我做起。",
             "picture": "test-pic"
           },
@@ -20,7 +20,7 @@
             "courseKey": "",
             "courseTitle": "泛函分析",
             "subjects": ["math"],
-            "lecturers": ["Bar Foo,", "Foo Bar"],
+            "lecturers": ["Bar Foo", "Foo Bar"],
             "description": "泛函分析心泛寒。",
             "picture": "test-pic"
           }
@@ -35,7 +35,7 @@
             "courseKey": "algebra",
             "courseTitle": "抽象代数",
             "subjects": ["math"],
-            "lecturers": ["Foo Bar,", "Bar Foo"],
+            "lecturers": ["Foo Bar", "Bar Foo"],
             "description": "这是一个课程描述。",
             "picture": "test-pic"
           }
@@ -55,7 +55,7 @@
           {
             "courseTitle": "Matlab",
             "subjects": ["cs", "math"],
-            "lecturers": ["Bar Foo,", "Foo Bar"],
+            "lecturers": ["Bar Foo", "Foo Bar"],
             "description": "快乐matlab，从我做起。",
             "picture": "test-pic"
           }
