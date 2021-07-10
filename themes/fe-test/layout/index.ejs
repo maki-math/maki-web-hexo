@@ -52,133 +52,57 @@
     </div>
   </div>
 
-  <div class="container">
-    <h1 class="font-weight-lighter text-center mb-4">数学 MATHEMATICS<a id="00"></a></h1>
-
-    <div class="row">
-      <div class="col-sm-4 mb-4">
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title">分析</h4>
-            <h6 class="card-subtitle mb-2 text-muted">很简单的分析啦～</h6>
-            <ul>
-              <li><a href="courses/eden&alex_mathematical_analysis/course.html" class="btn btn-link">数学分析</a> by eden
-              </li>
-              <li><a href="courses/yuchen_complex_analysis/course.html" class="btn btn-link">复分析</a> by yuchen</li>
-              <li><a href="courses/enkan_functional_analysis/course.html" class="btn btn-link">泛函分析</a> by enkan</li>
-            </ul>
-
-            <!--<a href="#" class="btn btn-link">实分析</a>
-              <a href="#" class="btn btn-link">傅立叶分析</a>-->
-
-          </div>
-        </div>
-      </div>
-
-      <div class="col-sm-4 mb-4">
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title">代数</h4>
-            <h6 class="card-subtitle mb-2 text-muted">白马非马，代数非数</h6>
-            <a href="courses/algebra/" class="btn btn-link">抽象代数</a>
-            <!--<a href="#" class="btn btn-link">线性代数</a>
-              <a href="#" class="btn btn-link">高等代数</a>
-              <a href="#" class="btn btn-link">交换代数</a>-->
-          </div>
-        </div>
-      </div>
-
-
-      <div class="col-sm-4 mb-4">
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title">数论</h4>
-            <h6 class="card-subtitle mb-2 text-muted">“数学中的皇冠”</h6>
-            <a href="courses/maki_number_theory/course.html" class="btn btn-link">初等数论</a>
-            <!--<a href="#" class="btn btn-link">代数数论</a>
-              <a href="#" class="btn btn-link">代数几何</a>-->
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <div class="container">
-    <h1 class="font-weight-lighter text-center mb-4">物理 PHYSICS<a id="01"></a></h1>
-
-    <div class="row">
-      <div class="col-sm-4 mb-4">
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title">量子</h4>
-            <h6 class="card-subtitle mb-2 text-muted">量子力学量力学～</h6>
-            <a href="courses/ahbete_baby_quantum/course.html" class="btn btn-link">Baby Quantum</a>
-            <a href="courses/ahbete_modern_quantum/course.html" class="btn btn-link">Modern Quantum</a>
-            <a href="courses/susann_quantum_field_theory/course.html" class="btn btn-link">量子场论</a>
-            <a href="courses/ahbete_quantum_optics/course.html" class="btn btn-link">Quantum Optics</a>
-
-
-
-          </div>
-        </div>
-      </div>
-
-    </div>
-
+  <% for( let subject of site.data.courses ) { %>
     <div class="container">
-      <h1 class="font-weight-lighter text-center mb-4">计算机 Computer Science<a id="01"></a></h1>
+      <h1 class="font-weight-lighter text-center mb-4">
+        <%= subject.subjectName %> <a id="<%= subject.subjectKey %> "></a>
+      </h1>
 
       <div class="row">
-        <div class="col-sm-4 mb-4">
-          <div class="card">
-            <div class="card-body">
-              <h4 class="card-title">数学编程工具</h4>
-              <a href="courses/cubee_matlab/course.html" class="btn btn-link">Matlab</a>
+        <% for( let field of subject.fields ) { %>
+          <div class="col-sm-4 mb-4">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">
+                  <%= field.fieldTitle %>
+                </h4>
+                <h6 class="card-subtitle mb-2 text-muted">
+                  <%= field.fieldSubTitle %>
+                </h6>
+                <ul>
+                  <% for( let course of field.courses ) { %>
+                    <li>
+                      <a href="courses/<%= course.courseKey %> " class="btn btn-link">
+                        <%= course.courseTitle %>
+                      </a>
+                      by <%= course.lecturers %>
+                    </li>
+                    <% } %>
+                </ul>
+              </div>
             </div>
           </div>
-        </div>
+          <% } %>
+      </div>
+    </div>
+    <% } %>
 
+
+      <div class="container">
+        <hr>
+        <p>(C) 2020, Maki & his friends</p>
       </div>
 
 
+      <!-- Optional JavaScript; choose one of the two! -->
 
-    </div>
-    <!--
-    <div class="container">
-      <h1 class="font-weight-lighter text-center mb-4">化学 CHEMISTRY<a id="02"></a></h1>
-  
-      <div class="row">
-        <div class="col-sm-4 mb-4">
-          <div class="card">
-            <div class="card-body">
-              <h4 class="card-title">有机化学</h4>
-              <h6 class="card-subtitle mb-2 text-muted">感到辛酸</h6>
-              <a href="#" class="btn btn-link">有机合成</a>
-            </div>
-          </div>
-        </div>
-  
-      </div>
-    </div>
-    -->
+      <!-- Option 1: Bootstrap Bundle with Popper -->
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
 
-
-    <div class="container">
-      <hr>
-      <p>(C) 2020, Maki & his friends</p>
-    </div>
-
-
-    <!-- Optional JavaScript; choose one of the two! -->
-
-    <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-      crossorigin="anonymous"></script>
-
-    <!-- Option 2: Separate Popper and Bootstrap JS -->
-    <!--
+      <!-- Option 2: Separate Popper and Bootstrap JS -->
+      <!--
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
     -->
