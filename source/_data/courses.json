@@ -37,7 +37,17 @@
             "subjects": ["math"],
             "lecturers": ["Foo Bar", "Bar Foo"],
             "description": "这是一个课程描述。",
-            "picture": "test-pic"
+            "picture": "test-pic",
+            "sections": [
+              {
+                "sectionName": "Section I",
+                "pages": [
+                  {
+                    "pageTitle": "Lecture 1"
+                  }
+                ]
+              }
+            ]
           }
         ]
       }
