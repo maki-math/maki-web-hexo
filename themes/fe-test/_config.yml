@@ -1,0 +1,6 @@
+math:
+  enable: true
+  per_page: false
+  engine: katex
+  katex:
+    cdn: //cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css
