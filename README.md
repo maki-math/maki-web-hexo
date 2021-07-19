@@ -1,3 +1,3 @@
 # maki-web-hexo
 
-[https://maki-math.github.io/maki-web-hexo/](https://maki-math.github.io/maki-web-hexo/)
+[https://beta.maki-math.com/](https://beta.maki-math.com/)
