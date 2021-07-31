@@ -54,6 +54,27 @@
     ]
   },
   {
+    "subjectKey": "physics",
+    "subjectName": "物理 Physics",
+    "fields": [
+      {
+        "fieldKey": "qm",
+        "fieldTitle": "量子力学",
+        "fieldSubTitle": "不要自学量子力学",
+        "courses": [
+          {
+            "courseKey": "QFT",
+            "courseTitle": "量子场论",
+            "subjects": ["physics"],
+            "lecturers": ["Foo Bar"],
+            "description": "量子场论",
+            "picture": "test-pic"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "subjectKey": "cs",
     "subjectName": "计算机 Computer Science",
     "fields": [
