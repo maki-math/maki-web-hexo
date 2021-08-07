@@ -5,15 +5,13 @@ layout: lecture
 mathjax: true
 ---
 
-Introduction to Group
-=====================
+# Introduction to Group
 
 Course Group of Abstract Algebra
 
-Basic Axioms and Examples
--------------------------
+# Basic Axioms and Examples
 
- [\[first\]]{#first label="first"} A binary operation $\star$ on a set
+A binary operation $\star$ on a set
 $G$ is a map $G\times G \to G$. For any $a,b \in G$, we write $a\star b$
 for $\star(a,b)$.
 
@@ -25,7 +23,7 @@ for $\star(a,b)$.
 2.  $-$ (usual subtraction) is not a binary operation on
     $\mathbb{Z}^{+}$.
 
- [\[second\]]{#second label="second"} A group is an ordered pair
+A group is an ordered pair
 $(G,\star)$ where $G$ is a set and $\star$ is a binary operation on $G$
 satisfying
 
@@ -94,7 +92,7 @@ If $G$ is a group with an operation $\cdot$
  (1) Assume $e$ and $e'$ are both identity elements of $G$. By the
 definition $e=ee'=e'$, therefore the identity is unique.
 
-\(2) Assume $b$ and $c$ are both inverses of $a$ and $e$ is the identity
+ (2) Assume $b$ and $c$ are both inverses of $a$ and $e$ is the identity
 of $G$. $$\begin{aligned}
     b&=be\\
     &=b(ac)\\
@@ -121,7 +119,7 @@ $$\begin{aligned}
     &=((a^{-1})^{-1}a^{-1})a\\
     &=ea=a\end{aligned}$$
 
-\(2) For the left cancellation law, let $a,b,c\in G$ and $ab=ac$.\
+ (2) For the left cancellation law, let $a,b,c\in G$ and $ab=ac$.\
 Since the inverse of $a$ is unique, we have $$\begin{aligned}
         ab&=ac\\
         a^{-1}(ab)&=a^{-1}(ac)\\
@@ -129,7 +127,7 @@ Since the inverse of $a$ is unique, we have $$\begin{aligned}
         b&=c
     \end{aligned}$$ Similarly the right cancellation law is hold.
 
-\(3) Assume $c=(ab)^{-1}$. $$\begin{aligned}
+ (3) Assume $c=(ab)^{-1}$. $$\begin{aligned}
     (ab)c&=e\\
     a(bc)&=e\\
     a^{-1}(a(bc))&=a^{-1}e\\
@@ -145,10 +143,7 @@ Since $ax=b$, we multiply both sides on the left by $a^{-1}$ and
 simplifying to get $x=a^{-1}b$. Since $a^{-1}$ is uniquely determined,
 so $x=a^{-1}b$ is unique. Similarly if $ya=b, y=ba^{-1}$.
 
-\*Similar Structures
---------------------
-
- 
+# Similar Structures
 
 A semigroup is a nonempty set $G$ with binary operation $\cdot$,
 satisfying for all $a,b,c\in G$, $a\cdot (b\cdot c)=(a\cdot b)\cdot c$.
@@ -167,8 +162,7 @@ $ea=ae=a$ for all $a\in G$.
 
 3.  The set of all even number is a semigroup under the multiplication.
 
-\*Equivalent Condition of a Group
----------------------------------
+# Equivalent Condition of a Group
 
  Let $G$ be a semigroup, then $G$ is a group if and only if the
 following conditions hold:
