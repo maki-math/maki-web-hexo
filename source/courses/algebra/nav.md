@@ -5,3 +5,4 @@ layout: course-nav
 ---
 
 - [Lecture 1](lecture1)
+- [Lecture 2](note11)
