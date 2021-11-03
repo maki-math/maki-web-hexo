@@ -471,10 +471,10 @@ hexo-cli@^4.0.0:
     resolve "^1.11.0"
     tildify "^2.0.0"
 
-hexo-filter-mathjax@^0.7.1:
-  version "0.7.1"
-  resolved "https://registry.nlark.com/hexo-filter-mathjax/download/hexo-filter-mathjax-0.7.1.tgz#b51774d25b3ecd1fe00f21de1d6ab8a043f3eede"
-  integrity sha1-tRd00ls+zR/gDyHeHWq4oEPz7t4=
+hexo-filter-mathjax@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/hexo-filter-mathjax/-/hexo-filter-mathjax-0.8.0.tgz#6f60e91dcc3ecb55bf3a7d1d746959d6a4940b0b"
+  integrity sha512-mYghPfGtIyVuuFZW8BIPmPY/eUSKpuflflKLNhPMe/t0ZdInBPhbErXA8XDbfV6VIjIFqQ77HjlHQ4F7/S9EwQ==
   dependencies:
     mathjax-full "3.2.0"
 

@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "hexo": "^5.0.0",
-    "hexo-filter-mathjax": "^0.7.1",
+    "hexo-filter-mathjax": "^0.8.0",
     "hexo-generator-archive": "^1.0.0",
     "hexo-generator-category": "^1.0.0",
     "hexo-generator-index": "^2.0.0",
