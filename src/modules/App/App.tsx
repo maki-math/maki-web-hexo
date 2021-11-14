@@ -18,11 +18,11 @@ function Nav() {
           <Menu.Item key="home">
             <Link to="/">Home</Link>
           </Menu.Item>
-          <Menu.Item key="about">
-            <Link to="/about">About</Link>
-          </Menu.Item>
           <Menu.Item key="courses">
             <Link to="/courses">Courses</Link>
+          </Menu.Item>
+          <Menu.Item key="about">
+            <Link to="/about">About</Link>
           </Menu.Item>
         </Menu>
       </Col>
@@ -48,7 +48,7 @@ function App() {
         <Content style={{ padding: '0 50px' }}>
           <Switch>
             <Route path="/about">about</Route>
-            <Route path="/users">users</Route>
+            <Route path="/courses">courses</Route>
             <Route path="/">
               <Home />
             </Route>
