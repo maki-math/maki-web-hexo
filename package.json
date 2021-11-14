@@ -24,6 +24,8 @@
     "husky": "4.3.8",
     "lint-staged": "^10.5.3",
     "prettier": "2.2.1",
+    "textlint": "^12.0.2",
+    "textlint-rule-ja-space-between-half-and-full-width": "^2.2.0",
     "typescript": "^4.6.0-dev.20211114",
     "vite": "^2.0.0-beta.50"
   },
@@ -37,6 +39,7 @@
     "*.{js,ts,tsx,jsx,json}": [
       "prettier --write",
       "eslint --fix"
-    ]
+    ],
+    "*.md": "textlint --fix"
   }
 }
