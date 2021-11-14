@@ -24,7 +24,7 @@
     "husky": "4.3.8",
     "lint-staged": "^10.5.3",
     "prettier": "2.2.1",
-    "typescript": "^4.1.2",
+    "typescript": "^4.6.0-dev.20211114",
     "vite": "^2.0.0-beta.50"
   },
   "husky": {

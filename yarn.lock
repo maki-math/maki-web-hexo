@@ -3505,10 +3505,15 @@ type-fest@^0.8.1:
   resolved "https://registry.npmmirror.com/type-fest/download/type-fest-0.8.1.tgz?cache=0&sync_timestamp=1636459972076&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Ftype-fest%2Fdownload%2Ftype-fest-0.8.1.tgz#09e249ebde851d3b1e48d27c105444667f17b83d"
   integrity sha1-CeJJ696FHTseSNJ8EFREZn8XuD0=
 
-typescript@^4.1.2, typescript@^4.4.3:
+typescript@^4.4.3:
   version "4.4.4"
   resolved "https://registry.npmmirror.com/typescript/download/typescript-4.4.4.tgz?cache=0&sync_timestamp=1636874504792&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Ftypescript%2Fdownload%2Ftypescript-4.4.4.tgz#2cd01a1a1f160704d3101fd5a58ff0f9fcb8030c"
   integrity sha1-LNAaGh8WBwTTEB/VpY/w+fy4Aww=
+
+typescript@^4.6.0-dev.20211114:
+  version "4.6.0-dev.20211114"
+  resolved "https://registry.npmmirror.com/typescript/download/typescript-4.6.0-dev.20211114.tgz?cache=0&sync_timestamp=1636874504792&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Ftypescript%2Fdownload%2Ftypescript-4.6.0-dev.20211114.tgz#df2c2c3ae17e8eff0e3143aa7b5abe5905135637"
+  integrity sha512-CM3y71yxJmungjeaYHNVAZoBamLGcLovtBFgeDo2/yu/cXiMnH9kNyfAmOfQ5XlPJblG3+YeGxfC0Gucqn4GoA==
 
 unbox-primitive@^1.0.1:
   version "1.0.1"
