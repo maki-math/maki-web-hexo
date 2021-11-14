@@ -3,7 +3,7 @@ name: Pages
 on:
   push:
     branches:
-      - main
+      - react
 
 jobs:
   pages:
