@@ -1,3 +1,4 @@
+import { CustomLayoutHeader } from '@/components/CustomLayoutHeader/CustomLayoutHeader';
 import {
   GithubOutlined,
   LaptopOutlined,
@@ -15,7 +16,7 @@ const { Content, Footer, Sider } = Layout;
 export function Home() {
   return (
     <Layout>
-      <Header className="global-override">
+      <CustomLayoutHeader style={{ position: 'sticky', top: 0, zIndex: 10 }}>
         <h2 style={{ marginRight: '10px' }}>Maki-Math</h2>
         <Col flex={1}>
           <Menu theme="light" mode="horizontal" defaultSelectedKeys={['1']}>
@@ -34,7 +35,7 @@ export function Home() {
             <GithubOutlined />
           </Button>
         </div>
-      </Header>
+      </CustomLayoutHeader>
       <Content style={{ padding: '0 50px' }}>
         <Breadcrumb style={{ margin: '16px 0' }}>
           <Breadcrumb.Item>Home</Breadcrumb.Item>
