@@ -1,6 +1,9 @@
 {
   "name": "maki-web-react",
   "version": "0.0.0",
+  "repository": {
+    "url": "https://github.com/maki-math/maki-web-hexo"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -8,6 +11,7 @@
   },
   "dependencies": {
     "@emotion/css": "^11.5.0",
+    "@emotion/react": "^11.6.0",
     "@emotion/styled": "^11.6.0",
     "antd": "^4.16.13",
     "react": "^17.0.0",
@@ -24,6 +28,7 @@
     "eslint": "^7.18.0",
     "eslint-plugin-react": "^7.22.0",
     "husky": "4.3.8",
+    "less": "^4.1.2",
     "lint-staged": "^10.5.3",
     "prettier": "2.2.1",
     "textlint": "^12.0.2",
