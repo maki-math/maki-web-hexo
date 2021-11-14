@@ -4,9 +4,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "serve": "vite preview",
-    "set:husky": "husky install",
-    "bootstrap": "yarn && npm run set:husky"
+    "serve": "vite preview"
   },
   "dependencies": {
     "react": "^17.0.0",
