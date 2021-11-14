@@ -15,7 +15,7 @@ const { Content, Footer, Sider } = Layout;
 export function Home() {
   return (
     <Layout>
-      <Header className="custom">
+      <Header className="global-override">
         <h2 style={{ marginRight: '10px' }}>Maki-Math</h2>
         <Col flex={1}>
           <Menu theme="light" mode="horizontal" defaultSelectedKeys={['1']}>
