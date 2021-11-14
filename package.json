@@ -1,0 +1,35 @@
+{
+  "name": "maki-web-react",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "serve": "vite preview",
+    "set:husky": "husky install",
+    "bootstrap": "yarn && npm run set:husky"
+  },
+  "dependencies": {
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.14.1",
+    "@typescript-eslint/parser": "^4.14.1",
+    "@vitejs/plugin-react-refresh": "^1.1.3",
+    "eslint": "^7.18.0",
+    "eslint-plugin-react": "^7.22.0",
+    "husky": "^5.0.8",
+    "lint-staged": "^10.5.3",
+    "prettier": "2.2.1",
+    "typescript": "^4.1.2",
+    "vite": "^2.0.0-beta.50"
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx,jsx,json}": [
+      "prettier --write",
+      "eslint --fix"
+    ]
+  }
+}
