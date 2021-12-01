@@ -6,6 +6,7 @@ import 'antd/dist/antd.css';
 import React from 'react';
 import { Route, HashRouter as Router, Switch, Link } from 'react-router-dom';
 import { Home } from '../Home/Home';
+import { Details } from '../Course/Details';
 
 const { Content, Footer } = Layout;
 
@@ -48,7 +49,9 @@ function App() {
         <Content style={{ padding: '0 50px' }}>
           <Switch>
             <Route path="/about">about</Route>
-            <Route path="/courses">courses</Route>
+            <Route path="/courses">
+              <Details />
+            </Route>
             <Route path="/">
               <Home />
             </Route>
