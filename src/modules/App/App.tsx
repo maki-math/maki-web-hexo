@@ -4,8 +4,9 @@ import { REPOSITORY_URL } from '@/dicts/global';
 import { Button, Col, Layout, Menu } from 'antd';
 import 'antd/dist/antd.css';
 import React from 'react';
-import { Route, HashRouter as Router, Switch, Link } from 'react-router-dom';
-import { Home } from '../Home/Home';
+import { HashRouter as Router, Link, Route, Switch } from 'react-router-dom';
+import { ContentPage } from '../Content/ContentPage';
+import { HomePage } from '../Home/HomePage';
 
 const { Content, Footer } = Layout;
 
@@ -17,6 +18,9 @@ function Nav() {
         <Menu theme="light" mode="horizontal" defaultSelectedKeys={['home']}>
           <Menu.Item key="home">
             <Link to="/">Home</Link>
+          </Menu.Item>
+          <Menu.Item key="content">
+            <Link to="/content">Content</Link>
           </Menu.Item>
           <Menu.Item key="courses">
             <Link to="/courses">Courses</Link>
@@ -49,8 +53,11 @@ function App() {
           <Switch>
             <Route path="/about">about</Route>
             <Route path="/courses">courses</Route>
+            <Route path="/content">
+              <ContentPage />
+            </Route>
             <Route path="/">
-              <Home />
+              <HomePage></HomePage>
             </Route>
           </Switch>
         </Content>

@@ -7,11 +7,11 @@ import { Breadcrumb, Layout, Menu } from 'antd';
 import React from 'react';
 
 const { SubMenu } = Menu;
-const { Content, Footer, Sider } = Layout;
+const { Content, Sider } = Layout;
 
-export function Home() {
+export function ContentPage() {
   return (
-    <>
+    <div className="h-100vh">
       <Breadcrumb style={{ margin: '16px 0' }}>
         <Breadcrumb.Item>Home</Breadcrumb.Item>
         <Breadcrumb.Item>List</Breadcrumb.Item>
@@ -51,6 +51,6 @@ export function Home() {
         </Sider>
         <Content style={{ padding: '0 24px', minHeight: 280 }}>Content</Content>
       </Layout>
-    </>
+    </div>
   );
 }
