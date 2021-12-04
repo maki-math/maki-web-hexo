@@ -1,4 +1,4 @@
-import { Course } from './CourseView';
+import { Course } from '../CourseView';
 
 export const CoursesPlaceholder: Course[] = '1'
   .repeat(6)
