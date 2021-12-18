@@ -13,8 +13,8 @@ const { Content, Sider } = Layout;
 export function ContentPage() {
   return (
     <div className="h-100vh">
-      <Layout className="site-layout-background" style={{ padding: '24px 0' }}>
-        <Sider className="site-layout-background" width={200}>
+      <Layout className="h-full" style={{ padding: '24px 0' }}>
+        <Sider width={200}>
           <Menu
             mode="inline"
             defaultSelectedKeys={['1']}
