@@ -2,6 +2,7 @@ import { StarFilled, StarOutlined } from '@/components/Icon/Icon';
 import { PageHeader, Button } from 'antd';
 import { Content } from 'antd/lib/layout/layout';
 import React, { useState } from 'react';
+import { routes } from './mock';
 
 const FavoriteSwitchButton: React.FC<{ isFavorite?: boolean }> = (props) => {
   const [isFavorite, setIsFavorite] = useState(false);
@@ -25,6 +26,7 @@ export const PostDisplay: React.FC<unknown> = (props) => {
     <div>
       <PageHeader
         ghost={false}
+        breadcrumb={{ routes }}
         title="Title"
         subTitle="This is a subtitle"
         extra={[<FavoriteSwitchButton />]}
