@@ -28,7 +28,7 @@ export const PostDisplay: React.FC<unknown> = (props) => {
       breadcrumb={{ routes }}
       title="Title"
       subTitle="This is a subtitle"
-      extra={[<FavoriteSwitchButton />]}
+      extra={[<FavoriteSwitchButton key={1} />]}
       className="h-full"
     >
       <Content>
