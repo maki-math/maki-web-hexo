@@ -22,7 +22,7 @@ jobs:
           restore-keys: |
             ${{ runner.OS }}-npm-cache
       - name: Install Dependencies
-        run: npm install
+        run: rm .npmrc && npm install
       - name: Build
         run: npm run build
       - name: Deploy
