@@ -1,3 +1,5 @@
+// eslint-disable-next-line
+// @ts-nocheck
 import React from 'react';
 import {
   Row,
