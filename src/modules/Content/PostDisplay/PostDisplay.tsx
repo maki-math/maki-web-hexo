@@ -1,8 +1,9 @@
 import { StarFilled, StarOutlined } from '@/components/Icon/Icon';
-import { PageHeader, Button } from 'antd';
-import { Content } from 'antd/lib/layout/layout';
+import { PageHeader, Button, Layout } from 'antd';
 import React, { useState } from 'react';
 import { routes } from './mock';
+
+const { Content } = Layout;
 
 const FavoriteSwitchButton: React.FC<{ isFavorite?: boolean }> = (props) => {
   const [isFavorite, setIsFavorite] = useState(false);
