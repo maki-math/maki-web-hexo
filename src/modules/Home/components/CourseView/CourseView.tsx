@@ -1,4 +1,4 @@
-import { Card, Col, Divider, Row, Space } from 'antd';
+import { Card, Col, Divider, Row } from 'antd';
 import React from 'react';
 import { SubjectViewListMock } from './mock/SubjectViewListMock';
 

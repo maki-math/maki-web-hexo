@@ -11,6 +11,10 @@ export const SubjectViewListMock: SubjectViewProps[] = [
     courses: CoursesPlaceholder,
   },
   {
+    title: '化学 Chemistry',
+    courses: CoursesPlaceholder,
+  },
+  {
     title: '计算机 Computer Science',
     courses: CoursesPlaceholder,
   },
