@@ -35,8 +35,14 @@ export function CourseView() {
         <h1>开始你的学习计划</h1>
       </div>
       <Divider></Divider>
-      {SubjectViewListMock.map(({ title, courses }) => {
-        return <SubjectView title={title} courses={courses}></SubjectView>;
+      {SubjectViewListMock.map(({ title, courses }, index) => {
+        return (
+          <SubjectView
+            title={title}
+            courses={courses}
+            key={index}
+          ></SubjectView>
+        );
       })}
     </div>
   );
