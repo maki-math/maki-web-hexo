@@ -1,13 +1,14 @@
 import { CustomLayoutHeader } from '@/components/CustomLayoutHeader/CustomLayoutHeader';
 import { GithubOutlined } from '@/components/Icon/Icon';
 import { REPOSITORY_URL } from '@/dicts/global';
-import { Button, Col, Layout, Menu } from 'antd';
+import { Button, Col, Layout, Menu, Typography } from 'antd';
 import 'antd/dist/antd.css';
 import React from 'react';
 import { HashRouter as Router, Link, Route, Switch } from 'react-router-dom';
 import { ContentPage } from '../Content/ContentPage';
 import { Details } from '../Course/Details';
 import { HomePage } from '../Home/HomePage';
+import { ProblemsPage } from '../Problems/ProblemsPage';
 
 const { Content, Footer } = Layout;
 
@@ -28,6 +29,14 @@ function Nav() {
           </Menu.Item>
           <Menu.Item key="about">
             <Link to="/about">About</Link>
+          </Menu.Item>
+          <Menu.Item key="problems">
+            <Link to="/problems">
+              习题集
+              <Typography.Text type="danger">
+                <sup>beta</sup>
+              </Typography.Text>
+            </Link>
           </Menu.Item>
         </Menu>
       </Col>
@@ -58,6 +67,9 @@ function App() {
             </Route>
             <Route path="/content">
               <ContentPage />
+            </Route>
+            <Route path="/problems">
+              <ProblemsPage />
             </Route>
             <Route path="/">
               <HomePage></HomePage>
