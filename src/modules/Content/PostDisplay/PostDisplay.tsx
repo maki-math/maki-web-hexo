@@ -2,6 +2,8 @@ import { StarFilled, StarOutlined } from '@/components/Icon/Icon';
 import { PageHeader, Button, Layout } from 'antd';
 import React, { useState } from 'react';
 import { routes } from './mock';
+import { PdfViewer } from '@/components/PdfViewer/PdfViewer';
+import test_pdf from '@/assets/files/basic.pdf';
 
 const { Content } = Layout;
 
@@ -50,6 +52,13 @@ export const PostDisplay: React.FC<unknown> = (props) => {
         harum rerum quasi hic! Non, et. Cupiditate omnis reiciendis delectus.
         Molestias tempora, enim laboriosam veniam ullam quae laborum dolor
         magnam.
+        
+        <br/>
+        <br/>
+        
+        <div style={{ height: 280 }}>
+          <PdfViewer src={test_pdf}></PdfViewer>
+        </div>
       </Content>
     </PageHeader>
   );
