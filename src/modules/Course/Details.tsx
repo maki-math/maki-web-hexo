@@ -12,6 +12,9 @@ import {
   Input,
 } from 'antd';
 
+import { PdfViewer } from '@/components/PdfViewer/PdfViewer';
+import test_pdf from '@/assets/files/basic.pdf';
+
 const { Title, Paragraph, Text, Link } = Typography;
 
 const blockContent = `AntV 是蚂蚁金服全新一代数据可视化解决方案，致力于提供一套简单方便、专业可靠、不限可能的数据可视化最佳实践。得益于丰富的业务场景和用户需求挑战，AntV 经历多年积累与不断打磨，已支撑整个阿里集团内外 20000+ 业务系统，通过了日均千万级 UV 产品的严苛考验。
@@ -90,6 +93,12 @@ class Details extends React.Component {
                 <blockquote>{blockContent}</blockquote>
                 <pre>{blockContent}</pre>
               </Paragraph>
+
+              <Divider />
+
+              <div style={{ height: 740, width: "60%", position: 'relative', left: '20%' }}>
+                <PdfViewer src={test_pdf}></PdfViewer>
+              </div>
             </Typography>
             ,
           </Col>
