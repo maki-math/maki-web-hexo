@@ -2,8 +2,16 @@ import { StarFilled, StarOutlined } from '@/components/Icon/Icon';
 import { PageHeader, Button, Layout } from 'antd';
 import React, { useState } from 'react';
 import { routes } from './mock';
-import { PdfViewer } from '@/components/PdfViewer/PdfViewer';
 import test_pdf from '@/assets/files/basic.pdf';
+import { Document, Page } from 'react-pdf';
+import { pdfjs } from 'react-pdf';
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/legacy/build/pdf.worker.min.js`;
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+
+const options = {
+  cMapUrl: 'cmaps/',
+  cMapPacked: true,
+};
 
 const { Content } = Layout;
 
@@ -25,6 +33,13 @@ const FavoriteSwitchButton: React.FC<{ isFavorite?: boolean }> = (props) => {
 };
 
 export const PostDisplay: React.FC<unknown> = (props) => {
+  const [numPages, setNumPages] = useState(null);
+  const [pageNumber, setPageNumber] = useState(1);
+
+  function onDocumentLoadSuccess({ numPages }) {
+    setNumPages(numPages);
+  }
+
   return (
     <PageHeader
       ghost={false}
@@ -52,14 +67,17 @@ export const PostDisplay: React.FC<unknown> = (props) => {
         harum rerum quasi hic! Non, et. Cupiditate omnis reiciendis delectus.
         Molestias tempora, enim laboriosam veniam ullam quae laborum dolor
         magnam.
-        
-        <br/>
-        <br/>
-        
-        <div style={{ height: 280 }}>
-          <PdfViewer src={test_pdf}></PdfViewer>
-        </div>
       </Content>
+      <div>
+          <Document file={test_pdf} onLoadSuccess={onDocumentLoadSuccess} options={options}>
+            <Page style={{ border: '2px solid gray !important', boxShadow: "2px red" }} pageNumber={pageNumber} />
+            <Page style={{ border: '2px solid gray !important', boxShadow: "2px red" }} pageNumber={pageNumber + 1} />
+            <Page style={{ border: '2px solid gray !important', boxShadow: "2px red" }} pageNumber={pageNumber + 2} />
+          </Document>
+          <p>
+            Page {pageNumber} of {numPages}
+          </p>
+        </div>
     </PageHeader>
   );
 };

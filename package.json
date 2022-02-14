@@ -31,8 +31,10 @@
     "@milkdown/react": "^5.3.4",
     "@milkdown/theme-nord": "^5.3.4",
     "antd": "^4.16.13",
+    "pdfjs-dist": "^2.12.313",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
+    "react-pdf": "^5.6.0",
     "react-router-dom": "^5"
   },
   "devDependencies": {

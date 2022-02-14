@@ -3,7 +3,12 @@ import React from 'react';
 import { SubjectViewListMock } from './mock/SubjectViewListMock';
 
 export interface Course {
+  cover: string;
+  number: string;
+  slogan: string;
   title: string;
+  content: string;
+  url: string;
 }
 
 export interface SubjectViewProps {
@@ -19,7 +24,7 @@ function SubjectView({ title, courses }: SubjectViewProps) {
         {courses.map(() => {
           return (
             <Col span={8}>
-              <Card bodyStyle={{ height: '350px' }}>卡片内容</Card>
+              <Card bodyStyle={{ height: '350px' }}>title</Card>
             </Col>
           );
         })}
