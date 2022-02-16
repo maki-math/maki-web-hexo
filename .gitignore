@@ -6,3 +6,4 @@ dist-ssr
 .idea
 package-lock.json
 yarn-error.log
+*.bat
