@@ -30,8 +30,11 @@ export interface CourseDetailProps {
 }
 
 export function Details() {  
-  // const location = useLocation();
-  // const course = location.state.course;
+  const location = useLocation();
+  const course = location.state ? location.state.course : undefined;
+  if( course ) {
+    CourseDetailMock.course = course;
+  }
 
   return (
     <div>

@@ -9,7 +9,7 @@ const { Paragraph } = Typography;
 export interface Course {
   title: string,
   titleEn: string, // 英文标题
-  cover: string, // 封面图片大小保持一致
+  cover: string, // 封面图片大小保持一致, 135 : 190 (A4)
   number: string, // 课程代码
   description: string,
   keywords: string, 
@@ -27,25 +27,27 @@ function CourseCard({course}: Course) {
   return (
     <div>
       <Link to={path}>
-        <Card style={{ height: '100%', width: '100%', borderRadius: '4% / 3%' }} hoverable>
-          <Row style={{ height: 0, paddingBottom: '70%' }}>
+        <Card className='course-card' hoverable>
+          <Row className='course-card-body'>
             <Col span={12}>
-              <Image src={course.cover} preview={false} />
+              <Image className='course-card-cover' src={course.cover} preview={false} />
             </Col>
             <Col span={12}>
-                <div style={{textAlign: 'right', marginLeft: '10px' }}>
+                <div className='course-card-number'>
                   <h3> {course.number} </h3>
                 </div>
-                <div style={{textAlign: 'right', position: 'absolute', bottom: 0, right: 0, marginLeft: '10px'}}>
+                <div className='course-card-description'>
                   <h2> {course.class} </h2>
                   <span> {course.description} </span>
                 </div>
             </Col>
           </Row>
-          <br/>
-          <Row style={{ height: 0, paddingBottom: '55%', overflow: 'hidden' }}>
-            <h1> {course.title} </h1>
-            <Paragraph ellipsis={ellipsis ? { rows: 4, expandable: false } : false}> {course.keywords} </Paragraph>
+          <div style={{ height: 10 }}></div>
+          <Row className='course-card-meta'>
+            <div style={{ height: '100%', width: '100%' }}>
+              <h1> {course.title} </h1>
+              <Paragraph ellipsis={ellipsis ? { rows: 6, expandable: false } : false}> {course.keywords} </Paragraph>
+            </div>
           </Row>
         </Card>
       </Link>
@@ -56,14 +58,8 @@ function CourseCard({course}: Course) {
 function SubjectView({ title, courses }: SubjectViewProps) {
   return (
     <div>
-      <h1 className="center" style={{ fontWeight: 900, padding: 30 }}> {title} </h1>
-      <div style={{ 
-        display: 'grid', 
-        gridTemplateColumns: 'repeat(auto-fill, 320px)', 
-        gridTemplateRows: 'repeat(auto-fill, 430px)', 
-        gap: '25px', 
-        justifyItems: 'center', 
-        justifyContent: 'center' }}>
+      <h1 className="subject-title center"> {title} </h1>
+      <div className="courses-container">
         {courses.map((course, i) => <CourseCard key={i} course={course}></CourseCard> )}
       </div>
     </div>

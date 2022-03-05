@@ -1,4 +1,4 @@
-import { CoursesPlaceholder } from './CoursesPlaceholder';
+
 import { SubjectViewProps } from '../CourseView';
 
 export const SubjectViewListMock: SubjectViewProps[] = [
