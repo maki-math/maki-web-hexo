@@ -1,28 +1,47 @@
 import { Card, Col, Divider, Row, Image, Typography } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { SubjectViewListMock } from './mock/SubjectViewListMock';
 
 const { Meta } = Card;
 const { Paragraph } = Typography;
 
-export interface Course {
-  title: string,
-  titleEn: string, // 英文标题
-  cover: string, // 封面图片大小保持一致, 135 : 190 (A4)
-  number: string, // 课程代码
-  description: string,
-  keywords: string, 
-  class: string, // 课程分类
-}
-
-export interface SubjectViewProps {
+export interface ContentsNode {
   title: string;
-  courses: Course[];
+  children: ContentsNode[] | null;
+  articleId: string;
 }
 
-function CourseCard({course}: Course) {
-  const path = { pathname: '/courses', state: { course: course } }; // Detials页面无法获取state。
+export interface CourseGalleryItem {
+  categoryAlias: string, // 数学
+  category: string, // "mathematics"
+  courses: Course[],
+}
+
+export interface Course {
+  id: number,
+  title: string,
+  cover: string, // 封面图片大小保持一致
+  courseCode: string, // 课程代码
+  shortDescription: string, 
+  keywords: string,
+  description: string, // markdown
+  category: string, // 'mathematics'
+  teacher: string,
+  contact: string,
+  contents: ContentsNode[],
+}
+
+const courseGallery = await fetch("http://39.107.28.170/api/course_gallery")
+  .then( x => x.json() )
+  .catch( e => {
+    console.log(e);
+    return []
+  });
+  
+console.log(courseGallery)
+
+function CourseCard({ course }: Course) {
+  const path = { pathname: '/courses', state: { course: course } };
   const [ellipsis, setEllipsis] = React.useState(true);
   return (
     <div>
@@ -34,11 +53,11 @@ function CourseCard({course}: Course) {
             </Col>
             <Col span={12}>
                 <div className='course-card-number'>
-                  <h3> {course.number} </h3>
+                  <h3> {course.courseCode} </h3>
                 </div>
                 <div className='course-card-description'>
-                  <h2> {course.class} </h2>
-                  <span> {course.description} </span>
+                  <h2> {} </h2>
+                  <span> {course.shortDescription} </span>
                 </div>
             </Col>
           </Row>
@@ -58,7 +77,7 @@ function CourseCard({course}: Course) {
 function SubjectView({ title, courses }: SubjectViewProps) {
   return (
     <div>
-      <h1 className="subject-title center"> {title} </h1>
+      <h1 className="category-title center"> {title} </h1>
       <div className="courses-container">
         {courses.map((course, i) => <CourseCard key={i} course={course}></CourseCard> )}
       </div>
@@ -73,10 +92,10 @@ export function CourseView() {
         <h1>开始你的学习计划</h1>
       </div>
       <Divider></Divider>
-      {SubjectViewListMock.map(({ title, courses }, index) => {
+      {courseGallery.map(({ categoryAlias, courses }, index) => {
         return (
           <SubjectView
-            title={title}
+            title={categoryAlias}
             courses={courses}
             key={index}
           ></SubjectView>

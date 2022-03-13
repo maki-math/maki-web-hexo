@@ -1,39 +1,56 @@
-// eslint-disable-next-line
-// @ts-nocheck
 import React from 'react';
-import {useLocation} from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import {  Row, Col, Image, Descriptions, Typography, Divider, List, Avatar, Button } from 'antd';
-import { Course } from '../Home/components/CourseView/CourseView'
-import { CourseDetailMock } from './mock/CourseDetailMock'
-import { CourseContent } from './components/CourseContent.tsx'
-import {
-  FilePdfTwoTone,
-} from '@ant-design/icons';
+import { CourseContent } from './components/CourseContent';
 
 const { Title, Paragraph, Text, Link } = Typography;
 
-const blockContent = '';
-
-export interface CourseDetailProps {
-  course: Course,
-  details: {
-    teacher: string,
-    photo: string,
-    contact: string,
-    book: string,
-    introduction: string,
-    requirement: string,
-    content: [], 
-    attachment: [], // {name: '', url: ''}
-    homework: [], // {name: '', url: ''}
+const contentTest = [
+  {
+    title: '1',
+    key: '1',
+    articleId: '',
+    children: [
+      {
+        title: '1-1',
+        key: '1-1',
+        articleId: '',
+      }, {
+        title: '1-2',
+        key: '1-2',
+        articleId: '',
+      }
+    ]
+  }, {
+    title: '2',
+    key: '2',
+    articleId: '',
+    children: [
+      {
+        title: '2-1',
+        key: '2-1',
+        articleId: '',
+      }, {
+        title: '2-2',
+        key: '2-2',
+        articleId: '',
+      }
+    ]
   }
-}
+]
 
-export function Details() {  
+var course = {};
+
+export function Details() {
+  
   const location = useLocation();
-  const course = location.state ? location.state.course : undefined;
-  if( course ) {
-    CourseDetailMock.course = course;
+  if( location.state ) course = location.state.course;
+  course.contents = contentTest;
+
+  const history = useHistory();
+  const startLearning = () => {
+    const path = { pathname: '/content', state: { course: course, articleId: course.contents[0].articleId } };
+    history.push(path);
   }
 
   return (
@@ -41,7 +58,7 @@ export function Details() {
       <Row>
         <Col span={20} offset={2}>
           <br/><br/>
-          <Title>{ CourseDetailMock.course.title }</Title>
+          <Title>{ course.title }</Title>
           <Divider />
         </Col>
       </Row>
@@ -51,25 +68,19 @@ export function Details() {
           <Image
             height={180}
             preview={false}
-            src={CourseDetailMock.details.photo}
+            src={course.cover}
           />
         </Col>
         <Col span={15} style={{ marginLeft: '20px' }}>
           <Descriptions column={1}>
             <Descriptions.Item label="课程名称">
-              { CourseDetailMock.course.title }
+              { course.title }
             </Descriptions.Item>
             <Descriptions.Item label="授课老师">
-              { CourseDetailMock.details.teacher }
+              { course.teacher }
             </Descriptions.Item>
             <Descriptions.Item label="联系方式">
-              <a>{ CourseDetailMock.details.contact }</a>
-            </Descriptions.Item>
-            <Descriptions.Item label="课程要求">
-              { CourseDetailMock.details.requirement }
-            </Descriptions.Item>
-            <Descriptions.Item label="教材">
-              { CourseDetailMock.details.book }
+              <a>{ course.contact }</a>
             </Descriptions.Item>
           </Descriptions>
         </Col>
@@ -82,14 +93,14 @@ export function Details() {
 
             <Title level={2}>课程简介</Title>
             <Paragraph>
-              { CourseDetailMock.details.introduction }
+              { course.description }
             </Paragraph>
 
             <Title level={2}>学习资料</Title>
             <Paragraph>
               <List
                 itemLayout="horizontal"
-                dataSource={CourseDetailMock.details.attachment}
+                dataSource={course.attachment}
                 renderItem={item => (
                   <List.Item>
                     <List.Item.Meta
@@ -101,26 +112,15 @@ export function Details() {
               />
             </Paragraph>
               
-            <Title level={2}>作业</Title>
-            <Paragraph>
-              <List
-                itemLayout="horizontal"
-                dataSource={CourseDetailMock.details.homework}
-                renderItem={item => (
-                  <List.Item>
-                    <List.Item.Meta
-                      avatar={<Avatar icon={ <FilePdfTwoTone /> } />}
-                      title={<a href={item.url}>{item.name}</a>}
-                    />
-                  </List.Item>
-                )}
-              />
-            </Paragraph>
           </Typography>
           <Title level={2}>课程目录</Title>
-          <CourseContent content={ CourseDetailMock.details.content }></CourseContent>              
+          
+          <CourseContent 
+            course={ course }
+          />
+
           <div style={{ textAlign: 'center', margin: 25 }}>
-            <Button type="default" href='#/content'>
+            <Button type="default" onClick={ startLearning }>
               开始学习
             </Button>
           </div>

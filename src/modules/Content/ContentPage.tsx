@@ -6,11 +6,21 @@ import {
 import { Layout, Menu } from 'antd';
 import React from 'react';
 import { PostDisplay } from './PostDisplay/PostDisplay';
+import { useLocation } from 'react-router-dom';
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
 
 export function ContentPage() {
+  var course, articleId;
+
+  const location = useLocation();
+  if( location.state ) { 
+    course = location.state.course;
+    articleId = location.state.articleId;
+  }
+  console.log(course, articleId);
+
   return (
     <div className="h-100vh">
       <Layout className="h-full" style={{ padding: '24px 0' }}>
