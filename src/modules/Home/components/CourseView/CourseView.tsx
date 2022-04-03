@@ -1,3 +1,6 @@
+import { CourseGalleryModel, CourseModel } from '@/generated-api/Api';
+import { api } from '@/utils/api';
+import { useRequest } from 'ahooks';
 import { Card, Col, Divider, Row, Image, Typography, Tabs } from 'antd';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -5,9 +8,6 @@ import { Link } from 'react-router-dom';
 const { Meta } = Card;
 const { Paragraph } = Typography;
 const { TabPane } = Tabs;
-var isloaded = false;
-var courseGallery = [], setCourseGallery,
-    courses = [], setCourses;
 
 export interface ContentsNode {
   title: string;
@@ -76,7 +76,7 @@ function CourseCard({ course }: Course) {
   );
 }
 
-function SubjectView({ courses }: Course[]) {
+function SubjectView({ courses }: { courses: CourseModel[] }) {
   return (
     <div className="courses-container">
       {courses.map((course, i) => (
@@ -87,63 +87,58 @@ function SubjectView({ courses }: Course[]) {
 }
 
 function CourseView() {
-  if( !isloaded ) {
-    [courseGallery, setCourseGallery] = useState([]);
-    fetch('http://39.107.28.170/api/course_gallery')
-      .then((x) => x.json())
-      .then( x => {
-        setCourseGallery(x)
-        console.log(x)
-        isloaded = true;
-      })
-      .catch((e) => {
-        return [];
-      });
-  }
+  const { data, loading } = useRequest(api.courseGallery.listCourseGallerys);
+  const courseGallery = data?.data ?? [];
 
   const recommendCourseGallery = courseGallery ? courseGallery.slice(-1) : [];
   const lastestCourseGallery = courseGallery ? courseGallery.slice(1, 2) : [];
 
   return (
-      <div class="course-view">
-        <CourseCategoryView courseGallery={courseGallery} title={'课程分类'}></CourseCategoryView>
-        <CourseCategoryView courseGallery={ recommendCourseGallery } title={'推荐课程'}></CourseCategoryView>
-        <CourseCategoryView courseGallery={ lastestCourseGallery } title={'最近更新课程'}></CourseCategoryView>
-      </div>
-    )
-}
-
-function CourseCategoryView({ courseGallery, title }) {
-  const category_size = courseGallery.length;
-
-  return (
-    <div style={{ marginTop: '20px' }}>
-      <h1 class="h1-font-weight">{ title }</h1>
-      {
-        category_size > 1 ? 
-          <Tabs defaultActiveKey="0" type="card" size={'small'}>
-            {courseGallery.map(({ categoryAlias, courses }, index) => {
-              return (
-                <TabPane tab={categoryAlias} key={index}>
-                  <SubjectView
-                    courses={courses}
-                    key={index}
-                  ></SubjectView>
-                </TabPane>
-              );
-            })}
-          </Tabs>
-        : null
-      } 
-      {
-        category_size === 1 ? 
-          <SubjectView
-            courses={courseGallery[0].courses}
-          ></SubjectView>
-        : null
-      }
+    <div className="course-view">
+      <CourseCategoryView
+        courseGallery={courseGallery}
+        title={'课程分类'}
+      ></CourseCategoryView>
+      <CourseCategoryView
+        courseGallery={recommendCourseGallery}
+        title={'推荐课程'}
+      ></CourseCategoryView>
+      <CourseCategoryView
+        courseGallery={lastestCourseGallery}
+        title={'最近更新课程'}
+      ></CourseCategoryView>
     </div>
   );
 }
 
-export { CourseView }
+function CourseCategoryView({
+  courseGallery,
+  title,
+}: {
+  courseGallery: CourseGalleryModel[];
+  title: string;
+}) {
+  const category_size = courseGallery.length;
+
+  return (
+    <div style={{ marginTop: '20px' }}>
+      <h1 className="h1-font-weight">{title}</h1>
+      {category_size > 1 ? (
+        <Tabs defaultActiveKey="0" type="card" size={'small'}>
+          {courseGallery.map(({ categoryAlias, courses }, index) => {
+            return (
+              <TabPane tab={categoryAlias} key={index}>
+                <SubjectView courses={courses} key={index}></SubjectView>
+              </TabPane>
+            );
+          })}
+        </Tabs>
+      ) : null}
+      {category_size === 1 ? (
+        <SubjectView courses={courseGallery[0].courses}></SubjectView>
+      ) : null}
+    </div>
+  );
+}
+
+export { CourseView };
