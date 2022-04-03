@@ -16,6 +16,7 @@ import { CourseListPage } from '../Course/Courses';
 import { HomePage } from '../Home/HomePage';
 import { ProblemsPage } from '../Problems/ProblemsPage';
 import { UserLoginIndicator } from '../User/UserLoginIndicator/UserLoginIndicator';
+import { BackToHome } from './components/BackToHome';
 import Scroll2Top from './components/Scroll2Top';
 
 const { Content, Footer } = Layout;
@@ -23,7 +24,9 @@ const { Content, Footer } = Layout;
 const Nav = withRouter(({ history }) => {
   return (
     <CustomLayoutHeader style={{ position: 'sticky', top: 0, zIndex: 10 }}>
-      <h2 style={{ marginRight: '10px' }}>Maki-Math</h2>
+      <h2 style={{ marginRight: '10px' }}>
+        <BackToHome></BackToHome>
+      </h2>
       <Col flex={1}>
         <Menu
           theme="light"
@@ -34,11 +37,11 @@ const Nav = withRouter(({ history }) => {
           <Menu.Item key="/">
             <Link to="/">首页</Link>
           </Menu.Item>
-          <Menu.Item key="/content">
-            <Link to="/content">文章</Link>
-          </Menu.Item>
           <Menu.Item key="/courses">
             <Link to="/courses">课程</Link>
+          </Menu.Item>
+          <Menu.Item key="/content">
+            <Link to="/content">文章</Link>
           </Menu.Item>
           <Menu.Item key="/problems">
             <Link to="/problems">
