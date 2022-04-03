@@ -9,6 +9,7 @@ import { ContentListPage } from '../Content/ContentListPage';
 import { Details } from '../Course/Details';
 import { HomePage } from '../Home/HomePage';
 import { ProblemsPage } from '../Problems/ProblemsPage';
+import { UserLoginIndicator } from '../User/UserLoginIndicator/UserLoginIndicator';
 
 const { Content, Footer } = Layout;
 
@@ -37,6 +38,9 @@ function Nav() {
           </Menu.Item>
         </Menu>
       </Col>
+      <div>
+        <UserLoginIndicator></UserLoginIndicator>
+      </div>
     </CustomLayoutHeader>
   );
 }
