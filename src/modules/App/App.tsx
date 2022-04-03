@@ -1,7 +1,7 @@
 import { CustomLayoutHeader } from '@/components/CustomLayoutHeader/CustomLayoutHeader';
 import { GithubOutlined } from '@/components/Icon/Icon';
 import { REPOSITORY_URL } from '@/dicts/global';
-import { Button, Col, Divider, Layout, Menu, Space, Typography } from 'antd';
+import { Button, Col, Divider, Layout, Menu, Typography } from 'antd';
 import 'antd/dist/antd.css';
 import React from 'react';
 import { HashRouter as Router, Link, Route, Switch } from 'react-router-dom';
@@ -19,13 +19,13 @@ function Nav() {
       <Col flex={1}>
         <Menu theme="light" mode="horizontal" defaultSelectedKeys={['home']}>
           <Menu.Item key="home">
-            <Link to="/">Home</Link>
+            <Link to="/">首页</Link>
           </Menu.Item>
           <Menu.Item key="content">
-            <Link to="/content">Content</Link>
+            <Link to="/content">文章</Link>
           </Menu.Item>
           <Menu.Item key="courses">
-            <Link to="/courses">Courses</Link>
+            <Link to="/courses">课程</Link>
           </Menu.Item>
           <Menu.Item key="problems">
             <Link to="/problems">
