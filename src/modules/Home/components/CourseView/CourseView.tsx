@@ -83,54 +83,6 @@ function CourseCard({ course }: Course) {
   );
 }
 
-function CourseCard({ course }: Course) {
-  const path = { pathname: '/courses', state: { course: course } }; // Detials页面无法获取state。
-  const [ellipsis, setEllipsis] = React.useState(true);
-  return (
-    <div>
-      <Link to={path}>
-        <Card
-          style={{ height: '100%', width: '100%', borderRadius: '4% / 3%' }}
-          hoverable
-        >
-          <Row style={{ height: 0, paddingBottom: '70%' }}>
-            <Col span={12}>
-              <Image src={course.cover} preview={false} />
-            </Col>
-            <Col span={12}>
-              <div style={{ textAlign: 'right', marginLeft: '10px' }}>
-                <h3> {course.number} </h3>
-              </div>
-              <div
-                style={{
-                  textAlign: 'right',
-                  position: 'absolute',
-                  bottom: 0,
-                  right: 0,
-                  marginLeft: '10px',
-                }}
-              >
-                <h2> {course.class} </h2>
-                <span> {course.description} </span>
-              </div>
-            </Col>
-          </Row>
-          <br />
-          <Row style={{ height: 0, paddingBottom: '55%', overflow: 'hidden' }}>
-            <h1> {course.title} </h1>
-            <Paragraph
-              ellipsis={ellipsis ? { rows: 4, expandable: false } : false}
-            >
-              {' '}
-              {course.keywords}{' '}
-            </Paragraph>
-          </Row>
-        </Card>
-      </Link>
-    </div>
-  );
-}
-
 function SubjectView({ title, courses }: SubjectViewProps) {
   return (
     <div>

@@ -70,7 +70,7 @@ function App() {
                 <Details />
               </Route>
               <Route path="/content">
-                <ContentPage />
+                <ContentListPage />
               </Route>
               <Route path="/problems">
                 <ProblemsPage />
