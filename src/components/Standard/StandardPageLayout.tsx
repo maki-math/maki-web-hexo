@@ -5,15 +5,21 @@ import React from 'react';
 export interface Props {
   children?: React.ReactNode;
   title?: string;
+  subTitle?: string;
 }
 
-export function StandardPageLayout(props: Props) {
+export function StandardPageLayout({ subTitle, title, children }: Props) {
   return (
     <div className="h-100vh">
       <Layout className="h-full" style={{ padding: '24px 0' }}>
         <Content style={{ padding: '0 24px', minHeight: 280 }}>
-          <PageHeader ghost={false} title={props.title} className="h-full">
-            <Content>{props.children}</Content>
+          <PageHeader
+            ghost={false}
+            title={title}
+            className="h-full"
+            subTitle={subTitle}
+          >
+            <Content>{children}</Content>
           </PageHeader>
         </Content>
       </Layout>
