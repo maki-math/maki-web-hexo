@@ -1,41 +1,14 @@
 import { CourseGalleryModel, CourseModel } from '@/generated-api/Api';
 import { api } from '@/utils/api';
 import { useRequest } from 'ahooks';
-import { Card, Col, Divider, Row, Image, Typography, Tabs } from 'antd';
-import React, { useState } from 'react';
+import { Card, Col, Image, Row, Tabs, Typography } from 'antd';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
-const { Meta } = Card;
 const { Paragraph } = Typography;
 const { TabPane } = Tabs;
 
-export interface ContentsNode {
-  title: string;
-  children: ContentsNode[] | null;
-  articleId: string;
-}
-
-export interface CourseGalleryItem {
-  categoryAlias: string; // 数学
-  category: string; // "mathematics"
-  courses: Course[];
-}
-
-export interface Course {
-  id: number;
-  title: string;
-  cover: string; // 封面图片大小保持一致
-  courseCode: string; // 课程代码
-  shortDescription: string;
-  keywords: string;
-  description: string; // markdown
-  category: string; // 'mathematics'
-  teacher: string;
-  contact: string;
-  contents: ContentsNode[];
-}
-
-function CourseCard({ course }: Course) {
+function CourseCard({ course }: { course: CourseModel }) {
   const path = { pathname: '/content', state: { course: course } };
   const [ellipsis, setEllipsis] = React.useState(true);
   return (

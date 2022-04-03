@@ -1,9 +1,13 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Tree } from 'antd';
-import Course from '../Home/components/CourseView/CourseView';
+import { CourseModel } from '@/generated-api/Api';
 
-export function CourseContent({ course }: Course) {
+interface Props {
+  course: CourseModel;
+}
+
+export function CourseContent({ course }: Props) {
   const history = useHistory();
 
   const onSelect = (selectedKeys: React.Key[], e: any) => {
@@ -15,6 +19,8 @@ export function CourseContent({ course }: Course) {
     history.push(path);
   };
 
+  // FIXME: 修复treeData传参的类型错误
+
   return (
     <Tree
       style={{ background: '#f0f2f5' }}
@@ -25,5 +31,3 @@ export function CourseContent({ course }: Course) {
     />
   );
 }
-
-export default CourseContent;
