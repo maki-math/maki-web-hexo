@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 
 const { Meta } = Card;
 const { Paragraph } = Typography;
+var isloaded = false;
+var courseGallery = [], setCourseGallery;
 
 export interface ContentsNode {
   title: string;
@@ -30,15 +32,6 @@ export interface Course {
   contact: string;
   contents: ContentsNode[];
 }
-
-const courseGallery = await fetch('http://39.107.28.170/api/course_gallery')
-  .then((x) => x.json())
-  .catch((e) => {
-    console.log(e);
-    return [];
-  });
-
-console.log(courseGallery);
 
 function CourseCard({ course }: Course) {
   const path = { pathname: '/courses', state: { course: course } };
@@ -97,6 +90,20 @@ function SubjectView({ title, courses }: SubjectViewProps) {
 }
 
 export function CourseView() {
+  if( !isloaded ) {
+    [courseGallery, setCourseGallery] = useState([]);
+    fetch('http://39.107.28.170/api/course_gallery')
+      .then((x) => x.json())
+      .then( x => {
+        setCourseGallery(x)
+        console.log(x)
+        isloaded = true;
+      })
+      .catch((e) => {
+        return [];
+      });
+  }
+  
   return (
     <div style={{ marginTop: '20px' }}>
       <div className="center">
