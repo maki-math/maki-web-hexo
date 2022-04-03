@@ -12,6 +12,10 @@ import {
   Button,
 } from 'antd';
 import { CourseContent } from './components/CourseContent';
+import { FilePdfTwoTone } from '@/components/Icon/Icon';
+import { CourseModel } from '@/generated-api/Api';
+import { useRequest } from 'ahooks';
+import { api } from '@/utils/api';
 
 const { Title, Paragraph, Text, Link } = Typography;
 
@@ -52,21 +56,18 @@ const contentTest = [
   },
 ];
 
-let course = {};
+interface Props {
+  course?: CourseModel;
+}
 
-export function Details() {
+export function CourseDetail({ course }: Props) {
   const location = useLocation();
-  if (location.state) course = location.state.course;
-  course.contents = contentTest;
 
   const history = useHistory();
-  const startLearning = () => {
-    const path = {
-      pathname: '/content',
-      state: { course: course, articleId: course.contents[0].articleId },
-    };
-    history.push(path);
-  };
+
+  if (!course) {
+    return <div>loading~</div>;
+  }
 
   return (
     <div>
@@ -110,7 +111,7 @@ export function Details() {
             <Paragraph>
               <List
                 itemLayout="horizontal"
-                dataSource={course.attachment}
+                dataSource={[]}
                 renderItem={(item) => (
                   <List.Item>
                     <List.Item.Meta
@@ -127,7 +128,7 @@ export function Details() {
           <CourseContent course={course} />
 
           <div style={{ textAlign: 'center', margin: 25 }}>
-            <Button type="default" onClick={startLearning}>
+            <Button type="default" disabled>
               开始学习
             </Button>
           </div>
@@ -135,4 +136,15 @@ export function Details() {
       </Row>
     </div>
   );
+}
+
+export function CourseDetailPage({ id }: { id: string }) {
+  const { data, loading } = useRequest(
+    () => {
+      return api.courses.retrieveCourse(id);
+    },
+    { refreshDeps: [id] }
+  );
+  const course = data?.data;
+  return <CourseDetail course={course} />;
 }
