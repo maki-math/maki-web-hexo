@@ -1,6 +1,11 @@
 @import 'utils.less';
 @import 'constants.less';
 
+:root {
+  --courseCardHeight: 320px;
+  --courseCardWidth: 250px;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -15,23 +20,22 @@ code {
     monospace;
 }
 
-.ant-collapse-content-box {
-	padding: 0 !important;
+.course-view {
+  margin: 0 90px;
 }
-
 .course-card {
-	height: 430px; 
-	width: 320px;
-	border-radius: 15px !important;
+	height: var(--courseCardHeight); 
+	width: var(--courseCardWidth);
+  border-radius: 5px !important;
 }
 
 .course-card-body {
-  height: 190px;
+  height: calc(0.44 * var(--courseCardHeight) )
 }
 
 .course-card-cover {
-  height: 190px !important;
-  width: 135px !important;
+  height: calc(0.44 * var(--courseCardHeight) ) !important;
+  width: calc(0.5 * ( var(--courseCardWidth) - 2 * 15) ) !important;
 }
 
 .course-card-number {
@@ -40,11 +44,11 @@ code {
 }
 
 .course-card-description {
-  text-align: right;
+  text-align: justify;
   position: absolute;
   bottom: 0;
   right: 0;
-  margin-left: 10px;
+  margin-left: 20px;
 }
 
 .course-card-meta {
@@ -52,16 +56,19 @@ code {
   overflow: hidden;
 }
 
-.category-title {
-  font-weight: 900;
-  padding: 30px;
-}
-
 .courses-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 320px);
-  grid-template-rows: repeat(auto-fill, 430px);
+  grid-template-columns: repeat(auto-fill, var(--courseCardWidth));
+  grid-template-rows: repeat(auto-fill, var(--courseCardHeight) );
   gap: 25px;
-  justify-items: center;
-  justify-content: center;
+  justify-items: stretch;
+  justify-content: space-between;
+}
+
+.h1-font-weight {
+    height: 33px;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 33px;
+    margin: 25px 0;
 }
