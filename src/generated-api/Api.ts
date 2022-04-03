@@ -86,6 +86,26 @@ export interface CourseCategoryModel {
   name: string;
 }
 
+export interface CourseGalleryModel {
+  categoryId: number;
+  category: string;
+  categoryAlias: string;
+  courses: {
+    id?: number;
+    category?: { id?: number; alias: string; name: string }[];
+    contents?: { children?: string; label: string; article: number };
+    title?: string;
+    cover?: string;
+    courseCode?: string;
+    shortDescription?: string;
+    description?: string;
+    keywords?: string;
+    teacher?: string;
+    contact?: string;
+    created_at?: string;
+  }[];
+}
+
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, 'body' | 'bodyUsed'>;
 
@@ -1054,6 +1074,22 @@ export class Api<
       this.request<void, any>({
         path: `/course_categories/${id}/`,
         method: 'DELETE',
+        ...params,
+      }),
+  };
+  courseGallery = {
+    /**
+     * No description
+     *
+     * @tags course-gallery
+     * @name ListCourseGallerys
+     * @request GET:/course_gallery
+     */
+    listCourseGallerys: (params: RequestParams = {}) =>
+      this.request<CourseGalleryModel[], any>({
+        path: `/course_gallery`,
+        method: 'GET',
+        format: 'json',
         ...params,
       }),
   };
