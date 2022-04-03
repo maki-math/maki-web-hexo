@@ -1,40 +1,29 @@
 import React from 'react';
-import { Collapse, List } from 'antd';
+import { useHistory } from 'react-router-dom';
+import { Tree } from 'antd';
+import Course from '../Home/components/CourseView/CourseView';
 
-// const { SubMenu } = Menu;
-const { Panel } = Collapse;
+export function CourseContent({ course }: Course) {
+  const history = useHistory();
 
-export function CourseContent({ content }: Array) {
-	return (
-    <div>
-		<Collapse ghost={false} style={{ maxWidth: '600px' }}>
-    		{ content.map( ([ chap, sections ], index) => 
-    			<Panel header={chap} key={index}>
-      				<List
-      					size="small"
-      					bordered
-      					dataSource={sections}
-      					renderItem={item => <List.Item>{item.section}</List.Item>}
-    				/>
-    			</Panel>
-    		)}
-  		</Collapse>
-      {
-      // <Menu
-      //   style={{ maxWidth: 450 }}
-      //   mode="inline"
-      // >
-      //   { content.map( ([ chap, sections ], index) => 
-      //       <SubMenu  title={ chap }>
-      //         { sections.map(({section, url}, index) => 
-      //           <Menu.Item key={ index }>section</Menu.Item> 
-      //         )}
-      //       </SubMenu>
-      //   )}
-      // </Menu>
-      }
-    </div>
-	)
+  const onSelect = (selectedKeys: React.Key[], e: any) => {
+    const articleId = e.node.articleId;
+    const path = {
+      pathname: '/content',
+      state: { course: course, articleId: articleId },
+    };
+    history.push(path);
+  };
+
+  return (
+    <Tree
+      style={{ background: '#f0f2f5' }}
+      blockNode
+      onSelect={onSelect}
+      defaultExpandAll={false}
+      treeData={course.contents}
+    />
+  );
 }
 
 export default CourseContent;
