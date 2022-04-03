@@ -9,7 +9,7 @@ const { Paragraph } = Typography;
 const { TabPane } = Tabs;
 
 function CourseCard({ course }: { course: CourseModel }) {
-  const path = { pathname: '/content', state: { course: course } };
+  const path = { pathname: `/courses/${course.id}`, state: { course: course } };
   const [ellipsis, setEllipsis] = React.useState(true);
   return (
     <div>
