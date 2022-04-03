@@ -12,10 +12,10 @@ const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
 
 export function ContentPage() {
-  var course, articleId;
+  let course, articleId;
 
   const location = useLocation();
-  if( location.state ) { 
+  if (location.state) {
     course = location.state.course;
     articleId = location.state.articleId;
   }
