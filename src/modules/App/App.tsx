@@ -1,7 +1,7 @@
 import { CustomLayoutHeader } from '@/components/CustomLayoutHeader/CustomLayoutHeader';
 import { GithubOutlined } from '@/components/Icon/Icon';
 import { REPOSITORY_URL } from '@/dicts/global';
-import { Button, Col, Layout, Menu, Typography } from 'antd';
+import { Button, Col, Divider, Layout, Menu, Space, Typography } from 'antd';
 import 'antd/dist/antd.css';
 import React from 'react';
 import { HashRouter as Router, Link, Route, Switch } from 'react-router-dom';
@@ -27,9 +27,6 @@ function Nav() {
           <Menu.Item key="courses">
             <Link to="/courses">Courses</Link>
           </Menu.Item>
-          <Menu.Item key="about">
-            <Link to="/about">About</Link>
-          </Menu.Item>
           <Menu.Item key="problems">
             <Link to="/problems">
               习题集
@@ -40,16 +37,6 @@ function Nav() {
           </Menu.Item>
         </Menu>
       </Col>
-      <div>
-        <Button
-          shape="circle"
-          type="text"
-          size="large"
-          onClick={() => window.open(REPOSITORY_URL)}
-        >
-          <GithubOutlined />
-        </Button>
-      </div>
     </CustomLayoutHeader>
   );
 }
@@ -61,7 +48,6 @@ function App() {
         <Nav></Nav>
         <Content style={{ padding: '0 50px' }}>
           <Switch>
-            <Route path="/about">about</Route>
             <Route path="/courses">
               <Details />
             </Route>
@@ -76,7 +62,20 @@ function App() {
             </Route>
           </Switch>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>footer</Footer>
+        <Footer style={{ textAlign: 'center' }}>
+          <Divider></Divider>
+          <div>
+            <Button
+              shape="circle"
+              type="text"
+              size="large"
+              onClick={() => window.open(REPOSITORY_URL)}
+            >
+              <GithubOutlined />
+            </Button>
+          </div>
+          <div>Copyright © 2020 - 2022 Maki's Lab. 保留所有权利.</div>
+        </Footer>
       </Layout>
     </Router>
   );
