@@ -1,9 +1,13 @@
-import { Card, Col, Divider, Row, Image, Typography } from 'antd';
+import { Card, Col, Divider, Row, Image, Typography, Tabs } from 'antd';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const { Meta } = Card;
 const { Paragraph } = Typography;
+const { TabPane } = Tabs;
+var isloaded = false;
+var courseGallery = [], setCourseGallery,
+    courses = [], setCourses;
 
 export interface ContentsNode {
   title: string;
@@ -31,17 +35,8 @@ export interface Course {
   contents: ContentsNode[];
 }
 
-const courseGallery = await fetch('http://39.107.28.170/api/course_gallery')
-  .then((x) => x.json())
-  .catch((e) => {
-    console.log(e);
-    return [];
-  });
-
-console.log(courseGallery);
-
 function CourseCard({ course }: Course) {
-  const path = { pathname: '/courses', state: { course: course } };
+  const path = { pathname: '/content', state: { course: course } };
   const [ellipsis, setEllipsis] = React.useState(true);
   return (
     <div>
@@ -60,7 +55,6 @@ function CourseCard({ course }: Course) {
                 <h3> {course.courseCode} </h3>
               </div>
               <div className="course-card-description">
-                <h2> {} </h2>
                 <span> {course.shortDescription} </span>
               </div>
             </Col>
@@ -68,12 +62,11 @@ function CourseCard({ course }: Course) {
           <div style={{ height: 10 }}></div>
           <Row className="course-card-meta">
             <div style={{ height: '100%', width: '100%' }}>
-              <h1> {course.title} </h1>
+              <h2> {course.title} </h2>
               <Paragraph
                 ellipsis={ellipsis ? { rows: 6, expandable: false } : false}
               >
-                {' '}
-                {course.keywords}{' '}
+                {course.keywords}
               </Paragraph>
             </div>
           </Row>
@@ -83,35 +76,74 @@ function CourseCard({ course }: Course) {
   );
 }
 
-function SubjectView({ title, courses }: SubjectViewProps) {
+function SubjectView({ courses }: Course[]) {
   return (
-    <div>
-      <h1 className="category-title center"> {title} </h1>
-      <div className="courses-container">
-        {courses.map((course, i) => (
-          <CourseCard key={i} course={course}></CourseCard>
-        ))}
-      </div>
+    <div className="courses-container">
+      {courses.map((course, i) => (
+        <CourseCard key={i} course={course}></CourseCard>
+      ))}
     </div>
   );
 }
 
-export function CourseView() {
+function CourseView() {
+  if( !isloaded ) {
+    [courseGallery, setCourseGallery] = useState([]);
+    fetch('http://39.107.28.170/api/course_gallery')
+      .then((x) => x.json())
+      .then( x => {
+        setCourseGallery(x)
+        console.log(x)
+        isloaded = true;
+      })
+      .catch((e) => {
+        return [];
+      });
+  }
+
+  const recommendCourseGallery = courseGallery ? courseGallery.slice(-1) : [];
+  const lastestCourseGallery = courseGallery ? courseGallery.slice(1, 2) : [];
+
+  return (
+      <div class="course-view">
+        <CourseCategoryView courseGallery={courseGallery} title={'课程分类'}></CourseCategoryView>
+        <CourseCategoryView courseGallery={ recommendCourseGallery } title={'推荐课程'}></CourseCategoryView>
+        <CourseCategoryView courseGallery={ lastestCourseGallery } title={'最近更新课程'}></CourseCategoryView>
+      </div>
+    )
+}
+
+function CourseCategoryView({ courseGallery, title }) {
+  const category_size = courseGallery.length;
+
   return (
     <div style={{ marginTop: '20px' }}>
-      <div className="center">
-        <h1>开始你的学习计划</h1>
-      </div>
-      <Divider></Divider>
-      {courseGallery.map(({ categoryAlias, courses }, index) => {
-        return (
+      <h1 class="h1-font-weight">{ title }</h1>
+      {
+        category_size > 1 ? 
+          <Tabs defaultActiveKey="0" type="card" size={'small'}>
+            {courseGallery.map(({ categoryAlias, courses }, index) => {
+              return (
+                <TabPane tab={categoryAlias} key={index}>
+                  <SubjectView
+                    courses={courses}
+                    key={index}
+                  ></SubjectView>
+                </TabPane>
+              );
+            })}
+          </Tabs>
+        : null
+      } 
+      {
+        category_size === 1 ? 
           <SubjectView
-            title={categoryAlias}
-            courses={courses}
-            key={index}
+            courses={courseGallery[0].courses}
           ></SubjectView>
-        );
-      })}
+        : null
+      }
     </div>
   );
 }
+
+export { CourseView }

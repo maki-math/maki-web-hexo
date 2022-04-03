@@ -13,7 +13,7 @@ import {
 } from 'react-router-dom';
 import { ContentListPage } from '../Content/ContentListPage';
 import { ContentPage } from '../Content/ContentPage';
-import { Details } from '../Course/Details';
+import { Courses } from '../Course/Courses';
 import { HomePage } from '../Home/HomePage';
 import { ProblemsPage } from '../Problems/ProblemsPage';
 import { UserLoginIndicator } from '../User/UserLoginIndicator/UserLoginIndicator';
@@ -67,7 +67,7 @@ function App() {
           <Content style={{ padding: '0 50px' }}>
             <Switch>
               <Route path="/courses">
-                <Details />
+                <Courses />
               </Route>
               <Route path="/content">
                 <ContentListPage />
