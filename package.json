@@ -7,7 +7,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "gen-api-localhost": "npx swagger-typescript-api --type-suffix Model -p http://127.0.0.1:8000/openapi -o ./src/generated-api --clean-output",
+    "gen-api": "npx swagger-typescript-api --type-suffix Model -p http://39.107.28.170/openapi -o ./src/generated-api --clean-output"
   },
   "dependencies": {
     "@emotion/css": "^11.5.0",
@@ -53,6 +55,7 @@
     "less": "^4.1.2",
     "lint-staged": "^10.5.3",
     "prettier": "2.2.1",
+    "swagger-typescript-api": "^9.3.1",
     "textlint": "^12.0.2",
     "textlint-rule-ja-space-between-half-and-full-width": "^2.2.0",
     "typescript": "^4.6.0-dev.20211114",
