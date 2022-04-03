@@ -1,7 +1,7 @@
 import { CustomLayoutHeader } from '@/components/CustomLayoutHeader/CustomLayoutHeader';
 import { GithubOutlined } from '@/components/Icon/Icon';
 import { REPOSITORY_URL } from '@/dicts/global';
-import { Button, Col, Layout, Menu, Typography } from 'antd';
+import { Button, Col, Divider, Layout, Menu, Typography } from 'antd';
 import 'antd/dist/antd.css';
 import React from 'react';
 import { HashRouter as Router, Link, Route, Switch, withRouter } from 'react-router-dom';
@@ -24,16 +24,13 @@ const Nav = withRouter(({ history }) => {
           selectedKeys={[history.location.pathname]}
          >
           <Menu.Item key="/">
-            <Link to="/">Home</Link>
+            <Link to="/">首页</Link>
           </Menu.Item>
           <Menu.Item key="/content">
-            <Link to="/content">Content</Link>
+            <Link to="/content">文章</Link>
           </Menu.Item>
           <Menu.Item key="/courses">
-            <Link to="/courses">Courses</Link>
-          </Menu.Item>
-          <Menu.Item key="/about">
-            <Link to="/about">About</Link>
+            <Link to="/courses">课程</Link>
           </Menu.Item>
           <Menu.Item key="/problems">
             <Link to="/problems">
@@ -45,16 +42,6 @@ const Nav = withRouter(({ history }) => {
           </Menu.Item>
         </Menu>
       </Col>
-      <div>
-        <Button
-          shape="circle"
-          type="text"
-          size="large"
-          onClick={() => window.open(REPOSITORY_URL)}
-        >
-          <GithubOutlined />
-        </Button>
-      </div>
     </CustomLayoutHeader>
   );
 })
@@ -63,11 +50,10 @@ function App() {
   return (
     <Router>
       <Scroll2Top>
-        <Layout>
+      	<Layout>
           <Nav></Nav>
           <Content style={{ padding: '0 50px' }}>
-            <Switch>
-              <Route path="/about">about</Route>
+          	<Switch>
               <Route path="/courses">
                 <Details />
               </Route>
@@ -80,10 +66,23 @@ function App() {
               <Route path="/">
                 <HomePage></HomePage>
               </Route>
-            </Switch>
+          	</Switch>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>footer</Footer>
-        </Layout>
+          <Footer style={{ textAlign: 'center' }}>
+          	<Divider></Divider>
+          	<div>
+           	  <Button
+             	  shape="circle"
+             	  type="text"
+             	  size="large"
+             	  onClick={() => window.open(REPOSITORY_URL)}
+           	  >
+             	<GithubOutlined />
+           	  </Button>
+          	</div>
+          	<div>Copyright © 2020 - 2022 Maki's Lab. 保留所有权利.</div>
+          </Footer>
+      	</Layout>
       </Scroll2Top>
     </Router>
   );
