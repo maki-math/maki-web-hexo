@@ -5,7 +5,7 @@ import { Button, Col, Divider, Layout, Menu, Typography } from 'antd';
 import 'antd/dist/antd.css';
 import React from 'react';
 import { HashRouter as Router, Link, Route, Switch } from 'react-router-dom';
-import { ContentPage } from '../Content/ContentPage';
+import { ContentListPage } from '../Content/ContentListPage';
 import { Details } from '../Course/Details';
 import { HomePage } from '../Home/HomePage';
 import { ProblemsPage } from '../Problems/ProblemsPage';
@@ -52,7 +52,7 @@ function App() {
               <Details />
             </Route>
             <Route path="/content">
-              <ContentPage />
+              <ContentListPage />
             </Route>
             <Route path="/problems">
               <ProblemsPage />
