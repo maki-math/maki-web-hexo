@@ -1,54 +1,38 @@
-import React, { useState } from 'react';
-import { Table, Tag, Space } from 'antd';
-import { useLocation, useHistory, Link } from 'react-router-dom';
-
-var isloaded = false;
-var courses = [], setCourses;
+import { CourseCategoryModel } from '@/generated-api/Api';
+import { api } from '@/utils/api';
+import { useRequest } from 'ahooks';
+import { Table } from 'antd';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 export function Courses() {
-  if( !isloaded ) {
-    [courses, setCourses] = useState([]);
-    fetch('http://39.107.28.170/api/course_gallery')
-      .then((x) => x.json())
-      .then( x => {
-        x = x.map( x => x.courses ).flat().map( x => {
-          x.category = x.category[0].alias;
-          return x;
-        });
-        setCourses(x)
-        console.log(x)
-        isloaded = true;
-      })
-      .catch((e) => {
-        return [];
-      });
-  }
+  const { data, loading } = useRequest(api.courses.listCourses);
+  const courses = data?.data;
 
   const columns = [
     {
       title: '课程名称',
       dataIndex: 'title',
       key: 'title',
-      render: title => {
+      render: (title: string) => {
         const path = { pathname: '/content', state: { title: title } };
-        return <Link to={path}>{title}</Link> 
-      }
+        return <Link to={path}>{title}</Link>;
+      },
     },
     {
       title: '学科分类',
       dataIndex: 'category',
       key: 'category',
+      render: (categoryList: CourseCategoryModel[]) => {
+        return categoryList.map((category) => category.alias).join('/');
+      },
     },
     {
       title: '授课老师',
       dataIndex: 'teacher',
       key: 'teacher',
-    }
+    },
   ];
-  
-  
 
-  return (
-    <Table columns={columns} dataSource={courses} />
-  );
+  return <Table columns={columns} dataSource={courses} loading={loading} />;
 }
