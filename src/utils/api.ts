@@ -1,5 +1,5 @@
 import { Api } from '@/generated-api/Api';
 
-export const api = new Api({
-  baseUrl: 'http://39.107.28.170/',
-});
+const baseUrl = import.meta.env.VITE_API_BASE_URL;
+
+export const api = new Api({ baseUrl });
