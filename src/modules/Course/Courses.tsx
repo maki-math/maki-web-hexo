@@ -1,3 +1,4 @@
+import { StandardPageLayout } from '@/components/Standard/StandardPageLayout';
 import { CourseCategoryModel } from '@/generated-api/Api';
 import { api } from '@/utils/api';
 import { useRequest } from 'ahooks';
@@ -35,4 +36,12 @@ export function Courses() {
   ];
 
   return <Table columns={columns} dataSource={courses} loading={loading} />;
+}
+
+export function CourseListPage() {
+  return (
+    <StandardPageLayout title="课程列表">
+      <Courses />
+    </StandardPageLayout>
+  );
 }
