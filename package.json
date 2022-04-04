@@ -9,8 +9,8 @@
     "dev-w-local-server": "vite --mode development-local-server",
     "build": "vite build",
     "serve": "vite preview",
-    "gen-api-localhost": "npx swagger-typescript-api --type-suffix Model -p http://127.0.0.1:8000/openapi -o ./src/generated-api --clean-output",
-    "gen-api": "npx swagger-typescript-api --type-suffix Model -p http://39.107.28.170/openapi -o ./src/generated-api --clean-output"
+    "gen-api-localhost": "npx swagger-typescript-api --type-suffix Model -p http://127.0.0.1:8000/openapi -o ./src/generated-api --clean-output --axios",
+    "gen-api": "npx swagger-typescript-api --type-suffix Model -p http://39.107.28.170/openapi -o ./src/generated-api --clean-output --axios"
   },
   "dependencies": {
     "@emotion/css": "^11.5.0",
@@ -37,6 +37,7 @@
     "@milkdown/theme-nord": "5.5.0",
     "ahooks": "^3.3.0",
     "antd": "^4.16.13",
+    "axios": "^0.26.1",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-router-dom": "^5"

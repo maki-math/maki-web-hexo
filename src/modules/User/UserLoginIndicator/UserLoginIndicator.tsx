@@ -1,16 +1,62 @@
-import { Spin } from 'antd';
-import React from 'react';
+import { api } from '@/utils/api';
+import { getToken, setToken } from '@/utils/auth-token';
 import { useRequest } from 'ahooks';
+import { Button } from 'antd';
+import React, { useCallback, useState } from 'react';
+import { UserLoginModal } from './UserLoginModal';
 
-async function getUserInfo() {
-  return {
-    name: 'test',
-  };
-}
+const logoutRequest = () => {
+  return api.auth.createLogout({}).then(() => {
+    setToken('');
+  });
+};
 
 export function UserLoginIndicator() {
-  const { data, error, loading } = useRequest(getUserInfo);
-  const text = data?.name ?? '登录';
-  return <div></div>;
-  return <Spin spinning={loading}>{text}</Spin>;
+  const { data, loading: detailLoading, error } = useRequest(
+    api.auth.retrieveUserDetails,
+    {
+      refreshDeps: [getToken()],
+    }
+  );
+  const { run: logout, loading: logoutLoading } = useRequest(logoutRequest, {
+    manual: true,
+  });
+
+  const isLoggedIn = Boolean(data?.data) && !error;
+  const username = data?.data?.username;
+
+  const loading = detailLoading || logoutLoading;
+
+  const [isLoginModalVisible, setIsLoginModalVisible] = useState(false);
+
+  const handleClickLogin = useCallback(() => {
+    setIsLoginModalVisible(true);
+  }, [setIsLoginModalVisible]);
+
+  const handleClickLogout = useCallback(() => {
+    logout();
+  }, [logout]);
+
+  return (
+    <>
+      {isLoggedIn ? (
+        <Button onClick={handleClickLogout} loading={loading}>
+          退出：{username}
+        </Button>
+      ) : (
+        <Button
+          type="primary"
+          ghost
+          onClick={handleClickLogin}
+          loading={loading}
+        >
+          登录
+        </Button>
+      )}
+      <UserLoginModal
+        visible={isLoginModalVisible}
+        onClose={() => setIsLoginModalVisible(false)}
+      ></UserLoginModal>
+    </>
+  );
 }
