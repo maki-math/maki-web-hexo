@@ -6,14 +6,14 @@ import React, { useCallback, useState } from 'react';
 import { UserLoginModal } from './UserLoginModal';
 
 const logoutRequest = () => {
-  return api.auth.createLogout({}).then(() => {
+  return api.auth.authLogoutCreate({}).then(() => {
     setToken('');
   });
 };
 
 export function UserLoginIndicator() {
   const { data, loading: detailLoading, error } = useRequest(
-    api.auth.retrieveUserDetails,
+    api.auth.authUserRetrieve,
     {
       refreshDeps: [getToken()],
     }

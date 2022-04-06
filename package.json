@@ -9,8 +9,8 @@
     "dev-w-local-server": "vite --mode development-local-server",
     "build": "vite build",
     "serve": "vite preview",
-    "gen-api-localhost": "npx swagger-typescript-api --type-suffix Model -p http://127.0.0.1:8000/openapi -o ./src/generated-api --clean-output --axios",
-    "gen-api": "npx swagger-typescript-api --type-suffix Model -p http://39.107.28.170/openapi -o ./src/generated-api --clean-output --axios"
+    "gen-api-localhost": "npx swagger-typescript-api --type-suffix Model -p http://127.0.0.1:8000/schema/ -o ./src/generated-api --clean-output --axios",
+    "gen-api": "npx swagger-typescript-api --type-suffix Model -p http://39.107.28.170/schema/ -o ./src/generated-api --clean-output --axios"
   },
   "dependencies": {
     "@emotion/css": "^11.5.0",
