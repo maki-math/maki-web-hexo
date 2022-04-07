@@ -28,8 +28,11 @@ function ArticleNodeList() {
     },
     {
       title: '作者',
-      dataIndex: 'author',
-      key: 'author',
+      dataIndex: 'article.author',
+      key: 'article.author',
+      render: (__ignored: unknown, row: ContentNodeModel) => {
+        return row.article.author;
+      },
     },
   ];
 
