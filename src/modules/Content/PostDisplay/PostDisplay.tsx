@@ -1,7 +1,10 @@
 import { api } from '@/utils/api';
+import { isNotNil } from '@/utils/types';
 import { useRequest } from 'ahooks';
 import { Layout, PageHeader, Skeleton } from 'antd';
-import React from 'react';
+import React, { useRef } from 'react';
+import Vditor from 'vditor';
+import 'vditor/dist/index.css';
 
 const { Content } = Layout;
 
@@ -22,6 +25,18 @@ const { Content } = Layout;
 //     ></Button>
 //   );
 // };
+
+const MDContainer = ({ text }: { text?: string }) => {
+  const ref = useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (isNotNil(text) && ref.current) {
+      Vditor.preview(ref.current, text);
+    }
+  }, [ref.current]);
+
+  return <div ref={ref} className="vditor" style={{ border: 'none' }} />;
+};
 
 interface Props {
   articleId: string | undefined;
@@ -52,7 +67,7 @@ export const ArticleDisplay = ({ articleId }: Props) => {
     >
       <Content>
         <Skeleton active loading={loading}>
-          {mdContent}
+          <MDContainer text={mdContent} />
         </Skeleton>
       </Content>
     </PageHeader>

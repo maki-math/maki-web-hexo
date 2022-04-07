@@ -40,7 +40,8 @@
     "axios": "^0.26.1",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
-    "react-router-dom": "^5"
+    "react-router-dom": "^5",
+    "vditor": "^3.8.13"
   },
   "devDependencies": {
     "@commitlint/cli": "^14.1.0",
