@@ -11,7 +11,7 @@ import {
   Switch,
   withRouter,
 } from 'react-router-dom';
-import { ContentListPage } from '../Content/ContentListPage';
+import { ArticleListPage } from '../Content/ContentListPage';
 import { CourseListPage } from '../Course/Courses';
 import { HomePage } from '../Home/HomePage';
 import { ProblemsPage } from '../Problems/ProblemsPage';
@@ -72,7 +72,7 @@ function App() {
                 <CourseListPage></CourseListPage>
               </Route>
               <Route path="/content">
-                <ContentListPage />
+                <ArticleListPage />
               </Route>
               <Route path="/problems">
                 <ProblemsPage />

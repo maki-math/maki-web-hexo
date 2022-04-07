@@ -6,7 +6,7 @@ import { Table } from 'antd';
 import React from 'react';
 import { Link, Route, useRouteMatch } from 'react-router-dom';
 
-export function Courses() {
+export function CourseList() {
   const { data, loading } = useRequest(api.courses.listCourses);
   const courses = data?.data;
 
@@ -57,7 +57,7 @@ export function CourseListPage() {
       ></Route>
       <Route path={`${url}/`} exact>
         <StandardPageLayout title="课程列表">
-          <Courses />
+          <CourseList />
         </StandardPageLayout>
       </Route>
     </>
