@@ -60,7 +60,7 @@ function SubjectView({ courses }: { courses: CourseModel[] }) {
 }
 
 function CourseView() {
-  const { data, loading } = useRequest(api.courseGallery.listCourseGallerys);
+  const { data, loading } = useRequest(api.courseGallery.courseGalleryList);
   const courseGallery = data?.data ?? [];
 
   const recommendCourseGallery = courseGallery ? courseGallery.slice(-1) : [];

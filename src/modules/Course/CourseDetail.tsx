@@ -141,7 +141,7 @@ export function CourseDetail({ course }: Props) {
 export function CourseDetailPage({ id }: { id: string }) {
   const { data, loading } = useRequest(
     () => {
-      return api.courses.retrieveCourse(id);
+      return api.courses.coursesRetrieve(id);
     },
     { refreshDeps: [id] }
   );

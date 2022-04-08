@@ -1,55 +1,74 @@
-import { StarFilled, StarOutlined } from '@/components/Icon/Icon';
-import { PageHeader, Button, Layout } from 'antd';
-import React, { useState } from 'react';
-import { routes } from './mock';
+import { api } from '@/utils/api';
+import { isNotNil } from '@/utils/types';
+import { useRequest } from 'ahooks';
+import { Layout, PageHeader, Skeleton } from 'antd';
+import React, { useRef } from 'react';
+import Vditor from 'vditor';
+import 'vditor/dist/index.css';
 
 const { Content } = Layout;
 
-const FavoriteSwitchButton: React.FC<{ isFavorite?: boolean }> = (props) => {
-  const [isFavorite, setIsFavorite] = useState(false);
-  return (
-    <Button
-      shape="circle"
-      icon={
-        isFavorite ? (
-          <StarFilled style={{ color: 'var(--yellow-6)' }} />
-        ) : (
-          <StarOutlined></StarOutlined>
-        )
-      }
-      onClick={() => setIsFavorite((x) => !x)}
-    ></Button>
-  );
+// TODO: 实现收藏功能
+// const FavoriteSwitchButton: React.FC<{ isFavorite?: boolean }> = (props) => {
+//   const [isFavorite, setIsFavorite] = useState(false);
+//   return (
+//     <Button
+//       shape="circle"
+//       icon={
+//         isFavorite ? (
+//           <StarFilled style={{ color: 'var(--yellow-6)' }} />
+//         ) : (
+//           <StarOutlined></StarOutlined>
+//         )
+//       }
+//       onClick={() => setIsFavorite((x) => !x)}
+//     ></Button>
+//   );
+// };
+
+const MDContainer = ({ text }: { text?: string }) => {
+  const ref = useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (isNotNil(text) && ref.current) {
+      Vditor.preview(ref.current, text);
+    }
+  }, [ref.current]);
+
+  return <div ref={ref} className="vditor" style={{ border: 'none' }} />;
 };
 
-export const PostDisplay: React.FC<unknown> = (props) => {
+interface Props {
+  articleId: string | undefined;
+}
+
+export const ArticleDisplay = ({ articleId }: Props) => {
+  const { data, loading } = useRequest(
+    async () => {
+      if (articleId) {
+        return api.article.articleRetrieve(Number(articleId));
+      }
+      return undefined;
+    },
+    { refreshDeps: [articleId] }
+  );
+
+  const article = data?.data;
+
+  const mdContent = article?.content;
+
   return (
     <PageHeader
       ghost={false}
-      breadcrumb={{ routes }}
-      title="Title"
-      subTitle="This is a subtitle"
-      extra={[<FavoriteSwitchButton key={1} />]}
+      title={article?.title}
+      subTitle={article?.course.title}
       className="h-full"
+      onBack={() => window.history.back()}
     >
       <Content>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure laboriosam
-        impedit eaque, dolor adipisci saepe accusantium aut. Quis natus ipsum
-        ea, quibusdam porro eligendi vero reiciendis voluptatibus, provident
-        excepturi velit? Ipsam deserunt explicabo quia molestias, itaque, optio
-        exercitationem aut, autem reiciendis dicta corporis. Officiis deserunt
-        optio velit, eligendi consectetur rerum! Deleniti quod nisi, tempora
-        harum at rem veniam error facere. Eaque modi earum tenetur nihil dolor
-        eum, perferendis doloremque vero similique enim magnam nobis maxime
-        nesciunt ab. Voluptate, eius architecto sit magni, dolorem excepturi
-        illo veniam nam expedita cupiditate asperiores? Numquam excepturi,
-        impedit deserunt consectetur nisi officiis sapiente quam voluptate omnis
-        blanditiis nemo incidunt, quia neque ea adipisci vitae ex eius in
-        tempore, necessitatibus magnam alias culpa! Aut, velit iusto! Aut
-        aliquid, architecto et quidem tempora cumque molestiae dolores pariatur
-        harum rerum quasi hic! Non, et. Cupiditate omnis reiciendis delectus.
-        Molestias tempora, enim laboriosam veniam ullam quae laborum dolor
-        magnam.
+        <Skeleton active loading={loading}>
+          <MDContainer text={mdContent} />
+        </Skeleton>
       </Content>
     </PageHeader>
   );

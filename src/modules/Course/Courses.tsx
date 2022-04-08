@@ -7,7 +7,7 @@ import React from 'react';
 import { Link, Route, useRouteMatch } from 'react-router-dom';
 
 export function CourseList() {
-  const { data, loading } = useRequest(api.courses.listCourses);
+  const { data, loading } = useRequest(api.courses.coursesList);
   const courses = data?.data;
 
   const columns = [

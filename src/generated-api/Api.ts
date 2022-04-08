@@ -9,79 +9,126 @@
  * ---------------------------------------------------------------
  */
 
-export interface UserModel {
-  url?: string;
-
-  /**
-   * 必填；长度为150个字符或以下；只能包含字母、数字、特殊字符“@”、“.”、“-”和“_”。
-   * @pattern ^[\w.@+-]+\z
-   */
-  username: string;
-
-  /** @format email */
-  email?: string;
-
-  /** 该用户归属的组。一个用户将得到其归属的组的所有权限。 */
-  groups?: string[];
+export interface ArticleModel {
+  id: number;
+  title?: string;
+  author?: string;
+  content?: string;
+  course: NestedModel;
 }
 
-export interface GroupModel {
-  url?: string;
+export interface ContentNodeModel {
+  children: ContentNodeModel[];
+  label: string;
+  article: ArticleModel;
+  id: number;
+}
+
+export interface CourseModel {
+  id: number;
+  category: CourseCategoryModel[];
+  contents: ContentNodeModel;
+  title?: string;
+  cover?: string;
+  courseCode?: string;
+  shortDescription?: string;
+  description?: string;
+  keywords?: string;
+  teacher?: string;
+  contact?: string;
+
+  /** @format date-time */
+  created_at: string;
+}
+
+export interface CourseCategoryModel {
+  id: number;
+  alias: string;
   name: string;
 }
 
-export interface ArticleModel {
+export interface CourseGalleryModel {
+  categoryId: number;
+  category: string;
+  categoryAlias: string;
+  courses: CourseModel[];
+}
+
+export interface GroupModel {
+  /** @format uri */
+  url: string;
+
+  /** 名称 */
+  name: string;
+}
+
+export interface LoginModel {
+  username?: string;
+
+  /** @format email */
+  email?: string;
+  password: string;
+}
+
+export interface NestedModel {
+  id: number;
+  title?: string;
+  cover?: string;
+  courseCode?: string;
+  shortDescription?: string;
+  description?: string;
+  keywords?: string;
+  teacher?: string;
+  contact?: string;
+
+  /** @format date-time */
+  created_at: string;
+  contents?: number | null;
+  category: number[];
+}
+
+export interface PasswordChangeModel {
+  new_password1: string;
+  new_password2: string;
+}
+
+/**
+ * Serializer for requesting a password reset e-mail.
+ */
+export interface PasswordResetModel {
+  /** @format email */
+  email: string;
+}
+
+/**
+ * Serializer for confirming a password reset attempt.
+ */
+export interface PasswordResetConfirmModel {
+  new_password1: string;
+  new_password2: string;
+  uid: string;
+  token: string;
+}
+
+export interface PatchedArticleModel {
   id?: number;
   title?: string;
   author?: string;
   content?: string;
-  course: number;
+  course?: NestedModel;
 }
 
-export interface QuestionModel {
-  id?: number;
-
-  /** 习题名称 */
-  title: string;
-  tags: string;
-  author: string;
-  description?: string;
-  solution?: string;
-  analysis?: string;
-
-  /** @format date-time */
-  created_at?: string;
-
-  /** @format date-time */
-  updated_at?: string;
-}
-
-export interface QuestionSetNodeModel {
-  children?: string;
-  label: string;
-  question?: number | null;
+export interface PatchedContentNodeModel {
+  children?: ContentNodeModel[];
+  label?: string;
+  article?: ArticleModel;
   id?: number;
 }
 
-export interface UserDetailsModel {
-  pk?: number;
-
-  /**
-   * 必填；长度为150个字符或以下；只能包含字母、数字、特殊字符“@”、“.”、“-”和“_”。
-   * @pattern ^[\w.@+-]+\z
-   */
-  username: string;
-
-  /** @format email */
-  email?: string;
-  first_name?: string;
-  last_name?: string;
-}
-
-export interface CourseModel {
+export interface PatchedCourseModel {
   id?: number;
-  category?: { id?: number; alias: string; name: string }[];
-  contents?: { children?: string; label: string; article: number };
+  category?: CourseCategoryModel[];
+  contents?: ContentNodeModel;
   title?: string;
   cover?: string;
   courseCode?: string;
@@ -95,55 +142,192 @@ export interface CourseModel {
   created_at?: string;
 }
 
-export interface CourseCategoryModel {
+export interface PatchedCourseCategoryModel {
   id?: number;
-  alias: string;
-  name: string;
+  alias?: string;
+  name?: string;
 }
 
-export interface CourseGalleryModel {
-  categoryId: number;
-  category: string;
-  categoryAlias: string;
-  courses: {
-    id?: number;
-    category?: { id?: number; alias: string; name: string }[];
-    contents?: { children?: string; label: string; article: number };
-    title?: string;
-    cover?: string;
-    courseCode?: string;
-    shortDescription?: string;
-    description?: string;
-    keywords?: string;
-    teacher?: string;
-    contact?: string;
-    created_at?: string;
-  }[];
+export interface PatchedGroupModel {
+  /** @format uri */
+  url?: string;
+
+  /** 名称 */
+  name?: string;
 }
 
-export interface PasswordResetModel {
-  /** @format email */
-  email: string;
+export interface PatchedQuestionModel {
+  id?: number;
+
+  /**
+   * 名称
+   * 习题名称
+   */
+  title?: string;
+
+  /** 标签 */
+  tags?: string;
+  author?: string;
+  description?: string;
+  solution?: string;
+  analysis?: string;
+
+  /** @format date-time */
+  created_at?: string;
+
+  /** @format date-time */
+  updated_at?: string;
 }
 
-export interface PasswordResetConfirmModel {
-  new_password1: string;
-  new_password2: string;
-  uid: string;
-  token: string;
+export interface PatchedQuestionSetNodeModel {
+  children?: string;
+  label?: string;
+  question?: number | null;
+  id?: number;
 }
 
-export interface LoginModel {
+export interface PatchedUserModel {
+  /** @format uri */
+  url?: string;
+
+  /**
+   * 用户名
+   * 必填；长度为150个字符或以下；只能包含字母、数字、特殊字符“@”、“.”、“-”和“_”。
+   * @pattern ^[\w.@+-]+$
+   */
   username?: string;
 
-  /** @format email */
+  /**
+   * 电子邮件地址
+   * @format email
+   */
   email?: string;
-  password: string;
+
+  /**
+   * 组
+   * 该用户归属的组。一个用户将得到其归属的组的所有权限。
+   */
+  groups?: string[];
 }
 
-export interface PasswordChangeModel {
-  new_password1: string;
-  new_password2: string;
+/**
+ * User model w/o password
+ */
+export interface PatchedUserDetailsModel {
+  /** ID */
+  pk?: number;
+
+  /**
+   * 用户名
+   * 必填；长度为150个字符或以下；只能包含字母、数字、特殊字符“@”、“.”、“-”和“_”。
+   * @pattern ^[\w.@+-]+$
+   */
+  username?: string;
+
+  /**
+   * 电子邮件地址
+   * @format email
+   */
+  email?: string;
+
+  /** 名字 */
+  first_name?: string;
+
+  /** 姓氏 */
+  last_name?: string;
+}
+
+export interface QuestionModel {
+  id: number;
+
+  /**
+   * 名称
+   * 习题名称
+   */
+  title: string;
+
+  /** 标签 */
+  tags: string;
+  author: string;
+  description?: string;
+  solution?: string;
+  analysis?: string;
+
+  /** @format date-time */
+  created_at: string;
+
+  /** @format date-time */
+  updated_at: string;
+}
+
+export interface QuestionSetNodeModel {
+  children: string;
+  label: string;
+  question?: number | null;
+  id: number;
+}
+
+export interface RestAuthDetailModel {
+  detail: string;
+}
+
+/**
+ * Serializer for Token model.
+ */
+export interface TokenModel {
+  /** 键 */
+  key: string;
+}
+
+export interface UserModel {
+  /** @format uri */
+  url: string;
+
+  /**
+   * 用户名
+   * 必填；长度为150个字符或以下；只能包含字母、数字、特殊字符“@”、“.”、“-”和“_”。
+   * @pattern ^[\w.@+-]+$
+   */
+  username: string;
+
+  /**
+   * 电子邮件地址
+   * @format email
+   */
+  email?: string;
+
+  /**
+   * 组
+   * 该用户归属的组。一个用户将得到其归属的组的所有权限。
+   */
+  groups?: string[];
+}
+
+/**
+ * User model w/o password
+ */
+export interface UserDetailsModel {
+  /** ID */
+  pk: number;
+
+  /**
+   * 用户名
+   * 必填；长度为150个字符或以下；只能包含字母、数字、特殊字符“@”、“.”、“-”和“_”。
+   * @pattern ^[\w.@+-]+$
+   */
+  username: string;
+
+  /**
+   * 电子邮件地址
+   * @format email
+   */
+  email: string;
+
+  /** 名字 */
+  first_name?: string;
+
+  /** 姓氏 */
+  last_name?: string;
 }
 
 import axios, {
@@ -295,226 +479,28 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title Your Project
+ * @title Your Project API
  * @version 1.0.0
  *
- * API for all things …
+ * Your project description
  */
 export class Api<
   SecurityDataType extends unknown
 > extends HttpClient<SecurityDataType> {
-  users = {
-    /**
-     * @description API endpoint that allows users to be viewed or edited.
-     *
-     * @tags users
-     * @name ListUsers
-     * @request GET:/users/
-     */
-    listUsers: (params: RequestParams = {}) =>
-      this.request<UserModel[], any>({
-        path: `/users/`,
-        method: 'GET',
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description API endpoint that allows users to be viewed or edited.
-     *
-     * @tags users
-     * @name CreateUser
-     * @request POST:/users/
-     */
-    createUser: (data: UserModel, params: RequestParams = {}) =>
-      this.request<UserModel, any>({
-        path: `/users/`,
-        method: 'POST',
-        body: data,
-        type: ContentType.Json,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description API endpoint that allows users to be viewed or edited.
-     *
-     * @tags users
-     * @name RetrieveUser
-     * @request GET:/users/{id}/
-     */
-    retrieveUser: (id: string, params: RequestParams = {}) =>
-      this.request<UserModel, any>({
-        path: `/users/${id}/`,
-        method: 'GET',
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description API endpoint that allows users to be viewed or edited.
-     *
-     * @tags users
-     * @name UpdateUser
-     * @request PUT:/users/{id}/
-     */
-    updateUser: (id: string, data: UserModel, params: RequestParams = {}) =>
-      this.request<UserModel, any>({
-        path: `/users/${id}/`,
-        method: 'PUT',
-        body: data,
-        type: ContentType.Json,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description API endpoint that allows users to be viewed or edited.
-     *
-     * @tags users
-     * @name PartialUpdateUser
-     * @request PATCH:/users/{id}/
-     */
-    partialUpdateUser: (
-      id: string,
-      data: UserModel,
-      params: RequestParams = {}
-    ) =>
-      this.request<UserModel, any>({
-        path: `/users/${id}/`,
-        method: 'PATCH',
-        body: data,
-        type: ContentType.Json,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description API endpoint that allows users to be viewed or edited.
-     *
-     * @tags users
-     * @name DestroyUser
-     * @request DELETE:/users/{id}/
-     */
-    destroyUser: (id: string, params: RequestParams = {}) =>
-      this.request<void, any>({
-        path: `/users/${id}/`,
-        method: 'DELETE',
-        ...params,
-      }),
-  };
-  groups = {
-    /**
-     * @description API endpoint that allows groups to be viewed or edited.
-     *
-     * @tags groups
-     * @name ListGroups
-     * @request GET:/groups/
-     */
-    listGroups: (params: RequestParams = {}) =>
-      this.request<GroupModel[], any>({
-        path: `/groups/`,
-        method: 'GET',
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description API endpoint that allows groups to be viewed or edited.
-     *
-     * @tags groups
-     * @name CreateGroup
-     * @request POST:/groups/
-     */
-    createGroup: (data: GroupModel, params: RequestParams = {}) =>
-      this.request<GroupModel, any>({
-        path: `/groups/`,
-        method: 'POST',
-        body: data,
-        type: ContentType.Json,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description API endpoint that allows groups to be viewed or edited.
-     *
-     * @tags groups
-     * @name RetrieveGroup
-     * @request GET:/groups/{id}/
-     */
-    retrieveGroup: (id: string, params: RequestParams = {}) =>
-      this.request<GroupModel, any>({
-        path: `/groups/${id}/`,
-        method: 'GET',
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description API endpoint that allows groups to be viewed or edited.
-     *
-     * @tags groups
-     * @name UpdateGroup
-     * @request PUT:/groups/{id}/
-     */
-    updateGroup: (id: string, data: GroupModel, params: RequestParams = {}) =>
-      this.request<GroupModel, any>({
-        path: `/groups/${id}/`,
-        method: 'PUT',
-        body: data,
-        type: ContentType.Json,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description API endpoint that allows groups to be viewed or edited.
-     *
-     * @tags groups
-     * @name PartialUpdateGroup
-     * @request PATCH:/groups/{id}/
-     */
-    partialUpdateGroup: (
-      id: string,
-      data: GroupModel,
-      params: RequestParams = {}
-    ) =>
-      this.request<GroupModel, any>({
-        path: `/groups/${id}/`,
-        method: 'PATCH',
-        body: data,
-        type: ContentType.Json,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description API endpoint that allows groups to be viewed or edited.
-     *
-     * @tags groups
-     * @name DestroyGroup
-     * @request DELETE:/groups/{id}/
-     */
-    destroyGroup: (id: string, params: RequestParams = {}) =>
-      this.request<void, any>({
-        path: `/groups/${id}/`,
-        method: 'DELETE',
-        ...params,
-      }),
-  };
   article = {
     /**
      * No description
      *
      * @tags article
-     * @name ListArticles
+     * @name ArticleList
      * @request GET:/article/
+     * @secure
      */
-    listArticles: (params: RequestParams = {}) =>
+    articleList: (params: RequestParams = {}) =>
       this.request<ArticleModel[], any>({
         path: `/article/`,
         method: 'GET',
+        secure: true,
         format: 'json',
         ...params,
       }),
@@ -523,14 +509,16 @@ export class Api<
      * No description
      *
      * @tags article
-     * @name CreateArticle
+     * @name ArticleCreate
      * @request POST:/article/
+     * @secure
      */
-    createArticle: (data: ArticleModel, params: RequestParams = {}) =>
+    articleCreate: (data: ArticleModel, params: RequestParams = {}) =>
       this.request<ArticleModel, any>({
         path: `/article/`,
         method: 'POST',
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: 'json',
         ...params,
@@ -540,13 +528,15 @@ export class Api<
      * No description
      *
      * @tags article
-     * @name RetrieveArticle
+     * @name ArticleRetrieve
      * @request GET:/article/{id}/
+     * @secure
      */
-    retrieveArticle: (id: string, params: RequestParams = {}) =>
+    articleRetrieve: (id: number, params: RequestParams = {}) =>
       this.request<ArticleModel, any>({
         path: `/article/${id}/`,
         method: 'GET',
+        secure: true,
         format: 'json',
         ...params,
       }),
@@ -555,11 +545,12 @@ export class Api<
      * No description
      *
      * @tags article
-     * @name UpdateArticle
+     * @name ArticleUpdate
      * @request PUT:/article/{id}/
+     * @secure
      */
-    updateArticle: (
-      id: string,
+    articleUpdate: (
+      id: number,
       data: ArticleModel,
       params: RequestParams = {}
     ) =>
@@ -567,6 +558,7 @@ export class Api<
         path: `/article/${id}/`,
         method: 'PUT',
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: 'json',
         ...params,
@@ -576,18 +568,20 @@ export class Api<
      * No description
      *
      * @tags article
-     * @name PartialUpdateArticle
+     * @name ArticlePartialUpdate
      * @request PATCH:/article/{id}/
+     * @secure
      */
-    partialUpdateArticle: (
-      id: string,
-      data: ArticleModel,
+    articlePartialUpdate: (
+      id: number,
+      data: PatchedArticleModel,
       params: RequestParams = {}
     ) =>
       this.request<ArticleModel, any>({
         path: `/article/${id}/`,
         method: 'PATCH',
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: 'json',
         ...params,
@@ -597,28 +591,32 @@ export class Api<
      * No description
      *
      * @tags article
-     * @name DestroyArticle
+     * @name ArticleDestroy
      * @request DELETE:/article/{id}/
+     * @secure
      */
-    destroyArticle: (id: string, params: RequestParams = {}) =>
+    articleDestroy: (id: number, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/article/${id}/`,
         method: 'DELETE',
+        secure: true,
         ...params,
       }),
   };
-  question = {
+  articleNode = {
     /**
      * No description
      *
-     * @tags question
-     * @name ListQuestions
-     * @request GET:/question/
+     * @tags article_node
+     * @name ArticleNodeList
+     * @request GET:/article_node/
+     * @secure
      */
-    listQuestions: (params: RequestParams = {}) =>
-      this.request<QuestionModel[], any>({
-        path: `/question/`,
+    articleNodeList: (params: RequestParams = {}) =>
+      this.request<ContentNodeModel[], any>({
+        path: `/article_node/`,
         method: 'GET',
+        secure: true,
         format: 'json',
         ...params,
       }),
@@ -626,15 +624,17 @@ export class Api<
     /**
      * No description
      *
-     * @tags question
-     * @name CreateQuestion
-     * @request POST:/question/
+     * @tags article_node
+     * @name ArticleNodeCreate
+     * @request POST:/article_node/
+     * @secure
      */
-    createQuestion: (data: QuestionModel, params: RequestParams = {}) =>
-      this.request<QuestionModel, any>({
-        path: `/question/`,
+    articleNodeCreate: (data: ContentNodeModel, params: RequestParams = {}) =>
+      this.request<ContentNodeModel, any>({
+        path: `/article_node/`,
         method: 'POST',
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: 'json',
         ...params,
@@ -643,14 +643,16 @@ export class Api<
     /**
      * No description
      *
-     * @tags question
-     * @name RetrieveQuestion
-     * @request GET:/question/{id}/
+     * @tags article_node
+     * @name ArticleNodeRetrieve
+     * @request GET:/article_node/{id}/
+     * @secure
      */
-    retrieveQuestion: (id: string, params: RequestParams = {}) =>
-      this.request<QuestionModel, any>({
-        path: `/question/${id}/`,
+    articleNodeRetrieve: (id: number, params: RequestParams = {}) =>
+      this.request<ContentNodeModel, any>({
+        path: `/article_node/${id}/`,
         method: 'GET',
+        secure: true,
         format: 'json',
         ...params,
       }),
@@ -658,19 +660,21 @@ export class Api<
     /**
      * No description
      *
-     * @tags question
-     * @name UpdateQuestion
-     * @request PUT:/question/{id}/
+     * @tags article_node
+     * @name ArticleNodeUpdate
+     * @request PUT:/article_node/{id}/
+     * @secure
      */
-    updateQuestion: (
-      id: string,
-      data: QuestionModel,
+    articleNodeUpdate: (
+      id: number,
+      data: ContentNodeModel,
       params: RequestParams = {}
     ) =>
-      this.request<QuestionModel, any>({
-        path: `/question/${id}/`,
+      this.request<ContentNodeModel, any>({
+        path: `/article_node/${id}/`,
         method: 'PUT',
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: 'json',
         ...params,
@@ -679,19 +683,21 @@ export class Api<
     /**
      * No description
      *
-     * @tags question
-     * @name PartialUpdateQuestion
-     * @request PATCH:/question/{id}/
+     * @tags article_node
+     * @name ArticleNodePartialUpdate
+     * @request PATCH:/article_node/{id}/
+     * @secure
      */
-    partialUpdateQuestion: (
-      id: string,
-      data: QuestionModel,
+    articleNodePartialUpdate: (
+      id: number,
+      data: PatchedContentNodeModel,
       params: RequestParams = {}
     ) =>
-      this.request<QuestionModel, any>({
-        path: `/question/${id}/`,
+      this.request<ContentNodeModel, any>({
+        path: `/article_node/${id}/`,
         method: 'PATCH',
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: 'json',
         ...params,
@@ -700,204 +706,90 @@ export class Api<
     /**
      * No description
      *
-     * @tags question
-     * @name DestroyQuestion
-     * @request DELETE:/question/{id}/
+     * @tags article_node
+     * @name ArticleNodeDestroy
+     * @request DELETE:/article_node/{id}/
+     * @secure
      */
-    destroyQuestion: (id: string, params: RequestParams = {}) =>
+    articleNodeDestroy: (id: number, params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/question/${id}/`,
+        path: `/article_node/${id}/`,
         method: 'DELETE',
+        secure: true,
         ...params,
       }),
-  };
-  questionSet = {
+
     /**
      * No description
      *
-     * @tags question-set
-     * @name ListQuestionSetNodes
-     * @request GET:/question_set/
+     * @tags article_node
+     * @name ArticleNodeRootRetrieve
+     * @request GET:/article_node/root/{id}/
+     * @secure
      */
-    listQuestionSetNodes: (params: RequestParams = {}) =>
-      this.request<QuestionSetNodeModel[], any>({
-        path: `/question_set/`,
+    articleNodeRootRetrieve: (id: number, params: RequestParams = {}) =>
+      this.request<ContentNodeModel, any>({
+        path: `/article_node/root/${id}/`,
         method: 'GET',
+        secure: true,
         format: 'json',
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags question-set
-     * @name CreateQuestionSetNode
-     * @request POST:/question_set/
-     */
-    createQuestionSetNode: (
-      data: QuestionSetNodeModel,
-      params: RequestParams = {}
-    ) =>
-      this.request<QuestionSetNodeModel, any>({
-        path: `/question_set/`,
-        method: 'POST',
-        body: data,
-        type: ContentType.Json,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags question-set
-     * @name RetrieveQuestionSetNode
-     * @request GET:/question_set/{id}/
-     */
-    retrieveQuestionSetNode: (id: string, params: RequestParams = {}) =>
-      this.request<QuestionSetNodeModel, any>({
-        path: `/question_set/${id}/`,
-        method: 'GET',
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags question-set
-     * @name UpdateQuestionSetNode
-     * @request PUT:/question_set/{id}/
-     */
-    updateQuestionSetNode: (
-      id: string,
-      data: QuestionSetNodeModel,
-      params: RequestParams = {}
-    ) =>
-      this.request<QuestionSetNodeModel, any>({
-        path: `/question_set/${id}/`,
-        method: 'PUT',
-        body: data,
-        type: ContentType.Json,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags question-set
-     * @name PartialUpdateQuestionSetNode
-     * @request PATCH:/question_set/{id}/
-     */
-    partialUpdateQuestionSetNode: (
-      id: string,
-      data: QuestionSetNodeModel,
-      params: RequestParams = {}
-    ) =>
-      this.request<QuestionSetNodeModel, any>({
-        path: `/question_set/${id}/`,
-        method: 'PATCH',
-        body: data,
-        type: ContentType.Json,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags question-set
-     * @name DestroyQuestionSetNode
-     * @request DELETE:/question_set/{id}/
-     */
-    destroyQuestionSetNode: (id: string, params: RequestParams = {}) =>
-      this.request<void, any>({
-        path: `/question_set/${id}/`,
-        method: 'DELETE',
         ...params,
       }),
   };
   auth = {
     /**
-     * @description Calls Django logout method and delete the Token object assigned to the current User object. Accepts/Returns nothing.
+     * @description Check the credentials and return the REST Token if the credentials are valid and authenticated. Calls Django Auth login method to register User ID in Django session framework Accept the following POST parameters: username, password Return the REST Framework Token Object's key.
      *
      * @tags auth
-     * @name ListLogouts
-     * @request GET:/auth/logout/
+     * @name AuthLoginCreate
+     * @request POST:/auth/login/
+     * @secure
      */
-    listLogouts: (params: RequestParams = {}) =>
-      this.request<any[], any>({
-        path: `/auth/logout/`,
-        method: 'GET',
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description Calls Django logout method and delete the Token object assigned to the current User object. Accepts/Returns nothing.
-     *
-     * @tags auth
-     * @name CreateLogout
-     * @request POST:/auth/logout/
-     */
-    createLogout: (data: any, params: RequestParams = {}) =>
-      this.request<any, any>({
-        path: `/auth/logout/`,
+    authLoginCreate: (data: LoginModel, params: RequestParams = {}) =>
+      this.request<TokenModel, any>({
+        path: `/auth/login/`,
         method: 'POST',
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: 'json',
         ...params,
       }),
 
     /**
-     * @description Reads and updates UserModel fields Accepts GET, PUT, PATCH methods. Default accepted fields: username, first_name, last_name Default display fields: pk, username, email, first_name, last_name Read-only fields: pk, email Returns UserModel fields.
+     * @description Calls Django logout method and delete the Token object assigned to the current User object. Accepts/Returns nothing.
      *
      * @tags auth
-     * @name RetrieveUserDetails
-     * @request GET:/auth/user/
+     * @name AuthLogoutCreate
+     * @request POST:/auth/logout/
+     * @secure
      */
-    retrieveUserDetails: (params: RequestParams = {}) =>
-      this.request<UserDetailsModel, any>({
-        path: `/auth/user/`,
-        method: 'GET',
+    authLogoutCreate: (params: RequestParams = {}) =>
+      this.request<RestAuthDetailModel, any>({
+        path: `/auth/logout/`,
+        method: 'POST',
+        secure: true,
         format: 'json',
         ...params,
       }),
 
     /**
-     * @description Reads and updates UserModel fields Accepts GET, PUT, PATCH methods. Default accepted fields: username, first_name, last_name Default display fields: pk, username, email, first_name, last_name Read-only fields: pk, email Returns UserModel fields.
+     * @description Calls Django Auth SetPasswordForm save method. Accepts the following POST parameters: new_password1, new_password2 Returns the success/fail message.
      *
      * @tags auth
-     * @name UpdateUserDetails
-     * @request PUT:/auth/user/
+     * @name AuthPasswordChangeCreate
+     * @request POST:/auth/password/change/
+     * @secure
      */
-    updateUserDetails: (data: UserDetailsModel, params: RequestParams = {}) =>
-      this.request<UserDetailsModel, any>({
-        path: `/auth/user/`,
-        method: 'PUT',
-        body: data,
-        type: ContentType.Json,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description Reads and updates UserModel fields Accepts GET, PUT, PATCH methods. Default accepted fields: username, first_name, last_name Default display fields: pk, username, email, first_name, last_name Read-only fields: pk, email Returns UserModel fields.
-     *
-     * @tags auth
-     * @name PartialUpdateUserDetails
-     * @request PATCH:/auth/user/
-     */
-    partialUpdateUserDetails: (
-      data: UserDetailsModel,
+    authPasswordChangeCreate: (
+      data: PasswordChangeModel,
       params: RequestParams = {}
     ) =>
-      this.request<UserDetailsModel, any>({
-        path: `/auth/user/`,
-        method: 'PATCH',
+      this.request<RestAuthDetailModel, any>({
+        path: `/auth/password/change/`,
+        method: 'POST',
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: 'json',
         ...params,
@@ -907,17 +799,19 @@ export class Api<
      * @description Calls Django Auth PasswordResetForm save method. Accepts the following POST parameters: email Returns the success/fail message.
      *
      * @tags auth
-     * @name CreatePasswordReset
+     * @name AuthPasswordResetCreate
      * @request POST:/auth/password/reset/
+     * @secure
      */
-    createPasswordReset: (
+    authPasswordResetCreate: (
       data: PasswordResetModel,
       params: RequestParams = {}
     ) =>
-      this.request<PasswordResetModel, any>({
+      this.request<RestAuthDetailModel, any>({
         path: `/auth/password/reset/`,
         method: 'POST',
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: 'json',
         ...params,
@@ -927,55 +821,215 @@ export class Api<
      * @description Password reset e-mail link is confirmed, therefore this resets the user's password. Accepts the following POST parameters: token, uid, new_password1, new_password2 Returns the success/fail message.
      *
      * @tags auth
-     * @name CreatePasswordResetConfirm
+     * @name AuthPasswordResetConfirmCreate
      * @request POST:/auth/password/reset/confirm/
+     * @secure
      */
-    createPasswordResetConfirm: (
+    authPasswordResetConfirmCreate: (
       data: PasswordResetConfirmModel,
       params: RequestParams = {}
     ) =>
-      this.request<PasswordResetConfirmModel, any>({
+      this.request<RestAuthDetailModel, any>({
         path: `/auth/password/reset/confirm/`,
         method: 'POST',
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: 'json',
         ...params,
       }),
 
     /**
-     * @description Check the credentials and return the REST Token if the credentials are valid and authenticated. Calls Django Auth login method to register User ID in Django session framework Accept the following POST parameters: username, password Return the REST Framework Token Object's key.
+     * @description Reads and updates UserModel fields Accepts GET, PUT, PATCH methods. Default accepted fields: username, first_name, last_name Default display fields: pk, username, email, first_name, last_name Read-only fields: pk, email Returns UserModel fields.
      *
      * @tags auth
-     * @name CreateLogin
-     * @request POST:/auth/login/
+     * @name AuthUserRetrieve
+     * @request GET:/auth/user/
+     * @secure
      */
-    createLogin: (data: LoginModel, params: RequestParams = {}) =>
-      this.request<LoginModel, any>({
-        path: `/auth/login/`,
-        method: 'POST',
+    authUserRetrieve: (params: RequestParams = {}) =>
+      this.request<UserDetailsModel, any>({
+        path: `/auth/user/`,
+        method: 'GET',
+        secure: true,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description Reads and updates UserModel fields Accepts GET, PUT, PATCH methods. Default accepted fields: username, first_name, last_name Default display fields: pk, username, email, first_name, last_name Read-only fields: pk, email Returns UserModel fields.
+     *
+     * @tags auth
+     * @name AuthUserUpdate
+     * @request PUT:/auth/user/
+     * @secure
+     */
+    authUserUpdate: (data: UserDetailsModel, params: RequestParams = {}) =>
+      this.request<UserDetailsModel, any>({
+        path: `/auth/user/`,
+        method: 'PUT',
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: 'json',
         ...params,
       }),
 
     /**
-     * @description Calls Django Auth SetPasswordForm save method. Accepts the following POST parameters: new_password1, new_password2 Returns the success/fail message.
+     * @description Reads and updates UserModel fields Accepts GET, PUT, PATCH methods. Default accepted fields: username, first_name, last_name Default display fields: pk, username, email, first_name, last_name Read-only fields: pk, email Returns UserModel fields.
      *
      * @tags auth
-     * @name CreatePasswordChange
-     * @request POST:/auth/password/change/
+     * @name AuthUserPartialUpdate
+     * @request PATCH:/auth/user/
+     * @secure
      */
-    createPasswordChange: (
-      data: PasswordChangeModel,
+    authUserPartialUpdate: (
+      data: PatchedUserDetailsModel,
       params: RequestParams = {}
     ) =>
-      this.request<PasswordChangeModel, any>({
-        path: `/auth/password/change/`,
+      this.request<UserDetailsModel, any>({
+        path: `/auth/user/`,
+        method: 'PATCH',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+  };
+  courseCategories = {
+    /**
+     * No description
+     *
+     * @tags course_categories
+     * @name CourseCategoriesList
+     * @request GET:/course_categories/
+     * @secure
+     */
+    courseCategoriesList: (params: RequestParams = {}) =>
+      this.request<CourseCategoryModel[], any>({
+        path: `/course_categories/`,
+        method: 'GET',
+        secure: true,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags course_categories
+     * @name CourseCategoriesCreate
+     * @request POST:/course_categories/
+     * @secure
+     */
+    courseCategoriesCreate: (
+      data: CourseCategoryModel,
+      params: RequestParams = {}
+    ) =>
+      this.request<CourseCategoryModel, any>({
+        path: `/course_categories/`,
         method: 'POST',
         body: data,
+        secure: true,
         type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags course_categories
+     * @name CourseCategoriesRetrieve
+     * @request GET:/course_categories/{id}/
+     * @secure
+     */
+    courseCategoriesRetrieve: (id: number, params: RequestParams = {}) =>
+      this.request<CourseCategoryModel, any>({
+        path: `/course_categories/${id}/`,
+        method: 'GET',
+        secure: true,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags course_categories
+     * @name CourseCategoriesUpdate
+     * @request PUT:/course_categories/{id}/
+     * @secure
+     */
+    courseCategoriesUpdate: (
+      id: number,
+      data: CourseCategoryModel,
+      params: RequestParams = {}
+    ) =>
+      this.request<CourseCategoryModel, any>({
+        path: `/course_categories/${id}/`,
+        method: 'PUT',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags course_categories
+     * @name CourseCategoriesPartialUpdate
+     * @request PATCH:/course_categories/{id}/
+     * @secure
+     */
+    courseCategoriesPartialUpdate: (
+      id: number,
+      data: PatchedCourseCategoryModel,
+      params: RequestParams = {}
+    ) =>
+      this.request<CourseCategoryModel, any>({
+        path: `/course_categories/${id}/`,
+        method: 'PATCH',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags course_categories
+     * @name CourseCategoriesDestroy
+     * @request DELETE:/course_categories/{id}/
+     * @secure
+     */
+    courseCategoriesDestroy: (id: number, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/course_categories/${id}/`,
+        method: 'DELETE',
+        secure: true,
+        ...params,
+      }),
+  };
+  courseGallery = {
+    /**
+     * No description
+     *
+     * @tags course_gallery
+     * @name CourseGalleryList
+     * @request GET:/course_gallery
+     * @secure
+     */
+    courseGalleryList: (params: RequestParams = {}) =>
+      this.request<CourseGalleryModel[], any>({
+        path: `/course_gallery`,
+        method: 'GET',
+        secure: true,
         format: 'json',
         ...params,
       }),
@@ -985,13 +1039,15 @@ export class Api<
      * No description
      *
      * @tags courses
-     * @name ListCourses
+     * @name CoursesList
      * @request GET:/courses/
+     * @secure
      */
-    listCourses: (params: RequestParams = {}) =>
+    coursesList: (params: RequestParams = {}) =>
       this.request<CourseModel[], any>({
         path: `/courses/`,
         method: 'GET',
+        secure: true,
         format: 'json',
         ...params,
       }),
@@ -1000,14 +1056,16 @@ export class Api<
      * No description
      *
      * @tags courses
-     * @name CreateCourse
+     * @name CoursesCreate
      * @request POST:/courses/
+     * @secure
      */
-    createCourse: (data: CourseModel, params: RequestParams = {}) =>
+    coursesCreate: (data: CourseModel, params: RequestParams = {}) =>
       this.request<CourseModel, any>({
         path: `/courses/`,
         method: 'POST',
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: 'json',
         ...params,
@@ -1017,13 +1075,15 @@ export class Api<
      * No description
      *
      * @tags courses
-     * @name RetrieveCourse
+     * @name CoursesRetrieve
      * @request GET:/courses/{id}/
+     * @secure
      */
-    retrieveCourse: (id: string, params: RequestParams = {}) =>
+    coursesRetrieve: (id: number, params: RequestParams = {}) =>
       this.request<CourseModel, any>({
         path: `/courses/${id}/`,
         method: 'GET',
+        secure: true,
         format: 'json',
         ...params,
       }),
@@ -1032,35 +1092,20 @@ export class Api<
      * No description
      *
      * @tags courses
-     * @name UpdateCourse
+     * @name CoursesUpdate
      * @request PUT:/courses/{id}/
+     * @secure
      */
-    updateCourse: (id: string, data: CourseModel, params: RequestParams = {}) =>
-      this.request<CourseModel, any>({
-        path: `/courses/${id}/`,
-        method: 'PUT',
-        body: data,
-        type: ContentType.Json,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags courses
-     * @name PartialUpdateCourse
-     * @request PATCH:/courses/{id}/
-     */
-    partialUpdateCourse: (
-      id: string,
+    coursesUpdate: (
+      id: number,
       data: CourseModel,
       params: RequestParams = {}
     ) =>
       this.request<CourseModel, any>({
         path: `/courses/${id}/`,
-        method: 'PATCH',
+        method: 'PUT',
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: 'json',
         ...params,
@@ -1070,136 +1115,497 @@ export class Api<
      * No description
      *
      * @tags courses
-     * @name DestroyCourse
-     * @request DELETE:/courses/{id}/
+     * @name CoursesPartialUpdate
+     * @request PATCH:/courses/{id}/
+     * @secure
      */
-    destroyCourse: (id: string, params: RequestParams = {}) =>
+    coursesPartialUpdate: (
+      id: number,
+      data: PatchedCourseModel,
+      params: RequestParams = {}
+    ) =>
+      this.request<CourseModel, any>({
+        path: `/courses/${id}/`,
+        method: 'PATCH',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags courses
+     * @name CoursesDestroy
+     * @request DELETE:/courses/{id}/
+     * @secure
+     */
+    coursesDestroy: (id: number, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/courses/${id}/`,
         method: 'DELETE',
+        secure: true,
         ...params,
       }),
   };
-  courseCategories = {
+  groups = {
     /**
-     * No description
+     * @description API endpoint that allows groups to be viewed or edited.
      *
-     * @tags course-categories
-     * @name ListCourseCategorys
-     * @request GET:/course_categories/
+     * @tags groups
+     * @name GroupsList
+     * @request GET:/groups/
+     * @secure
      */
-    listCourseCategorys: (params: RequestParams = {}) =>
-      this.request<CourseCategoryModel[], any>({
-        path: `/course_categories/`,
+    groupsList: (params: RequestParams = {}) =>
+      this.request<GroupModel[], any>({
+        path: `/groups/`,
         method: 'GET',
+        secure: true,
         format: 'json',
         ...params,
       }),
 
     /**
-     * No description
+     * @description API endpoint that allows groups to be viewed or edited.
      *
-     * @tags course-categories
-     * @name CreateCourseCategory
-     * @request POST:/course_categories/
+     * @tags groups
+     * @name GroupsCreate
+     * @request POST:/groups/
+     * @secure
      */
-    createCourseCategory: (
-      data: CourseCategoryModel,
-      params: RequestParams = {}
-    ) =>
-      this.request<CourseCategoryModel, any>({
-        path: `/course_categories/`,
+    groupsCreate: (data: GroupModel, params: RequestParams = {}) =>
+      this.request<GroupModel, any>({
+        path: `/groups/`,
         method: 'POST',
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: 'json',
         ...params,
       }),
 
     /**
-     * No description
+     * @description API endpoint that allows groups to be viewed or edited.
      *
-     * @tags course-categories
-     * @name RetrieveCourseCategory
-     * @request GET:/course_categories/{id}/
+     * @tags groups
+     * @name GroupsRetrieve
+     * @request GET:/groups/{id}/
+     * @secure
      */
-    retrieveCourseCategory: (id: string, params: RequestParams = {}) =>
-      this.request<CourseCategoryModel, any>({
-        path: `/course_categories/${id}/`,
+    groupsRetrieve: (id: number, params: RequestParams = {}) =>
+      this.request<GroupModel, any>({
+        path: `/groups/${id}/`,
         method: 'GET',
+        secure: true,
         format: 'json',
         ...params,
       }),
 
     /**
-     * No description
+     * @description API endpoint that allows groups to be viewed or edited.
      *
-     * @tags course-categories
-     * @name UpdateCourseCategory
-     * @request PUT:/course_categories/{id}/
+     * @tags groups
+     * @name GroupsUpdate
+     * @request PUT:/groups/{id}/
+     * @secure
      */
-    updateCourseCategory: (
-      id: string,
-      data: CourseCategoryModel,
-      params: RequestParams = {}
-    ) =>
-      this.request<CourseCategoryModel, any>({
-        path: `/course_categories/${id}/`,
+    groupsUpdate: (id: number, data: GroupModel, params: RequestParams = {}) =>
+      this.request<GroupModel, any>({
+        path: `/groups/${id}/`,
         method: 'PUT',
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: 'json',
         ...params,
       }),
 
     /**
-     * No description
+     * @description API endpoint that allows groups to be viewed or edited.
      *
-     * @tags course-categories
-     * @name PartialUpdateCourseCategory
-     * @request PATCH:/course_categories/{id}/
+     * @tags groups
+     * @name GroupsPartialUpdate
+     * @request PATCH:/groups/{id}/
+     * @secure
      */
-    partialUpdateCourseCategory: (
-      id: string,
-      data: CourseCategoryModel,
+    groupsPartialUpdate: (
+      id: number,
+      data: PatchedGroupModel,
       params: RequestParams = {}
     ) =>
-      this.request<CourseCategoryModel, any>({
-        path: `/course_categories/${id}/`,
+      this.request<GroupModel, any>({
+        path: `/groups/${id}/`,
         method: 'PATCH',
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: 'json',
         ...params,
       }),
 
     /**
-     * No description
+     * @description API endpoint that allows groups to be viewed or edited.
      *
-     * @tags course-categories
-     * @name DestroyCourseCategory
-     * @request DELETE:/course_categories/{id}/
+     * @tags groups
+     * @name GroupsDestroy
+     * @request DELETE:/groups/{id}/
+     * @secure
      */
-    destroyCourseCategory: (id: string, params: RequestParams = {}) =>
+    groupsDestroy: (id: number, params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/course_categories/${id}/`,
+        path: `/groups/${id}/`,
         method: 'DELETE',
+        secure: true,
         ...params,
       }),
   };
-  courseGallery = {
+  question = {
     /**
      * No description
      *
-     * @tags course-gallery
-     * @name ListCourseGallerys
-     * @request GET:/course_gallery
+     * @tags question
+     * @name QuestionList
+     * @request GET:/question/
+     * @secure
      */
-    listCourseGallerys: (params: RequestParams = {}) =>
-      this.request<CourseGalleryModel[], any>({
-        path: `/course_gallery`,
+    questionList: (params: RequestParams = {}) =>
+      this.request<QuestionModel[], any>({
+        path: `/question/`,
         method: 'GET',
+        secure: true,
         format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags question
+     * @name QuestionCreate
+     * @request POST:/question/
+     * @secure
+     */
+    questionCreate: (data: QuestionModel, params: RequestParams = {}) =>
+      this.request<QuestionModel, any>({
+        path: `/question/`,
+        method: 'POST',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags question
+     * @name QuestionRetrieve
+     * @request GET:/question/{id}/
+     * @secure
+     */
+    questionRetrieve: (id: number, params: RequestParams = {}) =>
+      this.request<QuestionModel, any>({
+        path: `/question/${id}/`,
+        method: 'GET',
+        secure: true,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags question
+     * @name QuestionUpdate
+     * @request PUT:/question/{id}/
+     * @secure
+     */
+    questionUpdate: (
+      id: number,
+      data: QuestionModel,
+      params: RequestParams = {}
+    ) =>
+      this.request<QuestionModel, any>({
+        path: `/question/${id}/`,
+        method: 'PUT',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags question
+     * @name QuestionPartialUpdate
+     * @request PATCH:/question/{id}/
+     * @secure
+     */
+    questionPartialUpdate: (
+      id: number,
+      data: PatchedQuestionModel,
+      params: RequestParams = {}
+    ) =>
+      this.request<QuestionModel, any>({
+        path: `/question/${id}/`,
+        method: 'PATCH',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags question
+     * @name QuestionDestroy
+     * @request DELETE:/question/{id}/
+     * @secure
+     */
+    questionDestroy: (id: number, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/question/${id}/`,
+        method: 'DELETE',
+        secure: true,
+        ...params,
+      }),
+  };
+  questionSet = {
+    /**
+     * No description
+     *
+     * @tags question_set
+     * @name QuestionSetList
+     * @request GET:/question_set/
+     * @secure
+     */
+    questionSetList: (params: RequestParams = {}) =>
+      this.request<QuestionSetNodeModel[], any>({
+        path: `/question_set/`,
+        method: 'GET',
+        secure: true,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags question_set
+     * @name QuestionSetCreate
+     * @request POST:/question_set/
+     * @secure
+     */
+    questionSetCreate: (
+      data: QuestionSetNodeModel,
+      params: RequestParams = {}
+    ) =>
+      this.request<QuestionSetNodeModel, any>({
+        path: `/question_set/`,
+        method: 'POST',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags question_set
+     * @name QuestionSetRetrieve
+     * @request GET:/question_set/{id}/
+     * @secure
+     */
+    questionSetRetrieve: (id: number, params: RequestParams = {}) =>
+      this.request<QuestionSetNodeModel, any>({
+        path: `/question_set/${id}/`,
+        method: 'GET',
+        secure: true,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags question_set
+     * @name QuestionSetUpdate
+     * @request PUT:/question_set/{id}/
+     * @secure
+     */
+    questionSetUpdate: (
+      id: number,
+      data: QuestionSetNodeModel,
+      params: RequestParams = {}
+    ) =>
+      this.request<QuestionSetNodeModel, any>({
+        path: `/question_set/${id}/`,
+        method: 'PUT',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags question_set
+     * @name QuestionSetPartialUpdate
+     * @request PATCH:/question_set/{id}/
+     * @secure
+     */
+    questionSetPartialUpdate: (
+      id: number,
+      data: PatchedQuestionSetNodeModel,
+      params: RequestParams = {}
+    ) =>
+      this.request<QuestionSetNodeModel, any>({
+        path: `/question_set/${id}/`,
+        method: 'PATCH',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags question_set
+     * @name QuestionSetDestroy
+     * @request DELETE:/question_set/{id}/
+     * @secure
+     */
+    questionSetDestroy: (id: number, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/question_set/${id}/`,
+        method: 'DELETE',
+        secure: true,
+        ...params,
+      }),
+  };
+  users = {
+    /**
+     * @description API endpoint that allows users to be viewed or edited.
+     *
+     * @tags users
+     * @name UsersList
+     * @request GET:/users/
+     * @secure
+     */
+    usersList: (params: RequestParams = {}) =>
+      this.request<UserModel[], any>({
+        path: `/users/`,
+        method: 'GET',
+        secure: true,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description API endpoint that allows users to be viewed or edited.
+     *
+     * @tags users
+     * @name UsersCreate
+     * @request POST:/users/
+     * @secure
+     */
+    usersCreate: (data: UserModel, params: RequestParams = {}) =>
+      this.request<UserModel, any>({
+        path: `/users/`,
+        method: 'POST',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description API endpoint that allows users to be viewed or edited.
+     *
+     * @tags users
+     * @name UsersRetrieve
+     * @request GET:/users/{id}/
+     * @secure
+     */
+    usersRetrieve: (id: number, params: RequestParams = {}) =>
+      this.request<UserModel, any>({
+        path: `/users/${id}/`,
+        method: 'GET',
+        secure: true,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description API endpoint that allows users to be viewed or edited.
+     *
+     * @tags users
+     * @name UsersUpdate
+     * @request PUT:/users/{id}/
+     * @secure
+     */
+    usersUpdate: (id: number, data: UserModel, params: RequestParams = {}) =>
+      this.request<UserModel, any>({
+        path: `/users/${id}/`,
+        method: 'PUT',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description API endpoint that allows users to be viewed or edited.
+     *
+     * @tags users
+     * @name UsersPartialUpdate
+     * @request PATCH:/users/{id}/
+     * @secure
+     */
+    usersPartialUpdate: (
+      id: number,
+      data: PatchedUserModel,
+      params: RequestParams = {}
+    ) =>
+      this.request<UserModel, any>({
+        path: `/users/${id}/`,
+        method: 'PATCH',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description API endpoint that allows users to be viewed or edited.
+     *
+     * @tags users
+     * @name UsersDestroy
+     * @request DELETE:/users/{id}/
+     * @secure
+     */
+    usersDestroy: (id: number, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/users/${id}/`,
+        method: 'DELETE',
+        secure: true,
         ...params,
       }),
   };
