@@ -47,7 +47,7 @@ const Nav = withRouter(({ history }) => {
             <Link to="/problems">
               习题集
               <Typography.Text type="danger">
-                <sup>beta</sup>
+                <sup>alpha</sup>
               </Typography.Text>
             </Link>
           </Menu.Item>
