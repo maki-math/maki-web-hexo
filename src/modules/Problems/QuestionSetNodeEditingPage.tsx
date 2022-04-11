@@ -20,9 +20,10 @@ export function QuestionSetNodeEditingPage({ questionNodeId }: Props) {
 
   return (
     <StandardPageLayout title="习题集详情">
-      {/* TODO 实现习题集详情展示 */}
-      id: {questionNodeId}
-      <Spin spinning={loading}>{JSON.stringify(dataSource)}</Spin>
+      开发中
+      {/* TODO 实现习题集详情展示。请求数据的使用例如下 */}
+      {/* id: {questionNodeId}
+      <Spin spinning={loading}>{JSON.stringify(dataSource)}</Spin> */}
     </StandardPageLayout>
   );
 }
