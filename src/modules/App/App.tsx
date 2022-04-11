@@ -43,8 +43,8 @@ const Nav = withRouter(({ history }) => {
           <Menu.Item key="/content">
             <Link to="/content">文章</Link>
           </Menu.Item>
-          <Menu.Item key="/problems">
-            <Link to="/problems">
+          <Menu.Item key="/questions">
+            <Link to="/questions">
               习题集
               <Typography.Text type="danger">
                 <sup>alpha</sup>
@@ -74,7 +74,7 @@ function App() {
               <Route path="/content">
                 <ArticleListPage />
               </Route>
-              <Route path="/problems">
+              <Route path="/questions">
                 <QuestionsPage />
               </Route>
               <Route path="/">

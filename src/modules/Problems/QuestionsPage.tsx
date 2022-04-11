@@ -20,7 +20,7 @@ export function QuestionList() {
       key: 'title',
       render: (title: string, row: QuestionModel) => {
         const path = {
-          pathname: '/problems/' + row.id,
+          pathname: '/questions/' + row.id,
           state: { title: title },
         };
         return <Link to={path}>{title}</Link>;
@@ -65,7 +65,7 @@ export function QuestionSetList() {
       key: 'label',
       render: (label: string, row: QuestionSetNodeModel) => {
         const path = {
-          pathname: '/problems/sets/' + row.id,
+          pathname: '/questions/sets/' + row.id,
         };
         return <Link to={path}>{label}</Link>;
       },
@@ -86,14 +86,14 @@ export function QuestionSetList() {
 export const QuestionsPage: FC<unknown> = () => {
   return (
     <Switch>
-      <Route path="/problems" exact>
+      <Route path="/questions" exact>
         <StandardPageLayout
           title="题目列表"
-          subTitle={<Link to="/problems/sets">查看习题集列表</Link>}
+          subTitle={<Link to="/questions/sets">查看习题集列表</Link>}
         >
           <Row gutter={[8, 8]}>
             <Col span={24}>
-              <Link to="/problems/edit">
+              <Link to="/questions/edit">
                 <Button type="primary">添加题目</Button>
               </Link>
             </Col>
@@ -103,20 +103,20 @@ export const QuestionsPage: FC<unknown> = () => {
           </Row>
         </StandardPageLayout>
       </Route>
-      <Route path="/problems/edit">
+      <Route path="/questions/edit">
         <QuestionEditingPage></QuestionEditingPage>
       </Route>
-      <Route path="/problems/sets">
-        <Route path="/problems/sets" exact>
+      <Route path="/questions/sets">
+        <Route path="/questions/sets" exact>
           <StandardPageLayout
             title="习题集列表"
-            subTitle={<Link to="/problems">查看题目列表</Link>}
+            subTitle={<Link to="/questions">查看题目列表</Link>}
           >
             <QuestionSetList></QuestionSetList>
           </StandardPageLayout>
         </Route>
         <Route
-          path="/problems/sets/:id"
+          path="/questions/sets/:id"
           render={(props) => {
             return (
               <QuestionSetNodeEditingPage
@@ -127,7 +127,7 @@ export const QuestionsPage: FC<unknown> = () => {
         ></Route>
       </Route>
       <Route
-        path="/problems/:id"
+        path="/questions/:id"
         render={(props) => {
           return (
             <StandardPageLayout title="题目内容">
