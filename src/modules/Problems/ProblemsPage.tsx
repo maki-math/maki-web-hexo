@@ -8,6 +8,7 @@ import { Content } from 'antd/lib/layout/layout';
 import { default as React, FC } from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
 import { ProblemEditingPage } from './ProblemEditingPage';
+import { QuestionSetNodeEditingPage } from './QuestionSetNodeEditingPage';
 
 export function QuestionList() {
   const { data, loading } = useRequest(api.question.questionList);
@@ -94,30 +95,38 @@ export const ProblemsPage: FC<unknown> = () => {
           <Link to="/problems/edit">
             <Button type="primary">添加题目</Button>
           </Link>
-          <Content>
-            <QuestionList></QuestionList>
-          </Content>
+          <QuestionList></QuestionList>
         </StandardPageLayout>
       </Route>
       <Route path="/problems/edit">
         <ProblemEditingPage></ProblemEditingPage>
       </Route>
       <Route path="/problems/sets">
-        <StandardPageLayout
-          title="习题集列表"
-          subTitle={<Link to="/problems">查看题目列表</Link>}
-        >
-          <Content>
+        <Route path="/problems/sets" exact>
+          <StandardPageLayout
+            title="习题集列表"
+            subTitle={<Link to="/problems">查看题目列表</Link>}
+          >
             <QuestionSetList></QuestionSetList>
-          </Content>
-        </StandardPageLayout>
+          </StandardPageLayout>
+        </Route>
+        <Route
+          path="/problems/sets/:id"
+          render={(props) => {
+            return (
+              <QuestionSetNodeEditingPage
+                questionNodeId={Number(props.match.params.id)}
+              ></QuestionSetNodeEditingPage>
+            );
+          }}
+        ></Route>
       </Route>
       <Route
         path="/problems/:id"
         render={(props) => {
           return (
             <StandardPageLayout title="题目内容">
-              <Content>id: {props.match.params.id}</Content>
+              id: {props.match.params.id}
             </StandardPageLayout>
           );
         }}
