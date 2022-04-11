@@ -14,7 +14,7 @@ import {
 import { ArticleListPage } from '../Content/ContentListPage';
 import { CourseListPage } from '../Course/Courses';
 import { HomePage } from '../Home/HomePage';
-import { QuestionsPage } from '../Problems/QuestionsPage';
+import { QuestionsPage } from '../Questions/QuestionsPage';
 import { UserLoginIndicator } from '../User/UserLoginIndicator/UserLoginIndicator';
 import { BackToHome } from './components/BackToHome';
 import Scroll2Top from './components/Scroll2Top';
