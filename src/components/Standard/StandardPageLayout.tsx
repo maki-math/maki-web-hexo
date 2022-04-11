@@ -4,8 +4,8 @@ import React from 'react';
 
 export interface Props {
   children?: React.ReactNode;
-  title?: string;
-  subTitle?: string;
+  title?: React.ReactNode;
+  subTitle?: React.ReactNode;
 }
 
 export function StandardPageLayout({ subTitle, title, children }: Props) {

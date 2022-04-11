@@ -1,12 +1,12 @@
 import { StandardPageLayout } from '@/components/Standard/StandardPageLayout';
 import { TagsDisplay } from '@/components/Standard/TagsDisplay';
-import { QuestionModel } from '@/generated-api/Api';
+import { QuestionModel, QuestionSetNodeModel } from '@/generated-api/Api';
 import { api } from '@/utils/api';
 import { useRequest } from 'ahooks';
 import { Button, Table } from 'antd';
 import { Content } from 'antd/lib/layout/layout';
 import { default as React, FC } from 'react';
-import { Link, Route } from 'react-router-dom';
+import { Link, Route, Switch } from 'react-router-dom';
 import { ProblemEditingPage } from './ProblemEditingPage';
 
 export function QuestionList() {
@@ -54,11 +54,43 @@ export function QuestionList() {
   return <Table columns={columns} dataSource={courses} loading={loading} />;
 }
 
+export function QuestionSetList() {
+  const { data, loading } = useRequest(api.questionSet.questionSetList);
+  const courses = data?.data;
+
+  const columns = [
+    {
+      title: '习题集名',
+      dataIndex: 'label',
+      key: 'label',
+      render: (label: string, row: QuestionSetNodeModel) => {
+        const path = {
+          pathname: '/problems/sets/' + row.id,
+        };
+        return <Link to={path}>{label}</Link>;
+      },
+    },
+  ];
+
+  return (
+    <Table
+      columns={columns}
+      dataSource={courses}
+      loading={loading}
+      rowKey="id"
+      expandable={{ childrenColumnName: 'N/A' }}
+    />
+  );
+}
+
 export const ProblemsPage: FC<unknown> = () => {
   return (
-    <>
+    <Switch>
       <Route path="/problems" exact>
-        <StandardPageLayout title="题目列表">
+        <StandardPageLayout
+          title="题目列表"
+          subTitle={<Link to="/problems/sets">查看习题集列表</Link>}
+        >
           <Link to="/problems/edit">
             <Button type="primary">添加题目</Button>
           </Link>
@@ -70,6 +102,16 @@ export const ProblemsPage: FC<unknown> = () => {
       <Route path="/problems/edit">
         <ProblemEditingPage></ProblemEditingPage>
       </Route>
+      <Route path="/problems/sets">
+        <StandardPageLayout
+          title="习题集列表"
+          subTitle={<Link to="/problems">查看题目列表</Link>}
+        >
+          <Content>
+            <QuestionSetList></QuestionSetList>
+          </Content>
+        </StandardPageLayout>
+      </Route>
       <Route
         path="/problems/:id"
         render={(props) => {
@@ -80,6 +122,6 @@ export const ProblemsPage: FC<unknown> = () => {
           );
         }}
       ></Route>
-    </>
+    </Switch>
   );
 };
