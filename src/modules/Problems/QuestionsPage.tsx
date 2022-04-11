@@ -3,10 +3,10 @@ import { TagsDisplay } from '@/components/Standard/TagsDisplay';
 import { QuestionModel, QuestionSetNodeModel } from '@/generated-api/Api';
 import { api } from '@/utils/api';
 import { useRequest } from 'ahooks';
-import { Button, Col, Divider, Row, Table } from 'antd';
+import { Button, Col, Row, Table } from 'antd';
 import { default as React, FC } from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
-import { ProblemEditingPage } from './ProblemEditingPage';
+import { QuestionEditingPage } from './QuestionEditingPage';
 import { QuestionSetNodeEditingPage } from './QuestionSetNodeEditingPage';
 
 export function QuestionList() {
@@ -83,7 +83,7 @@ export function QuestionSetList() {
   );
 }
 
-export const ProblemsPage: FC<unknown> = () => {
+export const QuestionsPage: FC<unknown> = () => {
   return (
     <Switch>
       <Route path="/problems" exact>
@@ -104,7 +104,7 @@ export const ProblemsPage: FC<unknown> = () => {
         </StandardPageLayout>
       </Route>
       <Route path="/problems/edit">
-        <ProblemEditingPage></ProblemEditingPage>
+        <QuestionEditingPage></QuestionEditingPage>
       </Route>
       <Route path="/problems/sets">
         <Route path="/problems/sets" exact>

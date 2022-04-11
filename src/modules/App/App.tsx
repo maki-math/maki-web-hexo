@@ -14,7 +14,7 @@ import {
 import { ArticleListPage } from '../Content/ContentListPage';
 import { CourseListPage } from '../Course/Courses';
 import { HomePage } from '../Home/HomePage';
-import { ProblemsPage } from '../Problems/ProblemsPage';
+import { QuestionsPage } from '../Problems/QuestionsPage';
 import { UserLoginIndicator } from '../User/UserLoginIndicator/UserLoginIndicator';
 import { BackToHome } from './components/BackToHome';
 import Scroll2Top from './components/Scroll2Top';
@@ -75,7 +75,7 @@ function App() {
                 <ArticleListPage />
               </Route>
               <Route path="/problems">
-                <ProblemsPage />
+                <QuestionsPage />
               </Route>
               <Route path="/">
                 <HomePage></HomePage>
