@@ -1,10 +1,11 @@
 import { CourseGalleryModel, CourseModel } from '@/generated-api/Api';
 import { api } from '@/utils/api';
 import { useRequest } from 'ahooks';
-import { Card, Col, Image, Row, Tabs, Typography } from 'antd';
+import { Card, Col, Image, Row, Tabs, Typography, Skeleton, Layout } from 'antd';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+const { Content } = Layout;
 const { Paragraph } = Typography;
 const { TabPane } = Tabs;
 
@@ -63,11 +64,11 @@ function CourseView() {
   const { data, loading } = useRequest(api.courseGallery.courseGalleryList);
   const courseGallery = data?.data ?? [];
 
-  const recommendCourseGallery = courseGallery ? courseGallery.slice(-1) : [];
-  const lastestCourseGallery = courseGallery ? courseGallery.slice(1, 2) : [];
+  const recommendCourseGallery = courseGallery?.slice(-1) ?? [];
+  const lastestCourseGallery = courseGallery?.slice(1, 2) ?? [];
 
   return (
-    <div className="course-view">
+    <Content>
       <CourseCategoryView
         courseGallery={courseGallery}
         title={'课程分类'}
@@ -80,7 +81,7 @@ function CourseView() {
         courseGallery={lastestCourseGallery}
         title={'最近更新课程'}
       ></CourseCategoryView>
-    </div>
+    </Content>
   );
 }
 
@@ -91,25 +92,26 @@ function CourseCategoryView({
   courseGallery: CourseGalleryModel[];
   title: string;
 }) {
-  const category_size = courseGallery.length;
 
   return (
     <div style={{ marginTop: '20px' }}>
-      <h1 className="h1-font-weight">{title}</h1>
-      {category_size > 1 ? (
-        <Tabs defaultActiveKey="0" type="card" size={'small'}>
-          {courseGallery.map(({ categoryAlias, courses }, index) => {
-            return (
-              <TabPane tab={categoryAlias} key={index}>
-                <SubjectView courses={courses} key={index}></SubjectView>
-              </TabPane>
-            );
-          })}
-        </Tabs>
-      ) : null}
-      {category_size === 1 ? (
-        <SubjectView courses={courseGallery[0].courses}></SubjectView>
-      ) : null}
+      <h1 className="h1-font-weight-700">{title}</h1>
+      <Skeleton title={false} paragraph={{ rows: 6 }} active loading={courseGallery.length === 0}>
+        {
+          courseGallery?.[1] ?
+            <Tabs defaultActiveKey="0" type="card" size={'small'}>
+              {courseGallery.map(({ categoryAlias, courses }, index) => {
+                return (
+                  <TabPane tab={categoryAlias} key={index}>
+                    <SubjectView courses={courses} key={index}></SubjectView>
+                  </TabPane>
+                );
+              })}
+            </Tabs>
+            :
+            <SubjectView courses={courseGallery?.[0]?.courses ?? [] }></SubjectView>
+        }
+      </Skeleton>
     </div>
   );
 }
