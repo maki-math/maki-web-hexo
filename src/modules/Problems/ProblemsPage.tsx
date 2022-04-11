@@ -3,7 +3,7 @@ import { TagsDisplay } from '@/components/Standard/TagsDisplay';
 import { QuestionModel, QuestionSetNodeModel } from '@/generated-api/Api';
 import { api } from '@/utils/api';
 import { useRequest } from 'ahooks';
-import { Button, Table } from 'antd';
+import { Button, Space, Space, Table } from 'antd';
 import { Content } from 'antd/lib/layout/layout';
 import { default as React, FC } from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
@@ -92,10 +92,12 @@ export const ProblemsPage: FC<unknown> = () => {
           title="题目列表"
           subTitle={<Link to="/problems/sets">查看习题集列表</Link>}
         >
-          <Link to="/problems/edit">
-            <Button type="primary">添加题目</Button>
-          </Link>
-          <QuestionList></QuestionList>
+          <Space direction="vertical">
+            <Link to="/problems/edit">
+              <Button type="primary">添加题目</Button>
+            </Link>
+            <QuestionList></QuestionList>
+          </Space>
         </StandardPageLayout>
       </Route>
       <Route path="/problems/edit">
