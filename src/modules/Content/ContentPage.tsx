@@ -67,10 +67,9 @@ export function ArticlePage({ id }: Props) {
   const [selectedKeys, setSelectedKeys] = useState<string[]>([String(id)]);
 
   return (
-    <div className="h-min-100vh">
-      <Layout className="h-full" style={{ padding: '24px 0' }}>
-        {/* TODO: 加入sider */}
-        {/* <Sider width={200}>
+    <Layout className="h-full" style={{ padding: '24px 0' }}>
+      {/* TODO: 加入sider */}
+      {/* <Sider width={200}>
           <Menu
             mode="inline"
             style={{ height: '100%' }}
@@ -84,10 +83,9 @@ export function ArticlePage({ id }: Props) {
             {renderMenu(data?.root)}
           </Menu>
         </Sider> */}
-        <Content style={{ padding: '0 24px', minHeight: 280 }}>
-          <ArticleDisplay articleId={id}></ArticleDisplay>
-        </Content>
-      </Layout>
-    </div>
+      <Content style={{ padding: '0 24px', minHeight: 280 }}>
+        <ArticleDisplay articleId={id}></ArticleDisplay>
+      </Content>
+    </Layout>
   );
 }
