@@ -43,8 +43,8 @@ const Nav = withRouter(({ history }) => {
           <Menu.Item key="/content">
             <Link to="/content">文章</Link>
           </Menu.Item>
-          <Menu.Item key="/questions">
-            <Link to="/questions">
+          <Menu.Item key="/questions/sets">
+            <Link to="/questions/sets">
               习题集
               <Typography.Text type="danger">
                 <sup>alpha</sup>
