@@ -67,7 +67,7 @@ export function ArticlePage({ id }: Props) {
   const [selectedKeys, setSelectedKeys] = useState<string[]>([String(id)]);
 
   return (
-    <div className="h-100vh">
+    <div className="h-min-100vh">
       <Layout className="h-full" style={{ padding: '24px 0' }}>
         {/* TODO: 加入sider */}
         {/* <Sider width={200}>
