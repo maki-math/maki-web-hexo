@@ -95,6 +95,7 @@ function App() {
               </Button>
             </div>
             <div>Copyright © 2020 - 2022 Maki's Lab. 保留所有权利.</div>
+            <a href="http://beian.miit.gov.cn">沪ICP备2022010774号</a>
           </Footer>
         </Layout>
       </Scroll2Top>
