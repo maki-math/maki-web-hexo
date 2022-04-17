@@ -84,7 +84,9 @@ export function CourseDetail({ course }: { course: CourseModel }) {
               <CourseContent course={course ?? {}} />
             </TabPane>
 
-            <TabPane tab="评论" key={3}></TabPane>
+            <TabPane tab="评论" key={3}>
+              暂无评论
+            </TabPane>
           </Tabs>
         </Row>
       </Content>
