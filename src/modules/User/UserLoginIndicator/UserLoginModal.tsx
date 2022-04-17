@@ -2,18 +2,21 @@ import { LoginModel } from '@/generated-api/Api';
 import { api } from '@/utils/api';
 import { setToken } from '@/utils/auth-token';
 import { useRequest } from 'ahooks';
-import { Checkbox, Form, Input, message, Modal } from 'antd';
+import { Checkbox, Form, Input, message, Modal, Row, Col } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
 import React, { useCallback } from 'react';
+import { Link } from 'react-router-dom';
 
 interface Props {
   visible?: boolean;
   onClose?: () => void;
+  onRegister?: () => void;
+  onForgottenPassword?: () => void;
 }
 
 type LoginFormData = LoginModel & { rememberMe: boolean };
 
-export function UserLoginModal({ visible, onClose }: Props) {
+export function UserLoginModal({ visible, onClose, onRegister, onForgottenPassword }: Props) {
   const getUserInfo = (data: LoginModel) => {
     return api.auth
       .createLogin(data)
@@ -42,6 +45,7 @@ export function UserLoginModal({ visible, onClose }: Props) {
       title="登录"
       afterClose={resetForm}
       confirmLoading={loading}
+      className="login-modal"
     >
       <Form
         name="basic"
@@ -67,12 +71,27 @@ export function UserLoginModal({ visible, onClose }: Props) {
           <Input.Password />
         </Form.Item>
 
-        <Form.Item
-          name="remember"
-          valuePropName="checked"
-          wrapperCol={{ offset: 6, span: 16 }}
-        >
-          <Checkbox>记住我</Checkbox>
+        <Form.Item wrapperCol={{ offset: 6, span: 16 }}>
+          <Row justify="space-between">
+            <Col span={6}>
+              <Form.Item
+                name="remember"
+                valuePropName="checked"
+              >
+                <Checkbox>记住我</Checkbox>
+              </Form.Item>
+            </Col>
+            <Col span={5}>
+              <Form.Item>
+                <Link to={{}} onClick={ onForgottenPassword }>忘记密码</Link>
+              </Form.Item>
+            </Col>
+            <Col span={5.5}>
+              <Form.Item>
+                <Link to={{}} onClick={ onRegister }>立即注册</Link>
+              </Form.Item>
+            </Col>
+          </Row>
         </Form.Item>
       </Form>
     </Modal>

@@ -4,6 +4,7 @@ import { useRequest } from 'ahooks';
 import { Button } from 'antd';
 import React, { useCallback, useState } from 'react';
 import { UserLoginModal } from './UserLoginModal';
+import { UserRegisterModal } from './UserRegisterModal';
 
 const logoutRequest = () => {
   return api.auth.authLogoutCreate({}).then(() => {
@@ -28,6 +29,8 @@ export function UserLoginIndicator() {
   const loading = detailLoading || logoutLoading;
 
   const [isLoginModalVisible, setIsLoginModalVisible] = useState(false);
+  const [isRegisterModalVisible, setIsRegisterModalVisible] = useState(false);
+  const [isForgottenPasswordModalVisible, setIsForgottenPasswordModalVisible] = useState(false);
 
   const handleClickLogin = useCallback(() => {
     setIsLoginModalVisible(true);
@@ -56,7 +59,23 @@ export function UserLoginIndicator() {
       <UserLoginModal
         visible={isLoginModalVisible}
         onClose={() => setIsLoginModalVisible(false)}
+        onRegister={() => {
+          setIsLoginModalVisible(false);
+          setIsRegisterModalVisible(true);
+        }}
+        onForgottenPassword={() => {
+          setIsLoginModalVisible(false);
+          setIsForgottenPasswordModalVisible(true);
+        }}
       ></UserLoginModal>
+      <UserRegisterModal
+        visible={isRegisterModalVisible}
+        onClose={() => setIsRegisterModalVisible(false)}
+        onLogin={() => {
+          setIsLoginModalVisible(true);
+          setIsRegisterModalVisible(false);
+        }}
+      ></UserRegisterModal>
     </>
   );
 }
