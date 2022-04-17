@@ -43,8 +43,8 @@ const Nav = withRouter(({ history }) => {
           <Menu.Item key="/content">
             <Link to="/content">文章</Link>
           </Menu.Item>
-          <Menu.Item key="/questions">
-            <Link to="/questions">
+          <Menu.Item key="/questions/sets">
+            <Link to="/questions/sets">
               习题集
               <Typography.Text type="danger">
                 <sup>alpha</sup>
@@ -95,6 +95,7 @@ function App() {
               </Button>
             </div>
             <div>Copyright © 2020 - 2022 Maki's Lab. 保留所有权利.</div>
+            <a href="http://beian.miit.gov.cn">沪ICP备2022010774号</a>
           </Footer>
         </Layout>
       </Scroll2Top>
