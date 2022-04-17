@@ -23,11 +23,11 @@ export function CourseContent({ course }: Props) {
 
   return (
     <Tree
-      style={{ background: '#f0f2f5' }}
+      style={{ minWidth: '600px' }}
       blockNode
       onSelect={onSelect}
-      defaultExpandAll={false}
-      treeData={course.contents}
+      defaultExpandAll={true}
+      treeData={[ course.contents??{} ]}
     />
   );
 }

@@ -1,5 +1,6 @@
 import { StandardPageLayout } from '@/components/Standard/StandardPageLayout';
 import { CourseCategoryModel, CourseModel } from '@/generated-api/Api';
+import { CourseDetailPage } from './CourseDetail'
 import { api } from '@/utils/api';
 import { useRequest } from 'ahooks';
 import { Table } from 'antd';
@@ -49,8 +50,8 @@ export function CourseListPage() {
         path={`${url}/:id`}
         render={({ match }) => {
           return (
-            <StandardPageLayout title="课程内容">
-              {match.params.id}
+            <StandardPageLayout>
+              <CourseDetailPage id={match.params.id} />              
             </StandardPageLayout>
           );
         }}
