@@ -11,10 +11,9 @@ export function CourseContent({ course }: Props) {
   const history = useHistory();
 
   const onSelect = (selectedKeys: React.Key[], e: any) => {
-    const articleId = e.node.articleId;
+    const articleId = e.node.id;
     const path = {
-      pathname: '/content',
-      state: { course: course, articleId: articleId },
+      pathname: `/content/${articleId}`,
     };
     history.push(path);
   };
@@ -27,7 +26,9 @@ export function CourseContent({ course }: Props) {
       blockNode
       onSelect={onSelect}
       defaultExpandAll={true}
-      treeData={[ course.contents??{} ]}
+      // @ts-expect-error antd不支持根据fieldNames推导treeData可拥有的类型。它要求有key字段
+      treeData={[course.contents]}
+      fieldNames={{ title: 'label', key: 'id' }}
     />
   );
 }
