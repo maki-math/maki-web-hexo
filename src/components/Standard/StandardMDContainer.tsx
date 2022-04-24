@@ -8,7 +8,13 @@ export const StandardMDContainer = ({ text }: { text?: string }) => {
 
   React.useEffect(() => {
     if (isNotNil(text) && ref.current) {
-      Vditor.preview(ref.current, text);
+      Vditor.preview(ref.current, text, {
+      	math: {
+          engine: 'MathJax'
+      	},
+        after: () => window?.MathJax?.loader?.ready?.()
+          ?.then( () => window.MathJax.typeset([document.body]) )
+      });
     }
   }, [ref.current]);
 
