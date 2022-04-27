@@ -131,9 +131,7 @@ export const QuestionsPage: FC<unknown> = () => {
         path="/questions/:id"
         render={(props) => {
           return (
-            <StandardPageLayout title="题目详情">
-              <QuestionDetailPage id={props.match.params.id} ></QuestionDetailPage>
-            </StandardPageLayout>
+            <QuestionDetailPage id={props.match.params.id} ></QuestionDetailPage>
           );
         }}
       ></Route>
