@@ -8,10 +8,11 @@ import { default as React, FC } from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
 import { QuestionEditingPage } from './QuestionEditingPage';
 import { QuestionSetNodeEditingPage } from './QuestionSetNodeEditingPage';
+import { QuestionDetailPage } from './QuestionDetailPage';
 
 export function QuestionList() {
   const { data, loading } = useRequest(api.question.questionList);
-  const courses = data?.data;
+  const questions = data?.data;
 
   const columns = [
     {
@@ -51,12 +52,12 @@ export function QuestionList() {
     },
   ];
 
-  return <Table columns={columns} dataSource={courses} loading={loading} />;
+  return <Table columns={columns} dataSource={questions} loading={loading} />;
 }
 
 export function QuestionSetList() {
   const { data, loading } = useRequest(api.questionSet.questionSetList);
-  const courses = data?.data;
+  const questionSet = data?.data;
 
   const columns = [
     {
@@ -75,7 +76,7 @@ export function QuestionSetList() {
   return (
     <Table
       columns={columns}
-      dataSource={courses}
+      dataSource={questionSet}
       loading={loading}
       rowKey="id"
       expandable={{ childrenColumnName: 'N/A' }}
@@ -130,9 +131,7 @@ export const QuestionsPage: FC<unknown> = () => {
         path="/questions/:id"
         render={(props) => {
           return (
-            <StandardPageLayout title="题目内容">
-              id: {props.match.params.id}
-            </StandardPageLayout>
+            <QuestionDetailPage id={props.match.params.id} ></QuestionDetailPage>
           );
         }}
       ></Route>
