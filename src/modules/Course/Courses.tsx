@@ -50,7 +50,7 @@ export function CourseListPage() {
         path={`${url}/:id`}
         render={({ match }) => {
           return (
-            <StandardPageLayout>
+            <StandardPageLayout title="课程详情">
               <CourseDetailPage id={match.params.id} />              
             </StandardPageLayout>
           );

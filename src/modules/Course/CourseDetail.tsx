@@ -30,19 +30,6 @@ export function CourseDetail({ course }: { course: CourseModel }) {
     <>
       <Content>
         <Row>
-          <Breadcrumb>
-            <Breadcrumb.Item>
-              <Link to={{ pathname: '/courses' }}>
-                {course?.category?.[0]?.alias}
-              </Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>{course.title}</Breadcrumb.Item>
-          </Breadcrumb>
-        </Row>
-
-        <p></p>
-
-        <Row>
           <Space size={50} align={'start'}>
             <Col className="course-detail-header">
               <Image
