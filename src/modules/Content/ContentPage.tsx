@@ -65,27 +65,41 @@ export function ArticlePage({ id }: Props) {
   );
 
   const [selectedKeys, setSelectedKeys] = useState<string[]>([String(id)]);
-
   return (
-    <Layout className="h-full" style={{ padding: '24px 0' }}>
-      {/* TODO: 加入sider */}
-      {/* <Sider width={200}>
-          <Menu
-            mode="inline"
-            style={{ height: '100%' }}
-            selectedKeys={selectedKeys}
-            onSelect={({ key, keyPath }) => {
-              setSelectedKeys([key]);
-              const targetContentNode = findInTreeById(data?.root!, key);
-              console.log(keyPath);
-            }}
-          >
-            {renderMenu(data?.root)}
-          </Menu>
-        </Sider> */}
-      <Content style={{ padding: '0 24px', minHeight: 280 }}>
-        <ArticleDisplay articleId={id}></ArticleDisplay>
-      </Content>
+    <Layout hasSider>
+      <Sider 
+        style={{ 
+          width: 200,
+          overflow: 'auto',
+          position: 'fixed',
+          left: 0,
+          top: 88,
+          bottom: 0
+        }}
+      >
+        <Menu
+          mode="inline"
+          style={{ height: '100%'}}
+          selectedKeys={selectedKeys}
+          onSelect={({ key, keyPath }) => {
+            setSelectedKeys([key]);
+            const targetContentNode = findInTreeById(data?.root!, key);
+            // console.log(keyPath);
+            // console.log(targetContentNode)
+          }}
+        >
+          {
+            <SubMenu key={String(data?.root?.id)} title={<span>{data?.root?.label}</span>}>
+              {renderMenu(data?.root)}
+            </SubMenu>
+          }
+        </Menu>
+      </Sider>
+      <Layout className="h-full" style={{ padding: '24px 0', marginLeft: 150 }}>
+        <Content style={{ padding: '0 24px', minHeight: 280 }}>
+          <ArticleDisplay articleId={id}></ArticleDisplay>
+        </Content>
+      </Layout>
     </Layout>
   );
 }
