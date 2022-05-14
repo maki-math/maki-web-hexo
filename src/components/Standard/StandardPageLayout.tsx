@@ -10,7 +10,7 @@ export interface Props {
 
 export function StandardPageLayout({ subTitle, title, children }: Props) {
   return (
-    <div className="h-100vh">
+    <div className="min-h-100vh">
       <Layout className="h-full" style={{ padding: '24px 0' }}>
         <Content style={{ padding: '0 24px', minHeight: 280 }}>
           <PageHeader
