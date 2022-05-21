@@ -1,7 +1,8 @@
 import { api } from '@/utils/api';
 import { getToken, setToken } from '@/utils/auth-token';
+import { DownOutlined, SmileOutlined } from '@ant-design/icons';
 import { useRequest } from 'ahooks';
-import { Button } from 'antd';
+import { Button, Dropdown, Menu, Space } from 'antd';
 import React, { useCallback, useState } from 'react';
 import { UserLoginModal } from './UserLoginModal';
 import { UserRegisterModal } from './UserRegisterModal';
@@ -30,7 +31,10 @@ export function UserLoginIndicator() {
 
   const [isLoginModalVisible, setIsLoginModalVisible] = useState(false);
   const [isRegisterModalVisible, setIsRegisterModalVisible] = useState(false);
-  const [isForgottenPasswordModalVisible, setIsForgottenPasswordModalVisible] = useState(false);
+  const [
+    isForgottenPasswordModalVisible,
+    setIsForgottenPasswordModalVisible,
+  ] = useState(false);
 
   const handleClickLogin = useCallback(() => {
     setIsLoginModalVisible(true);
@@ -40,12 +44,23 @@ export function UserLoginIndicator() {
     logout();
   }, [logout]);
 
+  const menu = (
+    <Menu>
+      <Menu.Item danger onClick={handleClickLogout}>
+        退出
+      </Menu.Item>
+    </Menu>
+  );
+
   return (
     <>
       {isLoggedIn ? (
-        <Button onClick={handleClickLogout} loading={loading}>
-          退出：{username}
-        </Button>
+        <Dropdown overlay={menu} arrow>
+          <Space>
+            {username}
+            <DownOutlined />
+          </Space>
+        </Dropdown>
       ) : (
         <Button
           type="primary"

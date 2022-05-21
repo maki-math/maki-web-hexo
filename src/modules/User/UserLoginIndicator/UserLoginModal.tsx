@@ -16,10 +16,15 @@ interface Props {
 
 type LoginFormData = LoginModel & { rememberMe: boolean };
 
-export function UserLoginModal({ visible, onClose, onRegister, onForgottenPassword }: Props) {
+export function UserLoginModal({
+  visible,
+  onClose,
+  onRegister,
+  onForgottenPassword,
+}: Props) {
   const getUserInfo = (data: LoginModel) => {
     return api.auth
-      .createLogin(data)
+      .authLoginCreate(data)
       .then((res) => {
         setToken(res.data.key);
         onClose?.();
@@ -74,21 +79,22 @@ export function UserLoginModal({ visible, onClose, onRegister, onForgottenPasswo
         <Form.Item wrapperCol={{ offset: 6, span: 16 }}>
           <Row justify="space-between">
             <Col span={6}>
-              <Form.Item
-                name="remember"
-                valuePropName="checked"
-              >
+              <Form.Item name="remember" valuePropName="checked">
                 <Checkbox>记住我</Checkbox>
               </Form.Item>
             </Col>
             <Col span={5}>
               <Form.Item>
-                <Link to={{}} onClick={ onForgottenPassword }>忘记密码</Link>
+                <Link to={{}} onClick={onForgottenPassword}>
+                  忘记密码
+                </Link>
               </Form.Item>
             </Col>
             <Col span={5.5}>
               <Form.Item>
-                <Link to={{}} onClick={ onRegister }>立即注册</Link>
+                <Link to={{}} onClick={onRegister}>
+                  立即注册
+                </Link>
               </Form.Item>
             </Col>
           </Row>
