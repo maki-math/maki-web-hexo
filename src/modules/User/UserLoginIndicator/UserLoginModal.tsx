@@ -83,13 +83,13 @@ export function UserLoginModal({
                 <Checkbox>记住我</Checkbox>
               </Form.Item>
             </Col>
-            <Col span={5}>
+            {/* <Col span={5}>
               <Form.Item>
                 <Link to={{}} onClick={onForgottenPassword}>
                   忘记密码
                 </Link>
               </Form.Item>
-            </Col>
+            </Col> */}
             <Col span={5.5}>
               <Form.Item>
                 <Link to={{}} onClick={onRegister}>
