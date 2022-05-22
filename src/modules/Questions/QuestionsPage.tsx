@@ -9,6 +9,7 @@ import { Link, Route, Switch } from 'react-router-dom';
 import { QuestionEditingPage } from './QuestionEditingPage';
 import { QuestionSetNodeEditingPage } from './QuestionSetNodeEditingPage';
 import { QuestionDetailPage } from './QuestionDetailPage';
+import moment from 'moment';
 
 export function QuestionList() {
   const { data, loading } = useRequest(api.question.questionList);
@@ -44,12 +45,33 @@ export function QuestionList() {
       title: '创建时间',
       dataIndex: 'created_at',
       key: 'created_at',
+      render: (date: string) => {
+        return <span>{moment(date).format('YYYY-MM-DD')}</span>
+      },
     },
     {
       title: '更新时间',
       dataIndex: 'updated_at',
       key: 'updated_at',
+      render: (date: string) => {
+        return <span>{moment(date).format('YYYY-MM-DD')}</span>
+      },
     },
+    {
+      title: '操作',
+      dataIndex: 'id',
+      key: 'id',
+      render: (id: number) => {
+        const path = {
+          pathname: '/questions/edit/' + id,
+        };
+        return <>
+          <Link to={path}>编辑</Link>
+          &nbsp;&nbsp;
+          <Link>删除</Link>
+        </>;
+      },
+    }
   ];
 
   return <Table columns={columns} dataSource={questions} loading={loading} />;
@@ -104,9 +126,17 @@ export const QuestionsPage: FC<unknown> = () => {
           </Row>
         </StandardPageLayout>
       </Route>
-      <Route path="/questions/edit">
-        <QuestionEditingPage></QuestionEditingPage>
+      <Route path="/questions/edit" exact>
+        <QuestionEditingPage id={0}></QuestionEditingPage>
       </Route>
+      <Route
+        path="/questions/edit/:id"
+        render={(props) => {
+          return (
+            <QuestionEditingPage id={Number(props.match.params.id)} ></QuestionEditingPage>
+          );
+        }}
+      ></Route>
       <Route path="/questions/sets">
         <Route path="/questions/sets" exact>
           <StandardPageLayout

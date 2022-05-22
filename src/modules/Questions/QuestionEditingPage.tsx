@@ -1,137 +1,133 @@
 import { StandardPageLayout } from '@/components/Standard/StandardPageLayout';
-import React, { useState, useEffect } from 'react';
-import 'vditor/dist/index.css';
-import Vditor from 'vditor';
+import { VditorEditor } from '@/components/Standard/StandardVditorEditor';
+import React, { useState } from 'react';
 import { useRequest } from 'ahooks';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, message, Skeleton } from 'antd';
 import { QuestionModel } from '@/generated-api/Api';
 import { api } from '@/utils/api';
+import { useForm } from 'antd/lib/form/Form';
+import { useHistory } from 'react-router-dom';
+import { mathFormat } from '@/components/Standard/StandardMDContainer';
 
-export const QuestionEditingPage = () => {
-  const [qs, setQs] = useState({
-    id: 0,
-    title: ' ',
-    tags: ' ',
-    author: ' ',
-    description: ' ',
-    solution: ' ',
-    analysis: ' ',
-    created_at: ' ',
-    updated_at: ' ',
-  });
+function QuestionEditing({ question }: { question: QuestionModel }) {
+  const question_keys_alias = [
+    { name: 'title', alias: '标题' }, 
+    { name: 'author', alias: '作者' }, 
+    { name: 'tags', alias: '标签' }, 
+    { name: 'description', alias: '问题' }, 
+    { name: 'solution', alias: '答案' }, 
+    { name: 'analysis', alias: '分析' }, 
+  ]
+  const question_id = question.id;
+  const history = useHistory();
 
-  // description
-  const [vd_description, setDescription] = useState<Vditor>();
-  useEffect(() => {
-    const vditor = new Vditor('vditor', {
-      after: () => {
-        vditor.setValue(' 在此处输入题目内容');
-        setDescription(vditor);
-      },
-      mode: 'ir',
-      height: 360,
-      input: (md) => {
-        qs.description = md;
-      },
-    });
-  }, []);
-
-  // solution
-  const [vd_solution, setSolution] = useState<Vditor>();
-  useEffect(() => {
-    const vd_solu = new Vditor('vd_solu', {
-      after: () => {
-        vd_solu.setValue(' 答案');
-        setSolution(vd_solu);
-      },
-      mode: 'ir',
-      height: 200,
-      input: (md) => {
-        qs.solution = md;
-      },
-    });
-  }, []);
-
-  // analysis
-  const [vd_analysis, setAnalysis] = useState<Vditor>();
-  useEffect(() => {
-    const vd_analy = new Vditor('vd_analy', {
-      after: () => {
-        vd_analy.setValue(' 解析');
-        setAnalysis(vd_analy);
-      },
-      mode: 'ir',
-      height: 200,
-      input: (md) => {
-        qs.analysis = md;
-      },
-    });
-  }, []);
+  const beforeUpload = (question: QuestionModel) => {
+    for( let item of question_keys_alias ) {
+      if( question[item.name] === '') {
+        message.error(item.alias + '不能为空!');
+        return;
+      }
+    }
+    run(question);
+  }
 
   const uploadQuestion = (question: QuestionModel) => {
-    // alert('正在上传：'+question.description +  question.solution);
-    //待修复
-    api.question.questionCreate(question);
+    ( question_id ? api.question.questionUpdate(question_id, question)
+                  : api.question.questionCreate(question)
+    ).then( (res) => {
+      const path = {
+        pathname: `/questions/${res.data.id}`,
+      }
+      history.push(path);
+    })
+    .catch( (err) => {
+      message.error('上传失败, 请稍后重试.');
+    })
   };
+  const { loading, run } = useRequest(uploadQuestion, { manual: true});
 
-  const { loading, run } = useRequest(
-    () => {
-      uploadQuestion(qs);
-    },
-    {
-      manual: true,
-    }
-  );
-
-  // 监听表单输入变化
-  const changeTitle = (e) => {
-    qs.title = e.target.value;
-  };
-
-  const changeTags = (e) => {
-    qs.tags = e.target.value;
-  };
-
-  const changeId = (e) => {
-    qs.id = e.target.value;
-  };
-
-  const changeAuthor = (e) => {
-    qs.author = e.target.value;
-  };
+  type QuestionFormData = QuestionModel;
+  const [form] = useForm<QuestionFormData>();
 
   return (
     <StandardPageLayout title="题目编辑">
-      {/* title id auth tags */}
-      <Form>
-        <Form.Item name="title" label="标题" rules={[{ required: true }]}>
-          <Input onChange={changeTitle} />
-        </Form.Item>
-        <Form.Item name="id" label="题目编号" rules={[{ required: true }]}>
-          <Input onChange={changeId} />
-        </Form.Item>
-        <Form.Item name="author" label="作者" rules={[{ required: true }]}>
-          <Input onChange={changeAuthor} />
-        </Form.Item>
-        <Form.Item name="tags" label="关键词" rules={[{ required: true }]}>
-          <Input onChange={changeTags} />
+      <Form 
+        initialValues={question}
+        form={form}
+        onFinish={(values) => beforeUpload(values)}
+      >
+        {
+          question_keys_alias.slice(0, 3).map( (item, index) => 
+            <Form.Item name={item.name} label={item.alias} key={index}>
+              <Input />
+            </Form.Item>
+          )
+        } {
+          question_keys_alias.slice(3).map( (item, index) => 
+            <Form.Item name={item.name} label={item.alias} key={index} hidden>
+              <Input />
+            </Form.Item>
+          )
+        } {
+          question_keys_alias.slice(3).map( (item, index) => 
+            <Form.Item label={item.alias} key={index}>
+              {
+                VditorEditor({
+                  id: 'vditor' + item.name,
+                  after: (vditor) => {
+                    const md = mathFormat(question[item.name]);
+                    vditor.setValue(md);
+                  }, 
+                  input: (md) => {
+                    const field = {};
+                    field[item.name] = md;
+                    form.setFieldsValue(field);
+                  }
+                })
+              }
+            </Form.Item>
+          )
+        }
+
+        <Form.Item wrapperCol={{ offset: 12, span: 24 }}>
+          <Button type="primary" htmlType="submit" disabled={loading}>
+            {loading ? '上传中' : '上传'}
+          </Button>
         </Form.Item>
       </Form>
-
-      {/* vditor */}
-      <div id="vditor" className="vditor" />
-      <div id="vd_solu" className="vditor" />
-      <div id="vd_analy" className="vditor" />
-
-      <Button
-        type="primary"
-        disabled={loading}
-        onClick={() => {
-          run(qs);
-        }}
-      >
-        {loading ? '上传中' : '上传'}
-      </Button>
     </StandardPageLayout>
   );
+}
+
+export const QuestionEditingPage = ({ id }: { id: string }) => {
+  let question;
+  if( id > 0 ) {
+    const { data, loading } = useRequest(
+      () => {
+        return api.question.questionRetrieve(id);
+      },
+      { refreshDeps: [id] }
+    );
+    question = data?.data;
+  } else {
+    question = {
+      title: '',
+      tags: '',
+      author: '',
+      description: '',
+      solution: '',
+      analysis: ''
+    }
+  }
+  return (
+    <Skeleton
+      avatar
+      active
+      title={false}
+      paragraph={{ rows: 18 }}
+      loading={ !question }
+    >
+      <QuestionEditing question={question} />
+    </Skeleton>
+  )
 };
