@@ -7,6 +7,8 @@ import { Form, Input, Button } from 'antd';
 import { QuestionModel } from '@/generated-api/Api';
 import { api } from '@/utils/api';
 
+export const VditorCDN = 'https://beta.maki-math.com/static/vditor@3.8.13'
+
 export const QuestionEditingPage = () => {
   const [qs, setQs] = useState({
     id: 0,
@@ -33,6 +35,7 @@ export const QuestionEditingPage = () => {
       input: (md) => {
         qs.description = md;
       },
+      cdn: VditorCDN
     });
   }, []);
 
@@ -49,6 +52,7 @@ export const QuestionEditingPage = () => {
       input: (md) => {
         qs.solution = md;
       },
+      cdn: VditorCDN
     });
   }, []);
 
@@ -65,6 +69,7 @@ export const QuestionEditingPage = () => {
       input: (md) => {
         qs.analysis = md;
       },
+      cdn: VditorCDN
     });
   }, []);
 
