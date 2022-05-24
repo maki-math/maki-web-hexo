@@ -1,3 +1,4 @@
+import { VditorCDN } from '@/modules/Questions/QuestionEditingPage';
 import { isNotNil } from '@/utils/types';
 import React, { useRef } from 'react';
 import Vditor from 'vditor';
@@ -24,7 +25,8 @@ export const StandardMDContainer = ({ text }: { text?: string }) => {
       Vditor.preview(ref.current, text, {
         math: {
           engine: "MathJax"
-        }
+        },
+        cdn: VditorCDN
       });
     }
   }, [ref.current]);
