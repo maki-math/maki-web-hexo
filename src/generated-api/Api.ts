@@ -267,6 +267,20 @@ export interface QuestionSetNodeModel {
   id: number;
 }
 
+export interface RegisterModel {
+  username: string;
+
+  /** @format email */
+  email?: string;
+  password1: string;
+  password2: string;
+}
+
+export interface ResendEmailVerificationModel {
+  /** @format email */
+  email?: string;
+}
+
 export interface RestAuthDetailModel {
   detail: string;
 }
@@ -328,6 +342,10 @@ export interface UserDetailsModel {
 
   /** 姓氏 */
   last_name?: string;
+}
+
+export interface VerifyEmailModel {
+  key: string;
 }
 
 import axios, {
@@ -831,6 +849,69 @@ export class Api<
     ) =>
       this.request<RestAuthDetailModel, any>({
         path: `/auth/password/reset/confirm/`,
+        method: 'POST',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags auth
+     * @name AuthRegistrationCreate
+     * @request POST:/auth/registration/
+     * @secure
+     */
+    authRegistrationCreate: (data: RegisterModel, params: RequestParams = {}) =>
+      this.request<TokenModel, any>({
+        path: `/auth/registration/`,
+        method: 'POST',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags auth
+     * @name AuthRegistrationResendEmailCreate
+     * @request POST:/auth/registration/resend-email/
+     * @secure
+     */
+    authRegistrationResendEmailCreate: (
+      data: ResendEmailVerificationModel,
+      params: RequestParams = {}
+    ) =>
+      this.request<RestAuthDetailModel, any>({
+        path: `/auth/registration/resend-email/`,
+        method: 'POST',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags auth
+     * @name AuthRegistrationVerifyEmailCreate
+     * @request POST:/auth/registration/verify-email/
+     * @secure
+     */
+    authRegistrationVerifyEmailCreate: (
+      data: VerifyEmailModel,
+      params: RequestParams = {}
+    ) =>
+      this.request<RestAuthDetailModel, any>({
+        path: `/auth/registration/verify-email/`,
         method: 'POST',
         body: data,
         secure: true,

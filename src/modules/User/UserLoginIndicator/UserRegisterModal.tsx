@@ -2,7 +2,7 @@ import { LoginModel } from '@/generated-api/Api';
 import { api } from '@/utils/api';
 import { setToken } from '@/utils/auth-token';
 import { useRequest } from 'ahooks';
-import { Checkbox, Form, Input, message, Modal } from 'antd';
+import { Form, Input, message, Modal } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
 import React, { useCallback } from 'react';
 
@@ -16,13 +16,19 @@ type RegisterFormData = LoginModel & { rememberMe: boolean };
 export function UserRegisterModal({ visible, onClose }: Props) {
   const setUserInfo = (data: LoginModel) => {
     return api.auth
-      .createRegister(data)
+      .authRegistrationCreate({
+        username: data.username ?? '',
+        password1: data.password,
+        password2: data.password,
+        email: data.email,
+      })
       .then((res) => {
         setToken(res.data.key);
         onClose?.();
       })
       .catch((err) => {
         message.error('注册失败，请重试');
+        // TODO 根据err内容在表单中展示错误信息
       });
   };
   const { run, loading } = useRequest(setUserInfo, { manual: true });
@@ -38,17 +44,24 @@ export function UserRegisterModal({ visible, onClose }: Props) {
         return Promise.resolve();
       }
       return Promise.reject(new Error('两次输入的密码不一致'));
-    }
-  })
+    },
+  });
 
   const valid_username = () => ({
     validator(_, value) {
-      if ( !value || (value?.replace(/[\w.@+-]/g, '') === '' && value?.length <= 150) ) {
+      if (
+        !value ||
+        (value?.replace(/[\w.@+-]/g, '') === '' && value?.length <= 150)
+      ) {
         return Promise.resolve();
       }
-      return Promise.reject(new Error('用户名长度为150个字符或以下；只能包含字母、数字、特殊字符 @ . - _'));
-    }
-  })
+      return Promise.reject(
+        new Error(
+          '用户名长度为150个字符或以下；只能包含字母、数字、特殊字符 @ . - _'
+        )
+      );
+    },
+  });
 
   return (
     <Modal
@@ -80,7 +93,10 @@ export function UserRegisterModal({ visible, onClose }: Props) {
         <Form.Item
           label="邮箱"
           name="email"
-          rules={[{ type: 'email', message: '请输入正确的邮箱' }, { required: true, message: '请输入邮箱' }]}
+          rules={[
+            { type: 'email', message: '请输入正确的邮箱' },
+            { required: true, message: '请输入邮箱' },
+          ]}
         >
           <Input placeholder="请输入邮箱" autoFocus />
         </Form.Item>
@@ -96,7 +112,10 @@ export function UserRegisterModal({ visible, onClose }: Props) {
           label="确认密码"
           name="confirm-password"
           dependencies={['password']}
-          rules={[{ required: true, message: '请重新输入密码' }, valid_confirm_password ]}
+          rules={[
+            { required: true, message: '请重新输入密码' },
+            valid_confirm_password,
+          ]}
         >
           <Input.Password />
         </Form.Item>
