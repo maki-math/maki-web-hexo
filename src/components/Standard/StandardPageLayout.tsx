@@ -18,6 +18,7 @@ export function StandardPageLayout({ subTitle, title, children }: Props) {
             title={title}
             className="h-full"
             subTitle={subTitle}
+            onBack={ () => window.history.back() }
           >
             <Content>{children}</Content>
           </PageHeader>

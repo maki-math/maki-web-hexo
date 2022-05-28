@@ -24,6 +24,10 @@ const { TabPane } = Tabs;
 const { Title } = Typography;
 
 function QuestionDetail({ question }: { question: QuestionModel }) {
+  const path = {
+    pathname: '/questions/edit/' + question.id,
+  };
+
   return (
     <Layout className="h-full" style={{ padding: '24px 0' }}>
       <Content style={{ padding: '0 24px' }}>
@@ -40,6 +44,7 @@ function QuestionDetail({ question }: { question: QuestionModel }) {
                 <Col offset={1}>创建时间: {moment(question.created_at).format('YYYY-MM-DD')}</Col>
                 <Col offset={1}>创建者: {question.author}</Col>
                 <Col offset={1}>标签: {splitTagsString(question.tags).map( (tag, i) => <Tag color="blue" key={i}>{tag}</Tag>)}</Col>
+                <Col offset={1}><Link to={path}>编辑</Link></Col>
             </Row>
             <Divider />
       

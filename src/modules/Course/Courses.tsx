@@ -19,7 +19,6 @@ export function CourseList() {
       render: (title: string, row: CourseModel) => {
         const path = {
           pathname: '/courses/' + row.id,
-          state: { title: title },
         };
         return <Link to={path}>{title}</Link>;
       },
