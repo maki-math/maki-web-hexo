@@ -2,7 +2,7 @@ import { api } from '@/utils/api';
 import { getToken, setToken } from '@/utils/auth-token';
 import { DownOutlined, SmileOutlined } from '@ant-design/icons';
 import { useRequest } from 'ahooks';
-import { Button, Dropdown, Menu, Space } from 'antd';
+import { Button, Dropdown, Menu, message, Space } from 'antd';
 import React, { useCallback, useState } from 'react';
 import { UserLoginModal } from './UserLoginModal';
 import { UserRegisterModal } from './UserRegisterModal';
@@ -13,13 +13,20 @@ const logoutRequest = () => {
   });
 };
 
+const verifyLogIn = async () => {
+  const token = getToken();
+  if (!token) {
+    return undefined;
+  }
+  return api.auth.authUserRetrieve().catch((err) => {
+    setToken('');
+  });
+};
+
 export function UserLoginIndicator() {
-  const { data, loading: detailLoading, error } = useRequest(
-    api.auth.authUserRetrieve,
-    {
-      refreshDeps: [getToken()],
-    }
-  );
+  const { data, loading: detailLoading, error } = useRequest(verifyLogIn, {
+    refreshDeps: [getToken()],
+  });
   const { run: logout, loading: logoutLoading } = useRequest(logoutRequest, {
     manual: true,
   });
