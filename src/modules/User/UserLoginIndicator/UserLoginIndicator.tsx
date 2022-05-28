@@ -1,8 +1,8 @@
 import { api } from '@/utils/api';
 import { getToken, setToken } from '@/utils/auth-token';
-import { DownOutlined, SmileOutlined } from '@ant-design/icons';
+import { DownOutlined } from '@ant-design/icons';
 import { useRequest } from 'ahooks';
-import { Button, Dropdown, Menu, message, Space } from 'antd';
+import { Button, Dropdown, Menu, Space } from 'antd';
 import React, { useCallback, useState } from 'react';
 import { UserLoginModal } from './UserLoginModal';
 import { UserRegisterModal } from './UserRegisterModal';
