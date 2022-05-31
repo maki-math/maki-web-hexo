@@ -10,6 +10,7 @@ import { UserRegisterModal } from './UserRegisterModal';
 const logoutRequest = () => {
   return api.auth.authLogoutCreate({}).then(() => {
     setToken('');
+    // Todo: 退出登录以后刷新
   });
 };
 

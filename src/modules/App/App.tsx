@@ -1,7 +1,7 @@
 import { CustomLayoutHeader } from '@/components/CustomLayoutHeader/CustomLayoutHeader';
 import { GithubOutlined } from '@/components/Icon/Icon';
 import { REPOSITORY_URL } from '@/dicts/global';
-import { Button, Col, Divider, Layout, Menu, Typography } from 'antd';
+import { Button, Col, Divider, Layout, Menu, Typography, message } from 'antd';
 import 'antd/dist/antd.css';
 import React from 'react';
 import {
@@ -18,10 +18,12 @@ import { QuestionsPage } from '../Questions/QuestionsPage';
 import { UserLoginIndicator } from '../User/UserLoginIndicator/UserLoginIndicator';
 import { BackToHome } from './components/BackToHome';
 import Scroll2Top from './components/Scroll2Top';
+import { AuthModuleEnum, useAuth } from '@/utils/auth-token';
 
 const { Content, Footer } = Layout;
 
 const Nav = withRouter(({ history }) => {
+  const isAuthed = useAuth(AuthModuleEnum.QuestionPage);
   return (
     <CustomLayoutHeader style={{ position: 'sticky', top: 0, zIndex: 10 }}>
       <h2 style={{ marginRight: '10px' }}>
@@ -43,14 +45,17 @@ const Nav = withRouter(({ history }) => {
           <Menu.Item key="/content">
             <Link to="/content">文章</Link>
           </Menu.Item>
-          <Menu.Item key="/questions/sets">
-            <Link to="/questions/sets">
-              习题集
-              <Typography.Text type="danger">
-                <sup>alpha</sup>
-              </Typography.Text>
-            </Link>
-          </Menu.Item>
+          {
+            isAuthed && 
+            <Menu.Item key="/questions/sets">
+              <Link to="/questions/sets">
+                习题集
+                <Typography.Text type="danger">
+                  <sup>alpha</sup>
+                </Typography.Text>
+              </Link>
+            </Menu.Item>
+          }
         </Menu>
       </Col>
       <div>
@@ -74,9 +79,12 @@ function App() {
               <Route path="/content">
                 <ArticleListPage />
               </Route>
-              <Route path="/questions">
-                <QuestionsPage />
-              </Route>
+              {
+                hasAuth &&
+                <Route path="/questions">
+                  <QuestionsPage />
+                </Route>
+              }
               <Route path="/">
                 <HomePage></HomePage>
               </Route>
