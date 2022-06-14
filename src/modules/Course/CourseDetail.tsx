@@ -57,7 +57,7 @@ export function CourseDetail({ course }: { course: CourseModel }) {
 
         <Divider />
 
-        <Row>
+        <div>
           <Tabs defaultActiveKey="1" size={'large'}>
             <TabPane tab="详情" key={1}>
               <Typography>
@@ -75,7 +75,7 @@ export function CourseDetail({ course }: { course: CourseModel }) {
               暂无评论
             </TabPane>
           </Tabs>
-        </Row>
+        </div>
       </Content>
     </>
   );
