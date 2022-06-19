@@ -1,6 +1,6 @@
 import { LoginModel } from '@/generated-api/Api';
 import { api } from '@/utils/api';
-import { setToken } from '@/utils/auth-token';
+import { useTokenStorage } from '@/utils/auth-token';
 import { useRequest } from 'ahooks';
 import { Form, Input, message, Modal } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
@@ -14,6 +14,7 @@ interface Props {
 type RegisterFormData = LoginModel & { rememberMe: boolean };
 
 export function UserRegisterModal({ visible, onClose }: Props) {
+  const { setToken } = useTokenStorage();
   const setUserInfo = (data: LoginModel) => {
     return api.auth
       .authRegistrationCreate({

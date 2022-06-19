@@ -1,5 +1,5 @@
 import { api } from '@/utils/api';
-import { getToken, setToken } from '@/utils/auth-token';
+import { getToken, useTokenStorage } from '@/utils/auth-token';
 import { DownOutlined } from '@ant-design/icons';
 import { useRequest } from 'ahooks';
 import { Button, Dropdown, Menu, Space } from 'antd';
@@ -7,23 +7,23 @@ import React, { useCallback, useState } from 'react';
 import { UserLoginModal } from './UserLoginModal';
 import { UserRegisterModal } from './UserRegisterModal';
 
-const logoutRequest = () => {
-  return api.auth.authLogoutCreate({}).then(() => {
-    setToken('');
-  });
-};
-
-const verifyLogIn = async () => {
-  const token = getToken();
-  if (!token) {
-    return undefined;
-  }
-  return api.auth.authUserRetrieve().catch((err) => {
-    setToken('');
-  });
-};
-
 export function UserLoginIndicator() {
+  const { setToken } = useTokenStorage();
+  const logoutRequest = () => {
+    return api.auth.authLogoutCreate({}).then(() => {
+      setToken('');
+    });
+  };
+
+  const verifyLogIn = async () => {
+    const token = getToken();
+    if (!token) {
+      return undefined;
+    }
+    return api.auth.authUserRetrieve().catch((err) => {
+      setToken('');
+    });
+  };
   const { data, loading: detailLoading, error } = useRequest(verifyLogIn, {
     refreshDeps: [getToken()],
   });

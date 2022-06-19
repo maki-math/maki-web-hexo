@@ -46,7 +46,7 @@ export function QuestionList() {
       dataIndex: 'created_at',
       key: 'created_at',
       render: (date: string) => {
-        return <span>{moment(date).format('YYYY-MM-DD')}</span>
+        return <span>{moment(date).format('YYYY-MM-DD')}</span>;
       },
     },
     {
@@ -54,7 +54,7 @@ export function QuestionList() {
       dataIndex: 'updated_at',
       key: 'updated_at',
       render: (date: string) => {
-        return <span>{moment(date).format('YYYY-MM-DD')}</span>
+        return <span>{moment(date).format('YYYY-MM-DD')}</span>;
       },
     },
     {
@@ -65,13 +65,15 @@ export function QuestionList() {
         const path = {
           pathname: '/questions/edit/' + id,
         };
-        return <>
-          <Link to={path}>编辑</Link>
-          &nbsp;&nbsp;
-          <Link>删除</Link>
-        </>;
+        return (
+          <>
+            <Link to={path}>编辑</Link>
+            &nbsp;&nbsp;
+            <Link>删除</Link>
+          </>
+        );
       },
-    }
+    },
   ];
 
   return <Table columns={columns} dataSource={questions} loading={loading} />;
@@ -133,7 +135,9 @@ export const QuestionsPage: FC<unknown> = () => {
         path="/questions/edit/:id"
         render={(props) => {
           return (
-            <QuestionEditingPage id={Number(props.match.params.id)} ></QuestionEditingPage>
+            <QuestionEditingPage
+              id={Number(props.match.params.id)}
+            ></QuestionEditingPage>
           );
         }}
       ></Route>
@@ -161,7 +165,7 @@ export const QuestionsPage: FC<unknown> = () => {
         path="/questions/:id"
         render={(props) => {
           return (
-            <QuestionDetailPage id={props.match.params.id} ></QuestionDetailPage>
+            <QuestionDetailPage id={props.match.params.id}></QuestionDetailPage>
           );
         }}
       ></Route>

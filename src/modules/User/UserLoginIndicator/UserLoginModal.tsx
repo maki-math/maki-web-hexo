@@ -1,6 +1,6 @@
 import { LoginModel } from '@/generated-api/Api';
 import { api } from '@/utils/api';
-import { setToken } from '@/utils/auth-token';
+import { useTokenStorage } from '@/utils/auth-token';
 import { useRequest } from 'ahooks';
 import { Checkbox, Form, Input, message, Modal, Row, Col } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
@@ -22,6 +22,7 @@ export function UserLoginModal({
   onRegister,
   onForgottenPassword,
 }: Props) {
+  const { setToken } = useTokenStorage();
   const getUserInfo = (data: LoginModel) => {
     return api.auth
       .authLoginCreate(data)
