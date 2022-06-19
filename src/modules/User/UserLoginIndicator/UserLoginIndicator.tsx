@@ -1,38 +1,32 @@
 import { api } from '@/utils/api';
-import { getToken, useTokenStorage } from '@/utils/auth-token';
+import { getToken, useIsLoggedIn, useTokenContext } from '@/utils/auth-token';
 import { DownOutlined } from '@ant-design/icons';
 import { useRequest } from 'ahooks';
-import { Button, Dropdown, Menu, Space } from 'antd';
+import { Button, Dropdown, Menu, message, Space } from 'antd';
 import React, { useCallback, useState } from 'react';
 import { UserLoginModal } from './UserLoginModal';
 import { UserRegisterModal } from './UserRegisterModal';
 
-export function UserLoginIndicator() {
-  const { setToken } = useTokenStorage();
-  const logoutRequest = () => {
+function useLogoutAction() {
+  const { token, setToken } = useTokenContext();
+  const logoutRequest = useCallback(() => {
     return api.auth.authLogoutCreate({}).then(() => {
       setToken('');
+      message.success('登出成功');
     });
-  };
-
-  const verifyLogIn = async () => {
-    const token = getToken();
-    if (!token) {
-      return undefined;
-    }
-    return api.auth.authUserRetrieve().catch((err) => {
-      setToken('');
-    });
-  };
-  const { data, loading: detailLoading, error } = useRequest(verifyLogIn, {
-    refreshDeps: [getToken()],
-  });
-  const { run: logout, loading: logoutLoading } = useRequest(logoutRequest, {
+  }, [token, setToken]);
+  const { run: logout, loading } = useRequest(logoutRequest, {
     manual: true,
   });
+  return { logout, loading };
+}
 
-  const isLoggedIn = Boolean(data?.data) && !error;
+export function UserLoginIndicator() {
+  const { payload: data, loading: detailLoading, isLoggedIn } = useIsLoggedIn();
+
   const username = data?.data?.username;
+
+  const { logout, loading: logoutLoading } = useLogoutAction();
 
   const loading = detailLoading || logoutLoading;
 

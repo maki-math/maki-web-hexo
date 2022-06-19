@@ -1,22 +1,43 @@
-import { useLocalStorageState } from 'ahooks';
+import { useLocalStorageState, useRequest } from 'ahooks';
+import constate from 'constate';
+import { api } from './api';
 
 const StorageKeyStore = {
   Token: 'token',
 };
 
-export function useTokenStorage() {
-  const [token, setToken] = useLocalStorageState<string | undefined>(
-    StorageKeyStore.Token,
-    {
-      defaultValue: '',
-    }
-  );
-  return { token, setToken };
+function useTokenStorage() {
+  const [storedToken, setStoredToken] = useLocalStorageState<
+    string | undefined
+  >(StorageKeyStore.Token, {
+    defaultValue: '',
+  });
+  return {
+    token: storedToken,
+    setToken: setStoredToken,
+  };
 }
 
+export const [TokenProvider, useTokenContext] = constate(useTokenStorage);
+
 export const useIsLoggedIn = () => {
-  const { token } = useTokenStorage();
-  return { isLoggedIn: !!token };
+  const { token, setToken } = useTokenContext();
+  const verifyLogIn = async () => {
+    const token = getToken();
+    if (!token) {
+      return undefined;
+    }
+    return api.auth.authUserRetrieve().catch((err) => {
+      setToken('');
+    });
+  };
+
+  const { data, loading, error } = useRequest(verifyLogIn, {
+    refreshDeps: [token],
+  });
+
+  const isLoggedIn = token && Boolean(data?.data) && !error;
+  return { loading, payload: data, isLoggedIn };
 };
 
 export function getToken(): string {

@@ -1,6 +1,7 @@
 import { CustomLayoutHeader } from '@/components/CustomLayoutHeader/CustomLayoutHeader';
 import { GithubOutlined } from '@/components/Icon/Icon';
 import { REPOSITORY_URL } from '@/dicts/global';
+import { TokenProvider } from '@/utils/auth-token';
 import { Button, Col, Divider, Layout, Menu, Typography } from 'antd';
 import 'antd/dist/antd.css';
 import React from 'react';
@@ -64,40 +65,42 @@ function App() {
   return (
     <Router>
       <Scroll2Top>
-        <Layout>
-          <Nav></Nav>
-          <Content style={{ padding: '0 50px' }}>
-            <Switch>
-              <Route path="/courses">
-                <CourseListPage></CourseListPage>
-              </Route>
-              <Route path="/content">
-                <ArticleListPage />
-              </Route>
-              <Route path="/questions">
-                <QuestionsPage />
-              </Route>
-              <Route path="/">
-                <HomePage></HomePage>
-              </Route>
-            </Switch>
-          </Content>
-          <Footer style={{ textAlign: 'center' }}>
-            <Divider></Divider>
-            <div>
-              <Button
-                shape="circle"
-                type="text"
-                size="large"
-                onClick={() => window.open(REPOSITORY_URL)}
-              >
-                <GithubOutlined />
-              </Button>
-            </div>
-            <div>Copyright © 2020 - 2022 Maki's Lab. 保留所有权利.</div>
-            <a href="http://beian.miit.gov.cn">沪ICP备2022010774号</a>
-          </Footer>
-        </Layout>
+        <TokenProvider>
+          <Layout>
+            <Nav></Nav>
+            <Content style={{ padding: '0 50px' }}>
+              <Switch>
+                <Route path="/courses">
+                  <CourseListPage></CourseListPage>
+                </Route>
+                <Route path="/content">
+                  <ArticleListPage />
+                </Route>
+                <Route path="/questions">
+                  <QuestionsPage />
+                </Route>
+                <Route path="/">
+                  <HomePage></HomePage>
+                </Route>
+              </Switch>
+            </Content>
+            <Footer style={{ textAlign: 'center' }}>
+              <Divider></Divider>
+              <div>
+                <Button
+                  shape="circle"
+                  type="text"
+                  size="large"
+                  onClick={() => window.open(REPOSITORY_URL)}
+                >
+                  <GithubOutlined />
+                </Button>
+              </div>
+              <div>Copyright © 2020 - 2022 Maki's Lab. 保留所有权利.</div>
+              <a href="http://beian.miit.gov.cn">沪ICP备2022010774号</a>
+            </Footer>
+          </Layout>
+        </TokenProvider>
       </Scroll2Top>
     </Router>
   );

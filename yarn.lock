@@ -1417,6 +1417,11 @@ concat-map@0.0.1:
   resolved "https://registry.npmmirror.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
   integrity sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==
 
+constate@^3.3.2:
+  version "3.3.2"
+  resolved "https://registry.npmmirror.com/constate/-/constate-3.3.2.tgz#a6cd2f3c203da2cb863f47d22a330b833936c449"
+  integrity sha512-ZnEWiwU6QUTil41D5EGpA7pbqAPGvnR9kBjko8DzVIxpC60mdNKrP568tT5WLJPAxAOtJqJw60+h79ot/Uz1+Q==
+
 conventional-changelog-angular@^5.0.11:
   version "5.0.13"
   resolved "https://registry.npmmirror.com/conventional-changelog-angular/-/conventional-changelog-angular-5.0.13.tgz#896885d63b914a70d4934b59d2fe7bde1832b28c"
