@@ -47,3 +47,13 @@ export function getToken(): string {
     return '';
   }
 }
+
+export enum AuthModuleEnum {
+  QuestionPage = 'question_page',
+}
+
+export const useAuth = (key: AuthModuleEnum) => {
+  const { isLoggedIn } = useIsLoggedIn();
+  // TODO handle module key here
+  return isLoggedIn;
+};

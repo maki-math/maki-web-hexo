@@ -10,6 +10,7 @@ import { QuestionEditingPage } from './QuestionEditingPage';
 import { QuestionSetNodeEditingPage } from './QuestionSetNodeEditingPage';
 import { QuestionDetailPage } from './QuestionDetailPage';
 import moment from 'moment';
+import { AuthModuleEnum, useAuth, useIsLoggedIn } from '@/utils/auth-token';
 
 export function QuestionList() {
   const { data, loading } = useRequest(api.question.questionList);
@@ -109,6 +110,7 @@ export function QuestionSetList() {
 }
 
 export const QuestionsPage: FC<unknown> = () => {
+  const isAuthed = useAuth(AuthModuleEnum.QuestionPage);
   return (
     <Switch>
       <Route path="/questions" exact>
@@ -117,11 +119,13 @@ export const QuestionsPage: FC<unknown> = () => {
           subTitle={<Link to="/questions/sets">查看习题集列表</Link>}
         >
           <Row gutter={[8, 8]}>
-            <Col span={24}>
-              <Link to="/questions/edit">
-                <Button type="primary">添加题目</Button>
-              </Link>
-            </Col>
+            {isAuthed && (
+              <Col span={24}>
+                <Link to="/questions/edit">
+                  <Button type="primary">添加题目</Button>
+                </Link>
+              </Col>
+            )}
             <Col span={24}>
               <QuestionList></QuestionList>
             </Col>
