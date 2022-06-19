@@ -3,7 +3,7 @@ import { TagsDisplay } from '@/components/Standard/TagsDisplay';
 import { QuestionModel, QuestionSetNodeModel } from '@/generated-api/Api';
 import { api } from '@/utils/api';
 import { useRequest } from 'ahooks';
-import { Button, Col, Row, Table } from 'antd';
+import { Button, Col, Row, Space, Table } from 'antd';
 import { default as React, FC } from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
 import { QuestionEditingPage } from './QuestionEditingPage';
@@ -11,10 +11,13 @@ import { QuestionSetNodeEditingPage } from './QuestionSetNodeEditingPage';
 import { QuestionDetailPage } from './QuestionDetailPage';
 import moment from 'moment';
 import { AuthModuleEnum, useAuth, useIsLoggedIn } from '@/utils/auth-token';
+import { isNotNil } from '@/utils/types';
 
 export function QuestionList() {
   const { data, loading } = useRequest(api.question.questionList);
   const questions = data?.data;
+
+  const isAuthed = useAuth(AuthModuleEnum.QuestionPage);
 
   const columns = [
     {
@@ -58,24 +61,24 @@ export function QuestionList() {
         return <span>{moment(date).format('YYYY-MM-DD')}</span>;
       },
     },
-    {
-      title: '操作',
-      dataIndex: 'id',
-      key: 'id',
-      render: (id: number) => {
-        const path = {
-          pathname: '/questions/edit/' + id,
-        };
-        return (
-          <>
-            <Link to={path}>编辑</Link>
-            &nbsp;&nbsp;
-            <Link>删除</Link>
-          </>
-        );
-      },
-    },
-  ];
+    isAuthed
+      ? {
+          title: '操作',
+          dataIndex: 'id',
+          key: 'id',
+          render: (id: number) => {
+            const path = {
+              pathname: '/questions/edit/' + id,
+            };
+            return (
+              <Space>
+                <Link to={path}>编辑</Link>
+              </Space>
+            );
+          },
+        }
+      : null,
+  ].filter(isNotNil);
 
   return <Table columns={columns} dataSource={questions} loading={loading} />;
 }
