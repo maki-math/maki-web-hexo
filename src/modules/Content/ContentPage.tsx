@@ -13,10 +13,10 @@ export interface Props {
 }
 
 export const findInTreeById = (
-  root: ContentNodeModel,
-  id: number
+  root: ContentNodeModel | undefined,
+  id: number | string
 ): ContentNodeModel | undefined => {
-  if (root.id === id) {
+  if (root === undefined || String(root.id) === String(id)) {
     return root;
   }
   for (const child of root?.children ?? []) {

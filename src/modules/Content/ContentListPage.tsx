@@ -5,7 +5,7 @@ import { Table } from 'antd';
 import React from 'react';
 import { Link, Route, useRouteMatch } from 'react-router-dom';
 import { StandardPageLayout } from '../../components/Standard/StandardPageLayout';
-import { ArticleNodePage } from './ArticleNodePage';
+import { ArticleNodePage, buildArticleNodeUrl } from './ArticleNodePage';
 
 /**
  * 主要为了debug用的文章节点列表
@@ -21,7 +21,10 @@ function ArticleNodeList() {
       key: 'label',
       render: (label: string, row: ContentNodeModel) => {
         const path = {
-          pathname: `/content/${row.article.id}/articleNode/${row.id}`,
+          pathname: buildArticleNodeUrl({
+            articleId: row.article.id,
+            articleNodeId: row.id,
+          }),
         };
         return <Link to={path}>{label}</Link>;
       },
