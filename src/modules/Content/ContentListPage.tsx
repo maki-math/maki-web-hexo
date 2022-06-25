@@ -52,7 +52,7 @@ export function ArticleListPage() {
   return (
     <>
       <Route path={`${url}/`} exact>
-        <StandardPageLayout title="文章列表">
+        <StandardPageLayout title="文章列表" back={false}>
           <ArticleNodeList></ArticleNodeList>
         </StandardPageLayout>
       </Route>
