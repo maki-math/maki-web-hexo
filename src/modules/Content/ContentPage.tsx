@@ -8,11 +8,11 @@ import { ArticleDisplay } from './PostDisplay/PostDisplay';
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
 
-interface Props {
+export interface Props {
   id: number;
 }
 
-const findInTreeById = (
+export const findInTreeById = (
   root: ContentNodeModel,
   id: number
 ): ContentNodeModel | undefined => {
@@ -27,7 +27,7 @@ const findInTreeById = (
   }
 };
 
-const getArticleNodeRoot = async (articleNodeId: number) => {
+export const getArticleNodeRoot = async (articleNodeId: number) => {
   const res = await api.articleNode.articleNodeRootRetrieve(articleNodeId);
   return {
     root: res.data,
@@ -36,7 +36,7 @@ const getArticleNodeRoot = async (articleNodeId: number) => {
 };
 
 // recursively render menu
-const renderMenu = (root: ContentNodeModel | undefined) => {
+export const renderMenu = (root: ContentNodeModel | undefined) => {
   if (root) {
     return root?.children.map((child) => {
       if (child.children.length) {
@@ -67,29 +67,30 @@ export function ArticlePage({ id }: Props) {
   const [selectedKeys, setSelectedKeys] = useState<string[]>([String(id)]);
   return (
     <Layout hasSider>
-      <Sider 
-        style={{ 
+      <Sider
+        style={{
           width: 200,
           overflow: 'auto',
           position: 'fixed',
           left: 0,
           top: 88,
-          bottom: 0
+          bottom: 0,
         }}
       >
         <Menu
           mode="inline"
-          style={{ height: '100%'}}
+          style={{ height: '100%' }}
           selectedKeys={selectedKeys}
           onSelect={({ key, keyPath }) => {
             setSelectedKeys([key]);
-            const targetContentNode = findInTreeById(data?.root!, key);
-            // console.log(keyPath);
-            // console.log(targetContentNode)
+            const targetContentNode = findInTreeById(data?.root, key);
           }}
         >
           {
-            <SubMenu key={String(data?.root?.id)} title={<span>{data?.root?.label}</span>}>
+            <SubMenu
+              key={String(data?.root?.id)}
+              title={<span>{data?.root?.label}</span>}
+            >
               {renderMenu(data?.root)}
             </SubMenu>
           }
