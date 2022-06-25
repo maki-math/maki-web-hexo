@@ -42,6 +42,7 @@ function ArticleNodeList() {
       dataSource={dataList}
       loading={loading}
       rowKey="id"
+      childrenColumnName="__none__"
     />
   );
 }
