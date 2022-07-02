@@ -2,7 +2,7 @@ import { StandardPageLayout } from '@/components/Standard/StandardPageLayout';
 import { QuestionSetNodeModel, PatchedQuestionSetNodeModel } from '@/generated-api/Api';
 import { api } from '@/utils/api';
 import { useRequest } from 'ahooks';
-import { Button, Col, Row, Table, Input, Form, message, Popconfirm } from 'antd';
+import { Button, Col, Row, Table, Input, Form, message, Popconfirm, Space } from 'antd';
 import { default as React, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'antd/lib/form/Form';
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export function QuestionSetNodeEditingPage({ questionNodeId }: Props) {
-  const { data, loading } = useRequest(
+  const { data, loading, refresh } = useRequest(
     () => {
       return questionNodeId 
              ? api.questionSet.questionSetRetrieve(questionNodeId)
@@ -45,22 +45,20 @@ export function QuestionSetNodeEditingPage({ questionNodeId }: Props) {
       dataIndex: 'id',
       key: 'id',
       render: (id: number, row: QuestionSetNodeModel) => {
-        return <>
-          <a disabled={isEditing} onClick={() => renameQuestionSet(row)}>重命名</a>
-          &nbsp;&nbsp;
-          <a disabled={isEditing} onClick={() => addQuestionSet(row)}>添加</a>
-          &nbsp;&nbsp;
-          <Popconfirm
-            title="确定要删除吗?"
-            onConfirm={() => deleteQuestionSet(row)}
-            onCancel={() => {}}
-            okText="确定"
-            cancelText="取消"
-          >
-            <a disabled={isEditing} href="#">删除</a>
-          </Popconfirm>
-          
-        </>
+        return (
+          <Space>
+            <a disabled={isEditing} onClick={() => renameQuestionSet(row)}>重命名</a>
+            <a disabled={isEditing} onClick={() => addQuestionSet(row)}>添加</a>
+            <Popconfirm
+              title="确定要删除吗?"
+              onConfirm={() => deleteQuestionSet(row)}
+              onCancel={() => {}}
+              okText="确定"
+              cancelText="取消"
+            >
+              <a disabled={isEditing} href="#">删除</a>
+            </Popconfirm>
+        </Space>);
       },
     }
   ];
@@ -75,8 +73,7 @@ export function QuestionSetNodeEditingPage({ questionNodeId }: Props) {
     )
       .then((res) => {
         message.success("更新成功");
-        // To do
-        // 重新请求数据
+        refresh();
       })
       .catch((err) => {
         message.error('上传失败, 请稍后重试.');

@@ -3,7 +3,7 @@ import { TagsDisplay } from '@/components/Standard/TagsDisplay';
 import { QuestionModel } from '@/generated-api/Api';
 import { api } from '@/utils/api';
 import { useRequest } from 'ahooks';
-import { Button, Col, Row, Table, message, Popconfirm } from 'antd';
+import { Button, Col, Row, Table, message, Popconfirm, Space } from 'antd';
 import { default as React, FC } from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
 import { QuestionSetNodeEditingPage } from './QuestionSetNodeEditingPage';
@@ -12,15 +12,14 @@ import { QuestionDetailPage } from './QuestionDetailPage';
 import moment from 'moment';
 
 export function QuestionList() {
-  const { data, loading } = useRequest(api.question.questionList);
+  const { data, loading, refresh } = useRequest(api.question.questionList);
   const questions = data?.data;
 
   const deleteQuestion = (question: QuestionModel) => {
      api.question.questionDestroy(question.id)
       .then((res) => {
         message.success("删除成功");
-        // To do
-        // 重新请求数据
+        refresh();
       })
       .catch((err) => {
         message.error("删除失败, 请稍后重试.");
@@ -78,19 +77,19 @@ export function QuestionList() {
         const path = {
           pathname: '/questions/edit/' + id,
         };
-        return <>
-          <Link to={path}>编辑</Link>
-          &nbsp;&nbsp;
-          <Popconfirm
-            title="确定要删除吗?"
-            onConfirm={() => run(row)}
-            onCancel={() => {}}
-            okText="确定"
-            cancelText="取消"
-          >
-            <a href="#">删除</a>
-          </Popconfirm>
-        </>;
+        return (
+          <Space>
+            <Link to={path}>编辑</Link>
+            <Popconfirm
+              title="确定要删除吗?"
+              onConfirm={() => run(row)}
+              onCancel={() => {}}
+              okText="确定"
+              cancelText="取消"
+            >
+              <a href="#">删除</a>
+            </Popconfirm>
+        </Space>);
       },
     }
   ];

@@ -60,6 +60,7 @@ export interface GroupModel {
 
   /** 名称 */
   name: string;
+  permissions: PermissionModel[];
 }
 
 export interface LoginModel {
@@ -154,6 +155,7 @@ export interface PatchedGroupModel {
 
   /** 名称 */
   name?: string;
+  permissions?: PermissionModel[];
 }
 
 export interface PatchedQuestionModel {
@@ -202,12 +204,7 @@ export interface PatchedUserModel {
    * @format email
    */
   email?: string;
-
-  /**
-   * 组
-   * 该用户归属的组。一个用户将得到其归属的组的所有权限。
-   */
-  groups?: string[];
+  groups?: GroupModel[];
 }
 
 /**
@@ -235,6 +232,19 @@ export interface PatchedUserDetailsModel {
 
   /** 姓氏 */
   last_name?: string;
+}
+
+export interface PermissionModel {
+  id: number;
+
+  /** 名称 */
+  name: string;
+
+  /** 代码名称 */
+  codename: string;
+
+  /** 内容类型 */
+  content_type: number;
 }
 
 export interface QuestionModel {
@@ -309,12 +319,7 @@ export interface UserModel {
    * @format email
    */
   email?: string;
-
-  /**
-   * 组
-   * 该用户归属的组。一个用户将得到其归属的组的所有权限。
-   */
-  groups?: string[];
+  groups: GroupModel[];
 }
 
 /**
@@ -1575,6 +1580,24 @@ export class Api<
         path: `/question_set/${id}/`,
         method: 'DELETE',
         secure: true,
+        ...params,
+      }),
+  };
+  userPermissions = {
+    /**
+     * No description
+     *
+     * @tags user-permissions
+     * @name UserPermissionsList
+     * @request GET:/user-permissions/
+     * @secure
+     */
+    userPermissionsList: (params: RequestParams = {}) =>
+      this.request<UserModel[], any>({
+        path: `/user-permissions/`,
+        method: 'GET',
+        secure: true,
+        format: 'json',
         ...params,
       }),
   };
