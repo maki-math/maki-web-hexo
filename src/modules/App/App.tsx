@@ -19,10 +19,12 @@ import { QuestionsPage } from '../Questions/QuestionsPage';
 import { UserLoginIndicator } from '../User/UserLoginIndicator/UserLoginIndicator';
 import { BackToHome } from './components/BackToHome';
 import Scroll2Top from './components/Scroll2Top';
+import { AuthModuleEnum, useAuth } from '@/utils/auth-token';
 
 const { Content, Footer } = Layout;
 
 const Nav = withRouter(({ history }) => {
+  const isAuthed = useAuth(AuthModuleEnum.QuestionPage);
   return (
     <CustomLayoutHeader style={{ position: 'sticky', top: 0, zIndex: 10 }}>
       <h2 style={{ marginRight: '10px' }}>
@@ -44,14 +46,17 @@ const Nav = withRouter(({ history }) => {
           <Menu.Item key="/content">
             <Link to="/content">文章</Link>
           </Menu.Item>
-          <Menu.Item key="/questions/sets">
-            <Link to="/questions/sets">
-              习题集
-              <Typography.Text type="danger">
-                <sup>alpha</sup>
-              </Typography.Text>
-            </Link>
-          </Menu.Item>
+          {
+            isAuthed && 
+            <Menu.Item key="/questions/sets">
+              <Link to="/questions/sets">
+                习题集
+                <Typography.Text type="danger">
+                  <sup>alpha</sup>
+                </Typography.Text>
+              </Link>
+            </Menu.Item>
+          }
         </Menu>
       </Col>
       <div>
