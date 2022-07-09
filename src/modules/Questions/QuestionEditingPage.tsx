@@ -2,7 +2,7 @@ import { StandardPageLayout } from '@/components/Standard/StandardPageLayout';
 import { VditorEditor } from '@/components/Standard/StandardVditorEditor';
 import React, { useState } from 'react';
 import { useRequest } from 'ahooks';
-import { Form, Input, Button, message, Skeleton } from 'antd';
+import { Form, Input, Button, message, Skeleton, Col, Row, Row } from 'antd';
 import { QuestionModel } from '@/generated-api/Api';
 import { api } from '@/utils/api';
 import { useForm } from 'antd/lib/form/Form';
@@ -87,10 +87,14 @@ function QuestionEditing({ question }: { question: QuestionModel }) {
             })}
           </Form.Item>
         ))}
-        <Form.Item wrapperCol={{ offset: 12, span: 24 }}>
-          <Button type="primary" htmlType="submit" disabled={loading}>
-            {loading ? '上传中' : '上传'}
-          </Button>
+        <Form.Item>
+          <Row justify="center">
+            <Col>
+              <Button type="primary" htmlType="submit" disabled={loading}>
+                {loading ? '上传中' : '上传'}
+              </Button>
+            </Col>
+          </Row>
         </Form.Item>
       </Form>
     </StandardPageLayout>
