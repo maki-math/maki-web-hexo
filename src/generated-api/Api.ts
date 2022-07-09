@@ -88,6 +88,11 @@ export interface NestedModel {
   category: number[];
 }
 
+export interface OSSObjectModel {
+  objectName: string;
+  contentType: string;
+}
+
 export interface PasswordChangeModel {
   new_password1: string;
   new_password2: string;
@@ -293,6 +298,11 @@ export interface ResendEmailVerificationModel {
 
 export interface RestAuthDetailModel {
   detail: string;
+}
+
+export interface SignedObjectUrlModel {
+  signedUrl: string;
+  rawUrl: string;
 }
 
 /**
@@ -1345,6 +1355,26 @@ export class Api<
         path: `/groups/${id}/`,
         method: 'DELETE',
         secure: true,
+        ...params,
+      }),
+  };
+  oss = {
+    /**
+     * No description
+     *
+     * @tags oss
+     * @name OssSignObjectCreate
+     * @request POST:/oss/sign_object
+     * @secure
+     */
+    ossSignObjectCreate: (data: OSSObjectModel, params: RequestParams = {}) =>
+      this.request<SignedObjectUrlModel, any>({
+        path: `/oss/sign_object`,
+        method: 'POST',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
         ...params,
       }),
   };

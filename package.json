@@ -18,6 +18,7 @@
     "@emotion/react": "^11.6.0",
     "@emotion/styled": "^11.6.0",
     "ahooks": "^3.3.0",
+    "ali-oss": "^6.17.1",
     "antd": "^4.16.13",
     "axios": "^0.26.1",
     "constate": "^3.3.2",
@@ -29,6 +30,7 @@
   "devDependencies": {
     "@commitlint/cli": "^14.1.0",
     "@commitlint/config-conventional": "^14.1.0",
+    "@types/ali-oss": "^6.16.4",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/react-router-dom": "^5.3.2",
