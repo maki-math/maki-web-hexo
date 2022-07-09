@@ -4,6 +4,7 @@
   "repository": {
     "url": "https://github.com/maki-math/maki-web-hexo"
   },
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "dev-w-local-server": "vite --mode development-local-server",
