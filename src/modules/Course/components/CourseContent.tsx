@@ -27,7 +27,7 @@ export function CourseContent({ course }: Props) {
       onSelect={onSelect}
       defaultExpandAll={true}
       // @ts-expect-error antd不支持根据fieldNames推导treeData可拥有的类型。它要求有key字段
-      treeData={[course.contents]}
+      treeData={[course.contents ?? {}]}
       fieldNames={{ title: 'label', key: 'id' }}
     />
   );

@@ -81,7 +81,7 @@ export function CourseDetail({ course }: { course: CourseModel }) {
   );
 }
 
-export function CourseDetailPage({ id }: { id: string }) {
+export function CourseDetailPage({ id }: { id: number }) {
   const { data, loading } = useRequest(
     () => {
       return api.courses.coursesRetrieve(id);

@@ -13,7 +13,7 @@ import {
   withRouter,
 } from 'react-router-dom';
 import { ArticleListPage } from '../Content/ContentListPage';
-import { CourseListPage } from '../Course/Courses';
+import { CoursesPage } from '../Course/Courses';
 import { HomePage } from '../Home/HomePage';
 import { QuestionsPage } from '../Questions/QuestionsPage';
 import { UserLoginIndicator } from '../User/UserLoginIndicator/UserLoginIndicator';
@@ -76,7 +76,7 @@ function App() {
             <Content style={{ padding: '0 50px' }}>
               <Switch>
                 <Route path="/courses">
-                  <CourseListPage></CourseListPage>
+                  <CoursesPage />
                 </Route>
                 <Route path="/content">
                   <ArticleListPage />

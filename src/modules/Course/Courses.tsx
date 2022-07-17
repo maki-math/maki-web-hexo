@@ -1,15 +1,28 @@
 import { StandardPageLayout } from '@/components/Standard/StandardPageLayout';
 import { CourseCategoryModel, CourseModel } from '@/generated-api/Api';
-import { CourseDetailPage } from './CourseDetail';
 import { api } from '@/utils/api';
 import { useRequest } from 'ahooks';
-import { Table } from 'antd';
-import React from 'react';
-import { Link, Route, useRouteMatch } from 'react-router-dom';
+import { Table, Popconfirm, Space, Button, message } from 'antd';
+import { default as React, FC } from 'react';
+import { Link, Route, Switch } from 'react-router-dom';
+import { CourseDetailPage } from './CourseDetail';
+import { CourseEditingPage } from './CourseEditingPage';
 
-export function CourseList() {
+export function CourseListPage() {
   const { data, loading } = useRequest(api.courses.coursesList);
   const courses = data?.data;
+
+  const deleteCourse = (course: CourseModel) => {
+     api.courses.coursesDestroy(course.id)
+      .then((res) => {
+        message.success("删除成功");
+        refresh();
+      })
+      .catch((err) => {
+        message.error("删除失败, 请稍后重试.");
+      });
+  };
+  const { run } = useRequest(deleteCourse, { manual: true });
 
   const columns = [
     {
@@ -36,30 +49,68 @@ export function CourseList() {
       dataIndex: 'teacher',
       key: 'teacher',
     },
+    {
+      title: '操作',
+      dataIndex: 'id',
+      key: 'id',
+      render: (id: number, row: CourseModel) => {
+        const path = {
+          pathname: '/courses/edit/' + id,
+        };
+        return (
+          <Space>
+            <Link to={path}>编辑</Link>
+            <Popconfirm
+              title="确定要删除吗?"
+              onConfirm={() => run(row)}
+              onCancel={() => {}}
+              okText="确定"
+              cancelText="取消"
+            >
+              <a href="#">删除</a>
+            </Popconfirm>
+        </Space>);
+      }
+    },
   ];
 
-  return <Table columns={columns} dataSource={courses} loading={loading} />;
+  return <StandardPageLayout title="课程列表">
+    <Link to="courses/edit">
+      <Button type="primary">添加题目</Button>
+    </Link>
+    <Table columns={columns} dataSource={courses} loading={loading} />
+  </StandardPageLayout>
 }
 
-export function CourseListPage() {
-  const { url } = useRouteMatch();
+export const CoursesPage: FC<unknown> = () => {
   return (
-    <>
+    <Switch>
+      <Route path="/courses" exact>        
+        <CourseListPage />        
+      </Route>
       <Route
-        path={`${url}/:id`}
-        render={({ match }) => {
+        path="/courses/:id"
+        render={(props) => {
           return (
             <StandardPageLayout title="课程详情">
-              <CourseDetailPage id={match.params.id} />
+              <CourseDetailPage id={props.match.params.id} />
             </StandardPageLayout>
           );
         }}
       ></Route>
-      <Route path={`${url}/`} exact>
-        <StandardPageLayout title="课程列表">
-          <CourseList />
-        </StandardPageLayout>
+      <Route path="/courses/edit" exact>
+        <CourseEditingPage id={0}></CourseEditingPage>
       </Route>
-    </>
+      <Route
+        path="/courses/edit/:id"
+        render={(props) => {
+          return (
+            <CourseEditingPage 
+              id={Number(props.match.params.id)} 
+            ></CourseEditingPage>
+          );
+        }}
+      ></Route>
+    </Switch>
   );
 }

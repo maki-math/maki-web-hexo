@@ -101,7 +101,7 @@ function QuestionEditing({ question }: { question: QuestionModel }) {
   );
 }
 
-export const QuestionEditingPage = ({ id }: { id: string }) => {
+export const QuestionEditingPage = ({ id }: { id: number }) => {
   let question;
   if (id > 0) {
     const { data, loading } = useRequest(
