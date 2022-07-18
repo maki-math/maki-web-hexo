@@ -36,6 +36,8 @@ function ArticleNodeList() {
       render: (__ignored: unknown, row: ContentNodeModel) => {
         return row.article.author;
       },
+      sorter: (a, b) => a.article.author < b.article.author,
+      sortDirections: ['descend'],
     },
   ];
 
