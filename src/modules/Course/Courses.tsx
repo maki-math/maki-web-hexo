@@ -9,7 +9,7 @@ import { CourseDetailPage } from './CourseDetail';
 import { CourseEditingPage } from './CourseEditingPage';
 
 export function CourseListPage() {
-  const { data, loading } = useRequest(api.courses.coursesList);
+  const { data, loading, refresh } = useRequest(api.courses.coursesList);
   const courses = data?.data;
 
   const deleteCourse = (course: CourseModel) => {
