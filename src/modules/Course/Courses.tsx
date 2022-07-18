@@ -43,11 +43,15 @@ export function CourseListPage() {
       render: (categoryList: CourseCategoryModel[]) => {
         return categoryList.map((category) => category.alias).join('/');
       },
+      sorter: (a, b) => a.category?.[0]?.id > (b.category?.[0]?.id || -1),
+      sortDirections: ['descend'],
     },
     {
       title: '授课老师',
       dataIndex: 'teacher',
       key: 'teacher',
+      sorter: (a, b) => a.teacher > b.teacher,
+      sortDirections: ['descend'],
     },
     {
       title: '操作',
@@ -75,10 +79,12 @@ export function CourseListPage() {
   ];
 
   return <StandardPageLayout title="课程列表">
-    <Link to="courses/edit">
-      <Button type="primary">添加题目</Button>
-    </Link>
-    <Table columns={columns} dataSource={courses} loading={loading} />
+    <Space direction="vertical" size="middle" style={{display: "flex"}}>
+      <Link to="courses/edit">
+        <Button type="primary">添加课程</Button>
+      </Link>
+      <Table columns={columns} dataSource={courses} loading={loading} />
+    </Space>
   </StandardPageLayout>
 }
 

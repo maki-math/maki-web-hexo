@@ -52,6 +52,8 @@ export function QuestionList() {
       title: '作者',
       dataIndex: 'author',
       key: 'author',
+      sorter: (a, b) => a.author < b.author,
+      sortDirections: ['descend'],
     },
     {
       title: '创建时间',
@@ -60,6 +62,8 @@ export function QuestionList() {
       render: (date: string) => {
         return <span>{moment(date).format('YYYY-MM-DD')}</span>
       },
+      sorter: (a, b) => a.created_at < b.created_at,
+      sortDirections: ['descend'],
     },
     {
       title: '更新时间',
@@ -68,6 +72,8 @@ export function QuestionList() {
       render: (date: string) => {
         return <span>{moment(date).format('YYYY-MM-DD')}</span>
       },
+      sorter: (a, b) => a.updated_at < b.updated_at,
+      sortDirections: ['descend'],
     },
     {
       title: '操作',
