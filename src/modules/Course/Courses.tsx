@@ -94,6 +94,9 @@ export const CoursesPage: FC<unknown> = () => {
       <Route path="/courses" exact>        
         <CourseListPage />        
       </Route>
+      <Route path="/courses/edit" exact>
+        <CourseEditingPage id={0}></CourseEditingPage>
+      </Route>
       <Route
         path="/courses/:id"
         render={(props) => {
@@ -104,9 +107,6 @@ export const CoursesPage: FC<unknown> = () => {
           );
         }}
       ></Route>
-      <Route path="/courses/edit" exact>
-        <CourseEditingPage id={0}></CourseEditingPage>
-      </Route>
       <Route
         path="/courses/edit/:id"
         render={(props) => {
