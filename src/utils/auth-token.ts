@@ -36,7 +36,7 @@ export const useIsLoggedIn = () => {
     refreshDeps: [token],
   });
 
-  const isLoggedIn = token && Boolean(data?.data) && !error;
+  const isLoggedIn = !!token && Boolean(data?.data) && !error;
   return { loading, payload: data, isLoggedIn };
 };
 

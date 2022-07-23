@@ -28,8 +28,6 @@ export function UserLoginModal({
       .authLoginCreate(data)
       .then((res) => {
         setToken(res.data.key);
-        console.log('set!', res.data.key);
-
         onClose?.();
         message.success('登录成功');
       })
