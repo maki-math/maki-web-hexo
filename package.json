@@ -6,7 +6,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 3000",
     "dev-w-local-server": "vite --mode development-local-server",
     "build": "vite build",
     "serve": "vite preview",
@@ -47,7 +47,7 @@
     "textlint": "^12.0.2",
     "textlint-rule-ja-space-between-half-and-full-width": "^2.2.0",
     "typescript": "^4.8.0-dev.20220723",
-    "vite": "^2.0.0-beta.50"
+    "vite": "^3.0.2"
   },
   "husky": {
     "hooks": {
