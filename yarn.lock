@@ -5801,10 +5801,10 @@ typescript@^4.4.3:
   resolved "https://registry.npmmirror.com/typescript/-/typescript-4.5.5.tgz#d8c953832d28924a9e3d37c73d729c846c5896f3"
   integrity sha512-TCTIul70LyWe6IJWT8QSYeA54WQe8EjQFU4wY52Fasj5UKx88LNYKCgBEHcOMOrFF1rKGbD8v/xcNWVUq9SymA==
 
-typescript@^4.6.0-dev.20211114:
-  version "4.6.0-dev.20220211"
-  resolved "https://registry.npmmirror.com/typescript/-/typescript-4.6.0-dev.20220211.tgz#0b5eb36bf5d9aef424a4ec56e9b64cb91080ca78"
-  integrity sha512-wMVJ7QGajX2OXpGrX8cphiTsyab79JS88F00azUMgO65ooUFgyFFQaXn2zOO8h8RluD6kHWzCM3WTa0Tc0Ui+g==
+typescript@^4.8.0-dev.20220723:
+  version "4.8.0-dev.20220723"
+  resolved "https://registry.npmmirror.com/typescript/-/typescript-4.8.0-dev.20220723.tgz#1a8b56a05521cee737af1088083af023deb3b46b"
+  integrity sha512-1akRPAGXS9Fqimr8ronXEUM6nrEsMmwvs9k0i+G9SwbD46HoPBrzdGzrTuxkKcoIiau8/KmB5cP3ZA7tHOrwAg==
 
 unbox-primitive@^1.0.1:
   version "1.0.1"

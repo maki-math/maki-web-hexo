@@ -46,7 +46,7 @@
     "swagger-typescript-api": "^9.3.1",
     "textlint": "^12.0.2",
     "textlint-rule-ja-space-between-half-and-full-width": "^2.2.0",
-    "typescript": "^4.6.0-dev.20211114",
+    "typescript": "^4.8.0-dev.20220723",
     "vite": "^2.0.0-beta.50"
   },
   "husky": {
