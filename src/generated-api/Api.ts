@@ -42,7 +42,7 @@ export interface CourseModel {
 }
 
 export interface CourseCategoryModel {
-  id: number;
+  id?: number;
   alias: string;
   name: string;
 }
