@@ -11,10 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install deps
+      - name: Install Deps
         uses: borales/actions-yarn@v3.0.0
         with:
-          cmd: install # will run `yarn install` command
+          cmd: install --frozen-lockfile # will run `yarn install` command
       - name: Build
         uses: borales/actions-yarn@v3.0.0
         with:
