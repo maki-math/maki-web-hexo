@@ -61,7 +61,7 @@ const ToolbarConfig = [
 
 const FileSizeLimitInByte = 10 * 1024 * 1024;
 
-const uploadToOSS = async (files: File[]) => {
+export const uploadToOSS = async (files: File[]) => {
   async function upload(url: string, file: File) {
     return fetch(url, {
       method: 'PUT',

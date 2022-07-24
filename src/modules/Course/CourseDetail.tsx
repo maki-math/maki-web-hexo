@@ -26,6 +26,10 @@ const { TabPane } = Tabs;
 const { Title } = Typography;
 
 export function CourseDetail({ course }: { course: CourseModel }) {
+  const path = {
+    pathname: '/courses/edit/' + course.id,
+  };
+
   return (
     <>
       <Content>
@@ -44,6 +48,7 @@ export function CourseDetail({ course }: { course: CourseModel }) {
               <p>课程代码 : {course.courseCode}</p>
               <p>授课老师 : {course.teacher}</p>
               <p>开课时间 : {moment(course.created_at).format('YYYY-MM-DD')}</p>
+              <Link to={path}>编辑课程</Link>
               <Button
                 type="primary"
                 href={`#/content/${course.id}`}
@@ -81,7 +86,7 @@ export function CourseDetail({ course }: { course: CourseModel }) {
   );
 }
 
-export function CourseDetailPage({ id }: { id: string }) {
+export function CourseDetailPage({ id }: { id: number }) {
   const { data, loading } = useRequest(
     () => {
       return api.courses.coursesRetrieve(id);
