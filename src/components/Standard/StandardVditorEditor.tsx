@@ -174,8 +174,14 @@ export function VditorEditor({ id, after, input }: Props) {
           type.indexOf('.ogg') === 0
         ) {
           if (vditor.currentMode === 'wysiwyg') {
-            succFileText += `<div class="vditor-wysiwyg__block" data-type="html-block"
- data-block="0"><pre><code>&lt;audio controls="controls" src="${path}"&gt;&lt;/audio&gt;</code></pre><pre class="vditor-wysiwyg__preview" data-render="1"><audio controls="controls" src="${path}"></audio></pre></div>\n`;
+            succFileText += `<div class="vditor-wysiwyg__block" data-type="html-block" data-block="0">
+              <pre>
+                <code>&lt;audio controls="controls" src="${path}"&gt;&lt;/audio&gt;</code>
+              </pre>
+              <pre class="vditor-wysiwyg__preview" data-render="1">
+                <audio controls="controls" src="${path}"></audio>
+              </pre>
+            </div>\n`;
           } else if (vditor.currentMode === 'ir') {
             succFileText += `<audio controls="controls" src="${path}"></audio>\n`;
           } else {

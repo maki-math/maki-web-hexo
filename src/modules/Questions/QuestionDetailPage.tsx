@@ -17,7 +17,7 @@ import {
 } from 'antd';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { AuthModuleEnum, useAuth } from '@/utils/auth-token';
+import { AuthWrapper } from '@/utils/auth-token';
 
 const { Content } = Layout;
 const { TabPane } = Tabs;
@@ -27,8 +27,6 @@ function QuestionDetail({ question }: { question: QuestionModel }) {
   const path = {
     pathname: '/questions/edit/' + question.id,
   };
-
-  const isAuthed = useAuth(AuthModuleEnum.QuestionPage);
 
   return (
     <Layout className="h-full" style={{ padding: '24px 0' }}>
@@ -57,11 +55,11 @@ function QuestionDetail({ question }: { question: QuestionModel }) {
                   </Tag>
                 ))}
               </Col>
-              {isAuthed && (
+              <AuthWrapper codename="change_question">
                 <Col offset={1}>
-                  <Link to={path}>编辑</Link>
+                  <Link to={path}>编辑题目</Link>
                 </Col>
-              )}
+              </AuthWrapper>
             </Row>
             <Divider />
 

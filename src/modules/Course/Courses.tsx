@@ -7,6 +7,7 @@ import { default as React, FC } from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
 import { CourseDetailPage } from './CourseDetail';
 import { CourseEditingPage } from './CourseEditingPage';
+import { AuthWrapper } from '@/utils/auth-token';
 
 export function CourseListPage() {
   const { data, loading, refresh } = useRequest(api.courses.coursesList);
@@ -61,7 +62,7 @@ export function CourseListPage() {
           value: '化学',
         },
       ],
-      onFilter: (value: string, record) => record.category.map( cg => cg.alias).indexOf(value) === 0,
+      onFilter: (value: string, row) => row.category.map( cg => cg.alias).indexOf(value) > -1,
       sorter: (a, b) => a.category?.[0]?.id > (b.category?.[0]?.id || -1),
       sortDirections: ['descend'],
     },
@@ -79,27 +80,32 @@ export function CourseListPage() {
           pathname: '/courses/edit/' + id,
         };
         return (
-          <Space>
-            <Link to={path}>编辑</Link>
-            <Popconfirm
-              title="确定要删除吗?"
-              onConfirm={() => run(row)}
-              onCancel={() => {}}
-              okText="确定"
-              cancelText="取消"
-            >
-              <a href="#">删除</a>
-            </Popconfirm>
-        </Space>);
+          <AuthWrapper codename="delete_course">
+            <Space>
+              <Link to={path}>编辑</Link>
+              <Popconfirm
+                title="确定要删除吗?"
+                onConfirm={() => run(row)}
+                onCancel={() => {}}
+                okText="确定"
+                cancelText="取消"
+              >
+                <a href="#">删除</a>
+              </Popconfirm>
+            </Space>
+          </AuthWrapper>
+        );
       }
     },
   ];
 
   return <StandardPageLayout title="课程列表">
     <Space direction="vertical" size="middle" style={{display: "flex"}}>
-      <Link to="courses/edit">
-        <Button type="primary">添加课程</Button>
-      </Link>
+      <AuthWrapper codename="add_course">
+        <Link to="courses/edit">
+          <Button type="primary">添加课程</Button>
+        </Link>
+      </AuthWrapper>
       <Table columns={columns} dataSource={courses} loading={loading} />
     </Space>
   </StandardPageLayout>

@@ -1,6 +1,6 @@
 import { LoginModel } from '@/generated-api/Api';
 import { api } from '@/utils/api';
-import { useTokenContext } from '@/utils/auth-token';
+import { useTokenContext, usePermissionsContext, fetchPermissions } from '@/utils/auth-token';
 import { useRequest } from 'ahooks';
 import { Checkbox, Form, Input, message, Modal, Row, Col } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
@@ -23,11 +23,13 @@ export function UserLoginModal({
   onForgottenPassword,
 }: Props) {
   const { setToken } = useTokenContext();
+  const { setPermissions } = usePermissionsContext();
   const getUserInfo = (data: LoginModel) => {
     return api.auth
       .authLoginCreate(data)
       .then((res) => {
         setToken(res.data.key);
+        fetchPermissions();
         onClose?.();
         message.success('登录成功');
       })

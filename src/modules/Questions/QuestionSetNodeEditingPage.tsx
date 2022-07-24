@@ -2,10 +2,11 @@ import { StandardPageLayout } from '@/components/Standard/StandardPageLayout';
 import { QuestionSetNodeModel, PatchedQuestionSetNodeModel } from '@/generated-api/Api';
 import { api } from '@/utils/api';
 import { useRequest } from 'ahooks';
-import { Button, Col, Row, Table, Input, Form, message, Popconfirm, Space, Typography } from 'antd';
+import { Button, Table, Input, Form, message, Popconfirm, Space, Typography } from 'antd';
 import { default as React, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'antd/lib/form/Form';
+import { AuthWrapper } from '@/utils/auth-token';
 
 interface Props {
   questionNodeId?: number;
@@ -23,6 +24,7 @@ export function QuestionSetNodeEditingPage({ questionNodeId }: Props) {
   const questionSetList = data?.data && (questionNodeId ? [data.data] : data.data);
   const [questionSet, setQuestionSet] = useState({});
   const [isEditing, setIsEditing] = useState(false);
+  const editable = !!AuthWrapper({codename: 'change_questionsetnode'})
 
   const columns = [
     {
@@ -36,23 +38,25 @@ export function QuestionSetNodeEditingPage({ questionNodeId }: Props) {
             : '/questions/sets/' + row.id,
         }
 
-        const editable = {
-          onStart: () => {
-            setQuestionSet(row);
-          },
-          onChange: (text) => {
-            label = text;
-          },
-          onEnd: (text) => {
-            renameQuestionSet({label: label});
-          },
-        };
+        const editor = editable
+          ? {
+              onStart: () => {
+                setQuestionSet(row);
+              },
+              onChange: (text) => {
+                label = text;
+              },
+              onEnd: (text) => {
+                renameQuestionSet({label: label});
+              },
+            }
+          : false;
 
         return (!questionNodeId || row.question !== null)
-          ? <Link to={path} component={Typography.Link} editable={editable}>
+          ? <Link to={path} component={Typography.Link} editable={editor}>
               {label}
             </Link> 
-          : <Typography.Text editable={editable}>{label}</Typography.Text>    
+          : <Typography.Text editable={editor}>{label}</Typography.Text>    
       },
     }, 
     {
@@ -62,19 +66,24 @@ export function QuestionSetNodeEditingPage({ questionNodeId }: Props) {
       render: (id: number, row: QuestionSetNodeModel) => {
         return (
           <Space>
-            { 
-              questionNodeId && <a disabled={isEditing} onClick={() => addQuestionSet(row)}>添加</a>
-            }
-            <Popconfirm
-              title="确定要删除吗?"
-              onConfirm={() => deleteQuestionSet(row)}
-              onCancel={() => {}}
-              okText="确定"
-              cancelText="取消"
-            >
-              <a disabled={isEditing} href="#">删除</a>
-            </Popconfirm>
-        </Space>);
+            <AuthWrapper codename="add_questionsetnode">
+              { 
+                questionNodeId && <a disabled={isEditing} onClick={() => addQuestionSet(row)}>添加</a>
+              }
+            </AuthWrapper>
+            <AuthWrapper codename="delete_questionsetnode">
+              <Popconfirm
+                title="确定要删除吗?"
+                onConfirm={() => deleteQuestionSet(row)}
+                onCancel={() => {}}
+                okText="确定"
+                cancelText="取消"
+              >
+                <a disabled={isEditing} href="#">删除</a>
+              </Popconfirm>
+            </AuthWrapper>
+          </Space>
+        );
       },
     }
   ];
@@ -137,26 +146,26 @@ export function QuestionSetNodeEditingPage({ questionNodeId }: Props) {
 
   return (
   <Space direction="vertical" size="middle" style={{display: "flex"}}>
-    {
-      (!questionNodeId || isEditing ) &&
-      <Form
-        form={form}
-        layout={"inline"}
-        onFinish={(values) => onFormFinish(values)}
-      >
-        <Form.Item name="label">
-          <Input placeholder="请输入习题集名" style={{ width: "300px" }} autoFocus/>
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit" disabled={loading}>
-            {loading ? "上传中" : "添加"}
-          </Button>
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="button" onClick={onCancel}>取消</Button>
-        </Form.Item>
-      </Form>
-    }
+    <AuthWrapper codename="add_questionsetnode">
+      {
+        (!questionNodeId || isEditing ) &&
+        <Form
+          form={form}
+          layout={"inline"}
+          onFinish={(values) => onFormFinish(values)}
+        >
+          <Form.Item name="label">
+            <Input placeholder="请输入习题集名" style={{ width: "300px" }} autoFocus/>
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" disabled={loading}>添加</Button>
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="button" onClick={onCancel}>取消</Button>
+          </Form.Item>
+        </Form>
+      }
+    </AuthWrapper>
     <Table
       columns={columns}
       dataSource={questionSetList}
