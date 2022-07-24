@@ -19,6 +19,7 @@ import moment from 'moment';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { CourseContent } from './components/CourseContent';
+import { AuthWrapper } from '@/utils/auth-token';
 
 const { Content } = Layout;
 const { TabPane } = Tabs;
@@ -48,7 +49,9 @@ export function CourseDetail({ course }: { course: CourseModel }) {
               <p>课程代码 : {course.courseCode}</p>
               <p>授课老师 : {course.teacher}</p>
               <p>开课时间 : {moment(course.created_at).format('YYYY-MM-DD')}</p>
-              <Link to={path}>编辑课程</Link>
+              <AuthWrapper codename="change_course">
+                <Link to={path}>编辑课程</Link>
+              </AuthWrapper>
               <Button
                 type="primary"
                 href={`#/content/${course.id}`}

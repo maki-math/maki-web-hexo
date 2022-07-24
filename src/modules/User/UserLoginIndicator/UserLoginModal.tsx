@@ -1,6 +1,6 @@
 import { LoginModel } from '@/generated-api/Api';
 import { api } from '@/utils/api';
-import { useTokenContext } from '@/utils/auth-token';
+import { useTokenContext, fetchPermissions } from '@/utils/auth-token';
 import { useRequest } from 'ahooks';
 import { Checkbox, Form, Input, message, Modal, Row, Col } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
@@ -28,6 +28,7 @@ export function UserLoginModal({
       .authLoginCreate(data)
       .then((res) => {
         setToken(res.data.key);
+        fetchPermissions();
         onClose?.();
         message.success('登录成功');
       })

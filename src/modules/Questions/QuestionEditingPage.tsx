@@ -91,9 +91,7 @@ function QuestionEditing({ question }: { question: QuestionModel }) {
           <Row justify="center">
             <Col>
               <Space direction="horizontal">
-                <Button type="primary" htmlType="submit" disabled={loading}>
-                  {loading ? '上传中' : '上传'}
-                </Button>
+                <Button type="primary" htmlType="submit" disabled={loading}>上传</Button>
                 <Button disabled={loading} onClick={() => window.history.back()}>取消</Button>
               </Space>
             </Col>
