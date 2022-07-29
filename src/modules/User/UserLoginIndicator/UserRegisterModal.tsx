@@ -1,6 +1,6 @@
 import { LoginModel } from '@/generated-api/Api';
 import { api } from '@/utils/api';
-import { useTokenContext, fetchPermissions } from '@/utils/auth-token';
+import { useTokenContext, usePermissionsContext, fetchPermissions } from '@/utils/auth-token';
 import { useRequest } from 'ahooks';
 import { Form, Input, message, Modal } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
@@ -15,7 +15,7 @@ type RegisterFormData = LoginModel & { rememberMe: boolean };
 
 export function UserRegisterModal({ visible, onClose }: Props) {
   const { setToken } = useTokenContext();
-
+  const { setPermissions } = usePermissionsContext();
   const setUserInfo = (data: LoginModel) => {
     return api.auth
       .authRegistrationCreate({
@@ -26,7 +26,7 @@ export function UserRegisterModal({ visible, onClose }: Props) {
       })
       .then((res) => {
         setToken(res.data.key);
-        fetchPermissions();
+        fetchPermissions(setPermissions);
         onClose?.();
       })
       .catch((err) => {

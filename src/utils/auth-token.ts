@@ -82,7 +82,7 @@ export function getPermissions(): PermissionModel[] {
   }
 }
 
-export const fetchPermissions = () => {
+export const fetchPermissions = (setPermissions) => {
   api.userPermissions.userPermissionsList().then((res) => {
     setPermissions(res.data.groups[0].permissions);
   }).catch(err => {
