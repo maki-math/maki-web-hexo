@@ -282,10 +282,6 @@ export function VditorEditor({ id, after, input }: Props) {
         ele.setAttribute('contenteditable', 'true');
       }
     }
-
-    return () => {
-      editor.destroy();
-    };
   }, []);
 
   return <div id={id} className="vditor edit" />;
