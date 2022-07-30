@@ -2,7 +2,7 @@ import { StandardPageLayout } from '@/components/Standard/StandardPageLayout';
 import { VditorEditor } from '@/components/Standard/StandardVditorEditor';
 import React, { useState } from 'react';
 import { useRequest } from 'ahooks';
-import { Form, Input, Button, message, Skeleton, Col, Row, Row } from 'antd';
+import { Form, Input, Button, message, Skeleton, Col, Row, Row, Space } from 'antd';
 import { QuestionModel } from '@/generated-api/Api';
 import { api } from '@/utils/api';
 import { useForm } from 'antd/lib/form/Form';
@@ -64,12 +64,12 @@ function QuestionEditing({ question }: { question: QuestionModel }) {
           <Form.Item name={item.name} label={item.alias} key={index}>
             <Input />
           </Form.Item>
-        ))}{' '}
+        ))}
         {question_keys_alias.slice(3).map((item, index) => (
           <Form.Item name={item.name} label={item.alias} key={index} hidden>
             <Input />
           </Form.Item>
-        ))}{' '}
+        ))}
         {question_keys_alias.slice(3).map((item, index) => (
           <Form.Item label={item.alias} key={index}>
             {VditorEditor({
@@ -90,9 +90,10 @@ function QuestionEditing({ question }: { question: QuestionModel }) {
         <Form.Item>
           <Row justify="center">
             <Col>
-              <Button type="primary" htmlType="submit" disabled={loading}>
-                {loading ? '上传中' : '上传'}
-              </Button>
+              <Space direction="horizontal">
+                <Button type="primary" htmlType="submit" disabled={loading}>上传</Button>
+                <Button disabled={loading} onClick={() => window.history.back()}>取消</Button>
+              </Space>
             </Col>
           </Row>
         </Form.Item>
@@ -101,7 +102,7 @@ function QuestionEditing({ question }: { question: QuestionModel }) {
   );
 }
 
-export const QuestionEditingPage = ({ id }: { id: string }) => {
+export const QuestionEditingPage = ({ id }: { id: number }) => {
   let question;
   if (id > 0) {
     const { data, loading } = useRequest(

@@ -9,6 +9,7 @@ import { Link, Route, Switch } from 'react-router-dom';
 import { QuestionSetNodeEditingPage } from './QuestionSetNodeEditingPage';
 import { QuestionEditingPage } from './QuestionEditingPage';
 import { QuestionDetailPage } from './QuestionDetailPage';
+import { AuthWrapper } from '@/utils/auth-token';
 import moment from 'moment';
 
 export function QuestionList() {
@@ -60,6 +61,8 @@ export function QuestionList() {
       render: (date: string) => {
         return <span>{moment(date).format('YYYY-MM-DD')}</span>
       },
+      sorter: (a, b) => a.created_at < b.created_at,
+      sortDirections: ['descend'],
     },
     {
       title: '更新时间',
@@ -68,6 +71,8 @@ export function QuestionList() {
       render: (date: string) => {
         return <span>{moment(date).format('YYYY-MM-DD')}</span>
       },
+      sorter: (a, b) => a.updated_at < b.updated_at,
+      sortDirections: ['descend'],
     },
     {
       title: '操作',
@@ -78,18 +83,21 @@ export function QuestionList() {
           pathname: '/questions/edit/' + id,
         };
         return (
-          <Space>
-            <Link to={path}>编辑</Link>
-            <Popconfirm
-              title="确定要删除吗?"
-              onConfirm={() => run(row)}
-              onCancel={() => {}}
-              okText="确定"
-              cancelText="取消"
-            >
-              <a href="#">删除</a>
-            </Popconfirm>
-        </Space>);
+          <AuthWrapper codename="delete_question">
+            <Space>
+              <Link to={path}>编辑</Link>
+              <Popconfirm
+                title="确定要删除吗?"
+                onConfirm={() => run(row)}
+                onCancel={() => {}}
+                okText="确定"
+                cancelText="取消"
+              >
+                <a href="#">删除</a>
+              </Popconfirm>
+            </Space>
+          </AuthWrapper>
+        );
       },
     }
   ];
@@ -101,9 +109,11 @@ export function QuestionList() {
     >
       <Row gutter={[8, 8]}>
         <Col span={24}>
-          <Link to="/questions/edit">
-            <Button type="primary">添加题目</Button>
-          </Link>
+          <AuthWrapper codename="add_question">
+            <Link to="questions/edit">
+              <Button type="primary">添加题目</Button>
+            </Link>
+          </AuthWrapper>
         </Col>
         <Col span={24}>
           <Table columns={columns} dataSource={questions} loading={loading} />
