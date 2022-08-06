@@ -78,10 +78,11 @@ export function CourseDetail({ course }: { course: CourseModel }) {
             <TabPane tab="目录" key={2}>
               <CourseContent course={course} />
             </TabPane>
-
-            <TabPane tab="评论" key={3}>
-              暂无评论
-            </TabPane>
+            {false && (
+              <TabPane tab="评论" key={3}>
+                暂无评论
+              </TabPane>
+            )}
           </Tabs>
         </div>
       </Content>
