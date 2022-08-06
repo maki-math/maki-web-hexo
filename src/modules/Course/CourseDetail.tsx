@@ -52,13 +52,15 @@ export function CourseDetail({ course }: { course: CourseModel }) {
               <AuthWrapper codename="change_course">
                 <Link to={path}>编辑课程</Link>
               </AuthWrapper>
-              <Button
-                type="primary"
-                href={`#/content/${course.id}`}
-                style={{ position: 'absolute', left: '0', bottom: '2px' }}
-              >
-                开始学习
-              </Button>
+              {false && (
+                <Button
+                  type="primary"
+                  href={`#/content/${course.id}`}
+                  style={{ position: 'absolute', left: '0', bottom: '2px' }}
+                >
+                  开始学习
+                </Button>
+              )}
             </Col>
           </Space>
         </Row>
