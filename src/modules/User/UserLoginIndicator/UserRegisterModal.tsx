@@ -1,6 +1,10 @@
 import { LoginModel } from '@/generated-api/Api';
 import { api } from '@/utils/api';
-import { useTokenContext, usePermissionsContext, fetchPermissions } from '@/utils/auth-token';
+import {
+  useTokenContext,
+  usePermissionsContext,
+  fetchPermissions,
+} from '@/utils/auth-token';
 import { useRequest } from 'ahooks';
 import { Form, Input, message, Modal } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
@@ -78,7 +82,7 @@ export function UserRegisterModal({ visible, onClose }: Props) {
       confirmLoading={loading}
     >
       <Form
-        name="basic"
+        name="register_form"
         labelCol={{ span: 6 }}
         wrapperCol={{ span: 16 }}
         initialValues={{ remember: true }}
