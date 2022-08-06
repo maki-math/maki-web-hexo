@@ -75,9 +75,11 @@ export function CourseDetail({ course }: { course: CourseModel }) {
               </Typography>
             </TabPane>
 
-            <TabPane tab="目录" key={2}>
-              <CourseContent course={course} />
-            </TabPane>
+            {false && (
+              <TabPane tab="目录" key={2}>
+                <CourseContent course={course} />
+              </TabPane>
+            )}
             {false && (
               <TabPane tab="评论" key={3}>
                 暂无评论
