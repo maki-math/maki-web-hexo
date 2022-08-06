@@ -1,12 +1,23 @@
-import { StandardPageLayout } from '@/components/Standard/StandardPageLayout';
-import { QuestionSetNodeModel, PatchedQuestionSetNodeModel } from '@/generated-api/Api';
+import {
+  QuestionSetNodeModel,
+  PatchedQuestionSetNodeModel,
+} from '@/generated-api/Api';
 import { api } from '@/utils/api';
 import { useRequest } from 'ahooks';
-import { Button, Table, Input, Form, message, Popconfirm, Space, Typography } from 'antd';
+import {
+  Button,
+  Table,
+  Input,
+  Form,
+  message,
+  Popconfirm,
+  Space,
+  Typography,
+} from 'antd';
 import { default as React, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'antd/lib/form/Form';
-import { AuthWrapper } from '@/utils/auth-token';
+import { AuthWrapper } from '@/utils/AuthWrapper';
 
 interface Props {
   questionNodeId?: number;
@@ -15,16 +26,17 @@ interface Props {
 export function QuestionSetNodeEditingPage({ questionNodeId }: Props) {
   const { data, loading, refresh } = useRequest(
     () => {
-      return questionNodeId 
-             ? api.questionSet.questionSetRetrieve(questionNodeId)
-             : api.questionSet.questionSetList();
+      return questionNodeId
+        ? api.questionSet.questionSetRetrieve(questionNodeId)
+        : api.questionSet.questionSetList();
     },
     { refreshDeps: [questionNodeId] }
   );
-  const questionSetList = data?.data && (questionNodeId ? [data.data] : data.data);
+  const questionSetList =
+    data?.data && (questionNodeId ? [data.data] : data.data);
   const [questionSet, setQuestionSet] = useState({});
   const [isEditing, setIsEditing] = useState(false);
-  const editable = !!AuthWrapper({codename: 'change_questionsetnode'})
+  const editable = !!AuthWrapper({ codename: 'change_questionsetnode' });
 
   const columns = [
     {
@@ -33,10 +45,10 @@ export function QuestionSetNodeEditingPage({ questionNodeId }: Props) {
       key: 'label',
       render: (label: string, row: QuestionSetNodeModel) => {
         const path = {
-          pathname: questionNodeId 
+          pathname: questionNodeId
             ? `/questions/` + row.question
             : '/questions/sets/' + row.id,
-        }
+        };
 
         const editor = editable
           ? {
@@ -47,18 +59,20 @@ export function QuestionSetNodeEditingPage({ questionNodeId }: Props) {
                 label = text;
               },
               onEnd: (text) => {
-                renameQuestionSet({label: label});
+                renameQuestionSet({ label: label });
               },
             }
           : false;
 
-        return (!questionNodeId || row.question !== null)
-          ? <Link to={path} component={Typography.Link} editable={editor}>
-              {label}
-            </Link> 
-          : <Typography.Text editable={editor}>{label}</Typography.Text>    
+        return !questionNodeId || row.question !== null ? (
+          <Link to={path} component={Typography.Link} editable={editor}>
+            {label}
+          </Link>
+        ) : (
+          <Typography.Text editable={editor}>{label}</Typography.Text>
+        );
       },
-    }, 
+    },
     {
       title: '操作',
       dataIndex: 'id',
@@ -67,37 +81,39 @@ export function QuestionSetNodeEditingPage({ questionNodeId }: Props) {
         return (
           <Space>
             <AuthWrapper codename="add_questionsetnode">
-              { 
-                questionNodeId && <a disabled={isEditing} onClick={() => addQuestionSet(row)}>添加</a>
-              }
+              {questionNodeId && (
+                <a disabled={isEditing} onClick={() => addQuestionSet(row)}>
+                  添加
+                </a>
+              )}
             </AuthWrapper>
             <AuthWrapper codename="delete_questionsetnode">
               <Popconfirm
                 title="确定要删除吗?"
                 onConfirm={() => deleteQuestionSet(row)}
-                onCancel={() => {}}
                 okText="确定"
                 cancelText="取消"
               >
-                <a disabled={isEditing} href="#">删除</a>
+                <a disabled={isEditing} href="#">
+                  删除
+                </a>
               </Popconfirm>
             </AuthWrapper>
           </Space>
         );
       },
-    }
+    },
   ];
 
   const uploadQuestionSet = (questionSet: PatchedQuestionSetNodeModel) => {
     (questionSet.id
-      ? (questionSet.label
+      ? questionSet.label
         ? api.questionSet.questionSetPartialUpdate(questionSet.id, questionSet)
         : api.questionSet.questionSetDestroy(questionSet.id)
-        )
       : api.questionSet.questionSetCreate(questionSet)
     )
       .then((res) => {
-        message.success("更新成功");
+        message.success('更新成功');
         refresh();
       })
       .catch((err) => {
@@ -108,23 +124,23 @@ export function QuestionSetNodeEditingPage({ questionNodeId }: Props) {
 
   const renameQuestionSet = (formData: PatchedQuestionSetNodeModel) => {
     onFormFinish(formData);
-  }
+  };
 
   const addQuestionSet = (qs: QuestionSetNodeModel) => {
     setIsEditing(true);
-  }
+  };
 
   const deleteQuestionSet = (qs: QuestionSetNodeModel) => {
     if (qs.children?.[0] || qs.question !== null) {
-      message.error("习题集非空, 无法删除!");
+      message.error('习题集非空, 无法删除!');
     } else {
-      run({id: qs.id});
+      run({ id: qs.id });
     }
-  }
+  };
 
   const onFormFinish = (formData: PatchedQuestionSetNodeModel) => {
     if (formData.label) {
-      if (questionNodeId && !questionSet.label) { 
+      if (questionNodeId && !questionSet.label) {
         // To do: InsertQuestionSetById
       } else if (questionSet.label !== formData.label) {
         questionSet.label = formData.label;
@@ -134,44 +150,52 @@ export function QuestionSetNodeEditingPage({ questionNodeId }: Props) {
     questionSet.id && setQuestionSet({});
     form.resetFields();
     setIsEditing(false);
-  }
+  };
 
   const onCancel = () => {
-    form.resetFields(); 
+    form.resetFields();
     isEditing && setIsEditing(false);
-  }
-  
+  };
+
   type QuestionSetFormData = PatchedQuestionSetNodeModel;
   const [form] = useForm<QuestionSetFormData>();
 
   return (
-  <Space direction="vertical" size="middle" style={{display: "flex"}}>
-    <AuthWrapper codename="add_questionsetnode">
-      {
-        (!questionNodeId || isEditing ) &&
-        <Form
-          form={form}
-          layout={"inline"}
-          onFinish={(values) => onFormFinish(values)}
-        >
-          <Form.Item name="label">
-            <Input placeholder="请输入习题集名" style={{ width: "300px" }} autoFocus/>
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit" disabled={loading}>添加</Button>
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="button" onClick={onCancel}>取消</Button>
-          </Form.Item>
-        </Form>
-      }
-    </AuthWrapper>
-    <Table
-      columns={columns}
-      dataSource={questionSetList}
-      loading={loading}
-      rowKey="id"
-      expandable={questionNodeId ? {} : { childrenColumnName: 'N/A' }}
-    />
-  </Space>)
+    <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
+      <AuthWrapper codename="add_questionsetnode">
+        {(!questionNodeId || isEditing) && (
+          <Form
+            form={form}
+            layout={'inline'}
+            onFinish={(values) => onFormFinish(values)}
+          >
+            <Form.Item name="label">
+              <Input
+                placeholder="请输入习题集名"
+                style={{ width: '300px' }}
+                autoFocus
+              />
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit" disabled={loading}>
+                添加
+              </Button>
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="button" onClick={onCancel}>
+                取消
+              </Button>
+            </Form.Item>
+          </Form>
+        )}
+      </AuthWrapper>
+      <Table
+        columns={columns}
+        dataSource={questionSetList}
+        loading={loading}
+        rowKey="id"
+        expandable={questionNodeId ? {} : { childrenColumnName: 'N/A' }}
+      />
+    </Space>
+  );
 }

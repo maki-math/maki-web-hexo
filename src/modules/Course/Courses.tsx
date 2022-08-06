@@ -7,20 +7,21 @@ import { default as React, FC } from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
 import { CourseDetailPage } from './CourseDetail';
 import { CourseEditingPage } from './CourseEditingPage';
-import { AuthWrapper } from '@/utils/auth-token';
+import { AuthWrapper } from '@/utils/AuthWrapper';
 
 export function CourseListPage() {
   const { data, loading, refresh } = useRequest(api.courses.coursesList);
   const courses = data?.data;
 
   const deleteCourse = (course: CourseModel) => {
-     api.courses.coursesDestroy(course.id)
+    api.courses
+      .coursesDestroy(course.id)
       .then((res) => {
-        message.success("删除成功");
+        message.success('删除成功');
         refresh();
       })
       .catch((err) => {
-        message.error("删除失败, 请稍后重试.");
+        message.error('删除失败, 请稍后重试.');
       });
   };
   const { run } = useRequest(deleteCourse, { manual: true });
@@ -62,7 +63,8 @@ export function CourseListPage() {
           value: '化学',
         },
       ],
-      onFilter: (value: string, row) => row.category.map( cg => cg.alias).indexOf(value) > -1,
+      onFilter: (value: string, row) =>
+        row.category.map((cg) => cg.alias).indexOf(value) > -1,
       sorter: (a, b) => a.category?.[0]?.id > (b.category?.[0]?.id || -1),
       sortDirections: ['descend'],
     },
@@ -86,7 +88,6 @@ export function CourseListPage() {
               <Popconfirm
                 title="确定要删除吗?"
                 onConfirm={() => run(row)}
-                onCancel={() => {}}
                 okText="确定"
                 cancelText="取消"
               >
@@ -95,27 +96,29 @@ export function CourseListPage() {
             </Space>
           </AuthWrapper>
         );
-      }
+      },
     },
   ];
 
-  return <StandardPageLayout title="课程列表">
-    <Space direction="vertical" size="middle" style={{display: "flex"}}>
-      <AuthWrapper codename="add_course">
-        <Link to="courses/edit">
-          <Button type="primary">添加课程</Button>
-        </Link>
-      </AuthWrapper>
-      <Table columns={columns} dataSource={courses} loading={loading} />
-    </Space>
-  </StandardPageLayout>
+  return (
+    <StandardPageLayout title="课程列表">
+      <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
+        <AuthWrapper codename="add_course">
+          <Link to="courses/edit">
+            <Button type="primary">添加课程</Button>
+          </Link>
+        </AuthWrapper>
+        <Table columns={columns} dataSource={courses} loading={loading} />
+      </Space>
+    </StandardPageLayout>
+  );
 }
 
 export const CoursesPage: FC<unknown> = () => {
   return (
     <Switch>
-      <Route path="/courses" exact>        
-        <CourseListPage />        
+      <Route path="/courses" exact>
+        <CourseListPage />
       </Route>
       <Route path="/courses/edit" exact>
         <CourseEditingPage id={0}></CourseEditingPage>
@@ -124,8 +127,8 @@ export const CoursesPage: FC<unknown> = () => {
         path="/courses/edit/:id"
         render={(props) => {
           return (
-            <CourseEditingPage 
-              id={Number(props.match.params.id)} 
+            <CourseEditingPage
+              id={Number(props.match.params.id)}
             ></CourseEditingPage>
           );
         }}
@@ -142,4 +145,4 @@ export const CoursesPage: FC<unknown> = () => {
       ></Route>
     </Switch>
   );
-}
+};

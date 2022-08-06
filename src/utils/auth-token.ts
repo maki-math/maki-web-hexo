@@ -62,9 +62,9 @@ export const useAuth = (key: AuthModuleEnum) => {
 
 function usePermissionsStorage() {
   const [storedPermissions, setStoredPermissions] = useLocalStorageState<
-    string | undefined
+    PermissionModel[] | undefined
   >(StorageKeyStore.Permissions, {
-    defaultValue: '',
+    defaultValue: [],
   });
   return {
     permissions: storedPermissions,
@@ -72,32 +72,32 @@ function usePermissionsStorage() {
   };
 }
 
-export const [PermissionsProvider, usePermissionsContext] = constate(usePermissionsStorage);
+export const [PermissionsProvider, usePermissionsContext] = constate(
+  usePermissionsStorage
+);
 
 export function getPermissions(): PermissionModel[] {
   try {
-    return JSON.parse(localStorage.getItem(StorageKeyStore.Permissions) ?? "'[]'");
+    return JSON.parse(
+      localStorage.getItem(StorageKeyStore.Permissions) ?? "'[]'"
+    );
   } catch (e) {
     return [];
   }
 }
 
-export const fetchPermissions = (setPermissions) => {
-  api.userPermissions.userPermissionsList().then((res) => {
-    setPermissions(res.data.groups[0].permissions);
-  }).catch(err => {
-    setPermissions("'[]'");
-  })
-}
-
-export const AuthWrapper = (props) => {
-  const { isLoggedIn } = useIsLoggedIn();
-  if (!isLoggedIn) return false;
-  const permissions = getPermissions();
-  const permission = permissions.filter( permission => permission.codename === props.codename);
-  if (props.children) {
-    return permission.length === 1 && props.children;
-  } else {
-    return permission.length === 1;
-  }
-}
+export const fetchPermissions = (
+  setPermissions: (s: PermissionModel[]) => void
+) => {
+  api.userPermissions
+    .userPermissionsList()
+    .then((res): PermissionModel[] => {
+      return res.data.groups[0].permissions;
+    })
+    .catch((err) => {
+      return [] as PermissionModel[];
+    })
+    .then((permissions) => {
+      setPermissions(permissions);
+    });
+};

@@ -9,7 +9,7 @@ import { Link, Route, Switch } from 'react-router-dom';
 import { QuestionSetNodeEditingPage } from './QuestionSetNodeEditingPage';
 import { QuestionEditingPage } from './QuestionEditingPage';
 import { QuestionDetailPage } from './QuestionDetailPage';
-import { AuthWrapper } from '@/utils/auth-token';
+import { AuthWrapper } from '@/utils/AuthWrapper';
 import moment from 'moment';
 
 export function QuestionList() {
@@ -17,13 +17,14 @@ export function QuestionList() {
   const questions = data?.data;
 
   const deleteQuestion = (question: QuestionModel) => {
-     api.question.questionDestroy(question.id)
+    api.question
+      .questionDestroy(question.id)
       .then((res) => {
-        message.success("删除成功");
+        message.success('删除成功');
         refresh();
       })
       .catch((err) => {
-        message.error("删除失败, 请稍后重试.");
+        message.error('删除失败, 请稍后重试.');
       });
   };
   const { run } = useRequest(deleteQuestion, { manual: true });
@@ -59,7 +60,7 @@ export function QuestionList() {
       dataIndex: 'created_at',
       key: 'created_at',
       render: (date: string) => {
-        return <span>{moment(date).format('YYYY-MM-DD')}</span>
+        return <span>{moment(date).format('YYYY-MM-DD')}</span>;
       },
       sorter: (a, b) => a.created_at < b.created_at,
       sortDirections: ['descend'],
@@ -69,7 +70,7 @@ export function QuestionList() {
       dataIndex: 'updated_at',
       key: 'updated_at',
       render: (date: string) => {
-        return <span>{moment(date).format('YYYY-MM-DD')}</span>
+        return <span>{moment(date).format('YYYY-MM-DD')}</span>;
       },
       sorter: (a, b) => a.updated_at < b.updated_at,
       sortDirections: ['descend'],
@@ -89,7 +90,6 @@ export function QuestionList() {
               <Popconfirm
                 title="确定要删除吗?"
                 onConfirm={() => run(row)}
-                onCancel={() => {}}
                 okText="确定"
                 cancelText="取消"
               >
@@ -99,7 +99,7 @@ export function QuestionList() {
           </AuthWrapper>
         );
       },
-    }
+    },
   ];
 
   return (
@@ -120,7 +120,7 @@ export function QuestionList() {
         </Col>
       </Row>
     </StandardPageLayout>
-  )
+  );
 }
 
 export function QuestionSetList() {
@@ -131,17 +131,17 @@ export function QuestionSetList() {
     >
       <QuestionSetNodeEditingPage></QuestionSetNodeEditingPage>
     </StandardPageLayout>
-  )
+  );
 }
 
-export function QuestionSetDetail({id}: {id: string}) {
+export function QuestionSetDetail({ id }: { id: string }) {
   return (
-    <StandardPageLayout title={"习题集详情"}>
+    <StandardPageLayout title={'习题集详情'}>
       <QuestionSetNodeEditingPage
         questionNodeId={id}
       ></QuestionSetNodeEditingPage>
-     </StandardPageLayout>
-  )
+    </StandardPageLayout>
+  );
 }
 
 export const QuestionsPage: FC<unknown> = () => {
@@ -157,8 +157,8 @@ export const QuestionsPage: FC<unknown> = () => {
         path="/questions/edit/:id"
         render={(props) => {
           return (
-            <QuestionEditingPage 
-              id={Number(props.match.params.id)} 
+            <QuestionEditingPage
+              id={Number(props.match.params.id)}
             ></QuestionEditingPage>
           );
         }}
@@ -171,7 +171,7 @@ export const QuestionsPage: FC<unknown> = () => {
           path="/questions/sets/:id"
           render={(props) => {
             return (
-              <QuestionSetDetail 
+              <QuestionSetDetail
                 id={Number(props.match.params.id)}
               ></QuestionSetDetail>
             );
@@ -182,9 +182,7 @@ export const QuestionsPage: FC<unknown> = () => {
         path="/questions/:id"
         render={(props) => {
           return (
-            <QuestionDetailPage 
-              id={props.match.params.id} 
-            ></QuestionDetailPage>
+            <QuestionDetailPage id={props.match.params.id}></QuestionDetailPage>
           );
         }}
       ></Route>

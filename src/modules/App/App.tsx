@@ -46,8 +46,7 @@ const Nav = withRouter(({ history }) => {
           <Menu.Item key="/content">
             <Link to="/content">文章</Link>
           </Menu.Item>
-          {
-            isAuthed && 
+          {isAuthed && (
             <Menu.Item key="/questions/sets">
               <Link to="/questions/sets">
                 习题集
@@ -56,7 +55,7 @@ const Nav = withRouter(({ history }) => {
                 </Typography.Text>
               </Link>
             </Menu.Item>
-          }
+          )}
         </Menu>
       </Col>
       <div>

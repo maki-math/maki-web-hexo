@@ -17,7 +17,7 @@ import {
 } from 'antd';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { AuthWrapper } from '@/utils/auth-token';
+import { AuthWrapper } from '@/utils/AuthWrapper';
 
 const { Content } = Layout;
 const { TabPane } = Tabs;

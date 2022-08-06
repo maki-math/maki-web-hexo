@@ -19,7 +19,7 @@ import moment from 'moment';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { CourseContent } from './components/CourseContent';
-import { AuthWrapper } from '@/utils/auth-token';
+import { AuthWrapper } from '@/utils/AuthWrapper';
 
 const { Content } = Layout;
 const { TabPane } = Tabs;
