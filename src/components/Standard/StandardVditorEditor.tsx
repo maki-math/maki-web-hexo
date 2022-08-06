@@ -1,5 +1,4 @@
 import { api } from '@/utils/api';
-import OSS from 'ali-oss';
 import { message } from 'antd';
 import React from 'react';
 import Vditor from 'vditor';
@@ -270,7 +269,8 @@ export function VditorEditor({ id, after, input }: Props) {
       }
     }
 
-    function setUploadingStatus(isLoading: boolean) {
+    // TODO add placeholder when loading
+    function _setUploadingStatus(isLoading: boolean) {
       const uploadConfig = editor.vditor.upload;
       if (!uploadConfig) return;
       const ele = getVditorElement(editor.vditor);

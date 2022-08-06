@@ -1,25 +1,37 @@
-import { StandardPageLayout } from '@/components/Standard/StandardPageLayout';
-import { VditorEditor, uploadToOSS } from '@/components/Standard/StandardVditorEditor';
-import React, { useState } from 'react';
-import { useRequest } from 'ahooks';
-import { 
-  Form, Input, Button, message, Skeleton,
-  Col, Row, Row, Checkbox, Upload, Image, Space,
-} from 'antd';
-import { CourseModel } from '@/generated-api/Api';
-import { api } from '@/utils/api';
-import { useForm } from 'antd/lib/form/Form';
-import { useHistory } from 'react-router-dom';
+import uploadImage from '@/assets/uploadimage.jpeg';
 import { mathFormat } from '@/components/Standard/StandardMDContainer';
+import { StandardPageLayout } from '@/components/Standard/StandardPageLayout';
+import {
+  uploadToOSS,
+  VditorEditor,
+} from '@/components/Standard/StandardVditorEditor';
+import { CourseCategoryModel, CourseModel } from '@/generated-api/Api';
+import { api } from '@/utils/api';
 import { UploadOutlined } from '@ant-design/icons';
+import { useRequest } from 'ahooks';
+import {
+  Button,
+  Checkbox,
+  Col,
+  Form,
+  Image,
+  Input,
+  message,
+  Row,
+  Skeleton,
+  Space,
+  Upload,
+} from 'antd';
 import type { UploadChangeParam } from 'antd/es/upload';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
-import uploadImage from '@/assets/uploadimage.jpeg';
+import { useForm } from 'antd/lib/form/Form';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 export const VditorCDN = 'https://beta.maki-math.com/static/vditor@3.8.13';
 
-const UploadImage = ({setCover, cover}) => {
-  const [loading, setLoading] = useState(false);
+const UploadImage = ({ setCover, cover }) => {
+  const [_, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState(cover);
   const [visible, setVisible] = useState(false);
 
@@ -29,55 +41,66 @@ const UploadImage = ({setCover, cover}) => {
     reader.readAsDataURL(img);
   };
 
-  const handleChange: UploadProps['onChange'] = (info: UploadChangeParam<UploadFile>) => {
-    getBase64(info.file.originFileObj as RcFile, url => {
+  const handleChange: UploadProps['onChange'] = (
+    info: UploadChangeParam<UploadFile>
+  ) => {
+    getBase64(info.file.originFileObj as RcFile, (url) => {
       setLoading(false);
       setImageUrl(url);
     });
-    uploadToOSS([info.file.originFileObj]).then( res => {
-      setCover(res[0].rawUrl);
-    }).catch( err => {
-      message.error('图片上传失败, 请重试');
-    })
+    uploadToOSS([info.file.originFileObj])
+      .then((res) => {
+        setCover(res[0].rawUrl);
+      })
+      .catch(() => {
+        message.error('图片上传失败, 请重试');
+      });
   };
 
-  return <Space direction="vertical" align="center">
-    <Upload
-      name="cover"
-      showUploadList={false}
-      accept="image/*"
-      action=""
-      onChange={handleChange}
-    >
-      <Button icon={<UploadOutlined />}>点击上传封面</Button>
-    </Upload>
-    <Image
-      preview={{ visible: false }}
-      height={215}
-      width={150}
-      src={imageUrl}
-      fallback={uploadImage}
-      onClick={() => imageUrl && setVisible(true)}
-    />
-    <div style={{ display: 'none' }}>
-      <Image.PreviewGroup preview={{ visible, onVisibleChange: vis => setVisible(vis) }}>
-        <Image src={imageUrl} />
-      </Image.PreviewGroup>
-    </div>
-  </Space>
+  return (
+    <Space direction="vertical" align="center">
+      <Upload
+        name="cover"
+        showUploadList={false}
+        accept="image/*"
+        action=""
+        onChange={handleChange}
+      >
+        <Button icon={<UploadOutlined />}>点击上传封面</Button>
+      </Upload>
+      <Image
+        preview={{ visible: false }}
+        height={215}
+        width={150}
+        src={imageUrl}
+        fallback={uploadImage}
+        onClick={() => imageUrl && setVisible(true)}
+      />
+      <div style={{ display: 'none' }}>
+        <Image.PreviewGroup
+          preview={{ visible, onVisibleChange: (vis) => setVisible(vis) }}
+        >
+          <Image src={imageUrl} />
+        </Image.PreviewGroup>
+      </div>
+    </Space>
+  );
 };
 
-function CourseEditing({ course, courseCategories }: { 
-  course: CourseModel, 
-  courseCategories: CourseCategoryModel[] 
+function CourseEditing({
+  course,
+  courseCategories,
+}: {
+  course: CourseModel;
+  courseCategories: CourseCategoryModel[];
 }) {
   if (course.category?.[0]?.name) {
-    course.category = course.category.map( cg => cg.alias );
+    course.category = course.category.map((cg) => cg.alias);
   }
-  
-  const [ cover, setCover ] = useState(course.cover);
+
+  const [cover, setCover] = useState(course.cover);
   const course_keys_alias = [
-    { name: 'cover', alias: '课程封面'},
+    { name: 'cover', alias: '课程封面' },
     { name: 'title', alias: '课程名称' },
     { name: 'teacher', alias: '授课老师' },
     { name: 'contact', alias: '联系方式' },
@@ -92,7 +115,7 @@ function CourseEditing({ course, courseCategories }: {
   const beforeUpload = (course: CourseModel) => {
     course.cover = cover;
     if (course.description === '\n') {
-      course.description = ''; 
+      course.description = '';
     }
     if (course.category.length === 0) {
       message.error('请选择课程分类');
@@ -104,7 +127,9 @@ function CourseEditing({ course, courseCategories }: {
         return;
       }
     }
-    const category = courseCategories.filter( cc => course.category.includes(cc.alias) );
+    const category = courseCategories.filter((cc) =>
+      course.category.includes(cc.alias)
+    );
     course.category = category;
     run(course);
   };
@@ -121,7 +146,7 @@ function CourseEditing({ course, courseCategories }: {
         message.success('上传成功');
         history.push(path);
       })
-      .catch((err) => {
+      .catch(() => {
         message.error('上传失败, 请稍后重试.');
       });
   };
@@ -140,24 +165,19 @@ function CourseEditing({ course, courseCategories }: {
         <Row>
           <Col span={19}>
             <Form.Item name="category" label="课程分类">
-              <Checkbox.Group style={{width: '100%'}}>
+              <Checkbox.Group style={{ width: '100%' }}>
                 <Row>
-                  {
-                    courseCategories.map( cc => 
-                      <Col span={3}>
-                        <Checkbox 
-                          key={cc.id} 
-                          value={cc.alias}
-                        >
-                          {cc.alias}
-                        </Checkbox>
-                      </Col>
-                    )
-                  }
+                  {courseCategories.map((cc) => (
+                    <Col span={3}>
+                      <Checkbox key={cc.id} value={cc.alias}>
+                        {cc.alias}
+                      </Checkbox>
+                    </Col>
+                  ))}
                 </Row>
               </Checkbox.Group>
             </Form.Item>
-          
+
             {course_keys_alias.slice(1, 5).map((item, index) => (
               <Form.Item name={item.name} label={item.alias} key={index}>
                 <Input />
@@ -165,7 +185,7 @@ function CourseEditing({ course, courseCategories }: {
             ))}
           </Col>
           <Col span={4} offset={1}>
-            <UploadImage setCover={setCover} cover={cover}/>
+            <UploadImage setCover={setCover} cover={cover} />
           </Col>
         </Row>
         {course_keys_alias.slice(5, 7).map((item, index) => (
@@ -199,8 +219,15 @@ function CourseEditing({ course, courseCategories }: {
           <Row justify="center">
             <Col>
               <Space direction="horizontal">
-                <Button type="primary" htmlType="submit" disabled={loading}>上传</Button>
-                <Button disabled={loading} onClick={() => window.history.back()}>取消</Button>
+                <Button type="primary" htmlType="submit" disabled={loading}>
+                  上传
+                </Button>
+                <Button
+                  disabled={loading}
+                  onClick={() => window.history.back()}
+                >
+                  取消
+                </Button>
               </Space>
             </Col>
           </Row>
@@ -213,7 +240,7 @@ function CourseEditing({ course, courseCategories }: {
 export const CourseEditingPage = ({ id }: { id: number }) => {
   let course;
   if (id > 0) {
-    const { data, loading } = useRequest(
+    const { data } = useRequest(
       () => {
         return api.courses.coursesRetrieve(id);
       },
