@@ -174,8 +174,8 @@ export function VditorEditor({ id, after, input }: Props) {
         const path = response.data.succMap[key];
         const lastIndex = key.lastIndexOf('.');
         let type = key.substr(lastIndex);
-        const filename =
-          vditor.options.upload.filename(key.substr(0, lastIndex)) + type;
+        const filename = key;
+
         type = type.toLowerCase();
         if (
           type.indexOf('.wav') === 0 ||
