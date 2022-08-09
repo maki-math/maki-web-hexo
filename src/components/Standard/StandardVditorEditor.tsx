@@ -69,9 +69,9 @@ export const uploadToOSS = async (files: File[]) => {
         // 指定下载时的文件名
         // 阿里云OSS元信息参考 https://help.aliyun.com/document_detail/31859.html#concept-pk1-sxl-vdb
         // filename的用法参考 https://www.cnblogs.com/zhengxl5566/p/13492602.html
-        'Content-Disposition': `attachment;filename*=utf-8''${encodeURIComponent(
+        'Content-Disposition': `attachment;filename="${encodeURIComponent(
           file.name
-        )}`,
+        )}";filename*=utf-8''${encodeURIComponent(file.name)}`,
       },
     });
   }
