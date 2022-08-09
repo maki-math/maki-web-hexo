@@ -65,14 +65,24 @@ export const uploadToOSS = async (files: File[]) => {
     return fetch(url, {
       method: 'PUT',
       body: file,
+      headers: {
+        // 下载时的文件名
+        'Content-Disposition': `attachment;filename="${encodeURIComponent(
+          file.name
+        )}"`,
+      },
     });
   }
 
   return Promise.all(
     files.map((file) => {
       const objectName = `${file.name}`;
+      const encodedObjectName = encodeURIComponent(objectName);
       return api.oss
-        .ossSignObjectCreate({ objectName, contentType: file.type })
+        .ossSignObjectCreate({
+          objectName: encodedObjectName,
+          contentType: file.type,
+        })
         .then((res) => {
           const rawUrl = res.data.rawUrl;
           return upload(res.data.signedUrl, file).then((res) => {

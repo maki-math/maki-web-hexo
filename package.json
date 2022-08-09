@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite --port 3000",
-    "dev-w-local-server": "vite --mode development-local-server",
+    "dev-w-local-server": "vite --port 3000 --mode development-local-server",
     "build": "vite build",
     "serve": "vite preview",
     "lint": "eslint --fix src",
