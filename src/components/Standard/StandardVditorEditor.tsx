@@ -67,9 +67,9 @@ export const uploadToOSS = async (files: File[]) => {
       body: file,
       headers: {
         // 下载时的文件名
-        'Content-Disposition': `attachment;filename="${encodeURIComponent(
+        'Content-Disposition': `attachment;filename*=utf-8''${encodeURIComponent(
           file.name
-        )}"`,
+        )}`,
       },
     });
   }
