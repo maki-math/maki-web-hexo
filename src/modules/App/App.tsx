@@ -1,10 +1,15 @@
 import { CustomLayoutHeader } from '@/components/CustomLayoutHeader/CustomLayoutHeader';
 import { GithubOutlined } from '@/components/Icon/Icon';
 import { REPOSITORY_URL } from '@/dicts/global';
-import { TokenProvider, PermissionsProvider } from '@/utils/auth-token';
-import { Button, Col, Divider, Layout, Menu, Typography } from 'antd';
+import {
+  AuthModuleEnum,
+  PermissionsProvider,
+  TokenProvider,
+  useAuth,
+} from '@/utils/auth-token';
+import { Button, Col, Divider, Layout, Menu, message, Typography } from 'antd';
 import 'antd/dist/antd.css';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   HashRouter as Router,
   Link,
@@ -19,7 +24,6 @@ import { QuestionsPage } from '../Questions/QuestionsPage';
 import { UserLoginIndicator } from '../User/UserLoginIndicator/UserLoginIndicator';
 import { BackToHome } from './components/BackToHome';
 import Scroll2Top from './components/Scroll2Top';
-import { AuthModuleEnum, useAuth } from '@/utils/auth-token';
 
 const { Content, Footer } = Layout;
 
@@ -66,6 +70,9 @@ const Nav = withRouter(({ history }) => {
 });
 
 function App() {
+  useEffect(() => {
+    message.info('maki-lab 正在维护中，请稍后再试~');
+  }, []);
   return (
     <Router>
       <Scroll2Top>
