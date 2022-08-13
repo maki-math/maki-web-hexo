@@ -7,9 +7,9 @@ import {
   TokenProvider,
   useAuth,
 } from '@/utils/auth-token';
-import { Button, Col, Divider, Layout, Menu, message, Typography } from 'antd';
+import { Button, Col, Divider, Layout, Menu, Typography } from 'antd';
 import 'antd/dist/antd.css';
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   HashRouter as Router,
   Link,
@@ -70,9 +70,6 @@ const Nav = withRouter(({ history }) => {
 });
 
 function App() {
-  useEffect(() => {
-    message.info('maki-lab 正在维护中，请稍后再试~');
-  }, []);
   return (
     <Router>
       <Scroll2Top>
