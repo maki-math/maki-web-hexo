@@ -26,6 +26,7 @@
     "constate": "^3.3.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
+    "react-ga4": "^1.4.1",
     "react-router-dom": "^5",
     "vditor": "^3.8.13"
   },

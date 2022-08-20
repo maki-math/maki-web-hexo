@@ -7,6 +7,7 @@ import {
   TokenProvider,
   useAuth,
 } from '@/utils/auth-token';
+import { usePageTracking, useTracking } from '@/utils/tracking';
 import { Button, Col, Divider, Layout, Menu, Typography } from 'antd';
 import 'antd/dist/antd.css';
 import React from 'react';
@@ -69,49 +70,58 @@ const Nav = withRouter(({ history }) => {
   );
 });
 
+function AppContent() {
+  usePageTracking();
+  return (
+    <Scroll2Top>
+      <TokenProvider>
+        <PermissionsProvider>
+          <Layout>
+            <Nav></Nav>
+            <Content style={{ padding: '0 50px' }}>
+              <Switch>
+                <Route path="/courses">
+                  <CoursesPage />
+                </Route>
+                <Route path="/content">
+                  <ArticleListPage />
+                </Route>
+                <Route path="/questions">
+                  <QuestionsPage />
+                </Route>
+                <Route path="/">
+                  <HomePage></HomePage>
+                </Route>
+              </Switch>
+            </Content>
+            <Footer style={{ textAlign: 'center' }}>
+              <Divider></Divider>
+              <div>
+                <Button
+                  shape="circle"
+                  type="text"
+                  size="large"
+                  onClick={() => window.open(REPOSITORY_URL)}
+                >
+                  <GithubOutlined />
+                </Button>
+              </div>
+              <div>Copyright © 2020 - 2022 Maki's Lab. 保留所有权利.</div>
+              <a href="http://beian.miit.gov.cn">沪ICP备2022010774号</a>
+            </Footer>
+          </Layout>
+        </PermissionsProvider>
+      </TokenProvider>
+    </Scroll2Top>
+  );
+}
+
 function App() {
+  useTracking();
+
   return (
     <Router>
-      <Scroll2Top>
-        <TokenProvider>
-          <PermissionsProvider>
-            <Layout>
-              <Nav></Nav>
-              <Content style={{ padding: '0 50px' }}>
-                <Switch>
-                  <Route path="/courses">
-                    <CoursesPage />
-                  </Route>
-                  <Route path="/content">
-                    <ArticleListPage />
-                  </Route>
-                  <Route path="/questions">
-                    <QuestionsPage />
-                  </Route>
-                  <Route path="/">
-                    <HomePage></HomePage>
-                  </Route>
-                </Switch>
-              </Content>
-              <Footer style={{ textAlign: 'center' }}>
-                <Divider></Divider>
-                <div>
-                  <Button
-                    shape="circle"
-                    type="text"
-                    size="large"
-                    onClick={() => window.open(REPOSITORY_URL)}
-                  >
-                    <GithubOutlined />
-                  </Button>
-                </div>
-                <div>Copyright © 2020 - 2022 Maki's Lab. 保留所有权利.</div>
-                <a href="http://beian.miit.gov.cn">沪ICP备2022010774号</a>
-              </Footer>
-            </Layout>
-          </PermissionsProvider>
-        </TokenProvider>
-      </Scroll2Top>
+      <AppContent></AppContent>
     </Router>
   );
 }
