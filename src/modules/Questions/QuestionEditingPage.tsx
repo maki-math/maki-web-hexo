@@ -9,7 +9,7 @@ import { useForm } from 'antd/lib/form/Form';
 import { useHistory } from 'react-router-dom';
 import { mathFormat } from '@/components/Standard/StandardMDContainer';
 
-export const VditorCDN = 'https://beta.maki-math.com/static/vditor@3.8.13';
+export const VditorCDN = 'https://www.maki-math.com/static/vditor@3.8.13';
 
 function QuestionEditing({ question }: { question: QuestionModel }) {
   const question_keys_alias = [
