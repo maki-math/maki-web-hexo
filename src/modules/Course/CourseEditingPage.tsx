@@ -28,7 +28,7 @@ import { useForm } from 'antd/lib/form/Form';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-export const VditorCDN = 'https://beta.maki-math.com/static/vditor@3.8.13';
+export const VditorCDN = 'https://www.maki-math.com/static/vditor@3.8.13';
 
 const UploadImage = ({ setCover, cover }) => {
   const [_, setLoading] = useState(false);
