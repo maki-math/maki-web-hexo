@@ -81,7 +81,7 @@ function AppContent() {
         <PermissionsProvider>
           <Layout>
             <Nav></Nav>
-            <Content style={{ padding: '0 50px' }}>
+            <Content>
               <Switch>
                 <Route path="/courses">
                   <CoursesPage />
@@ -93,7 +93,9 @@ function AppContent() {
                   <QuestionsPage />
                 </Route>
                 <Route path="/">
-                  <HomePage></HomePage>
+                  <div style={{ padding: '0 50px' }}>
+                    <HomePage></HomePage>
+                  </div>
                 </Route>
               </Switch>
             </Content>
