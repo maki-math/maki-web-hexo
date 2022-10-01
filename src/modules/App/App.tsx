@@ -32,7 +32,10 @@ const Nav = withRouter(({ history }) => {
   const isAuthed = useAuth(AuthModuleEnum.QuestionPage);
   return (
     <CustomLayoutHeader style={{ position: 'sticky', top: 0, zIndex: 10 }}>
-      <h2 style={{ marginRight: '10px' }}>
+      <h2
+        className="logo"
+        style={{ marginRight: '10px', whiteSpace: 'nowrap' }}
+      >
         <BackToHome></BackToHome>
       </h2>
       <Col flex={1}>
