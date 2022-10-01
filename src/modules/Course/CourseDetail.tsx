@@ -1,9 +1,9 @@
 import { StandardMDContainer } from '@/components/Standard/StandardMDContainer';
 import { CourseModel } from '@/generated-api/Api';
 import { api } from '@/utils/api';
+import { AuthWrapper } from '@/utils/AuthWrapper';
 import { useRequest } from 'ahooks';
 import {
-  Breadcrumb,
   Button,
   Col,
   Divider,
@@ -11,7 +11,6 @@ import {
   Layout,
   Row,
   Skeleton,
-  Space,
   Tabs,
   Typography,
 } from 'antd';
@@ -19,7 +18,6 @@ import moment from 'moment';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { CourseContent } from './components/CourseContent';
-import { AuthWrapper } from '@/utils/AuthWrapper';
 
 const { Content } = Layout;
 const { TabPane } = Tabs;
@@ -35,7 +33,7 @@ export function CourseDetail({ course }: { course: CourseModel }) {
     <>
       <Content>
         <Row>
-          <Space size={50} align={'start'}>
+          <Row align="top" gutter={32}>
             <Col className="course-detail-header">
               <Image
                 preview={false}
@@ -44,7 +42,7 @@ export function CourseDetail({ course }: { course: CourseModel }) {
                 src={course.cover}
               />
             </Col>
-            <Col className="course-detail-header" style={{ minWidth: '300px' }}>
+            <Col className="course-detail-header">
               <Title level={2}>{course.title}</Title>
               <p>课程代码 : {course.courseCode}</p>
               <p>授课老师 : {course.teacher}</p>
@@ -62,7 +60,7 @@ export function CourseDetail({ course }: { course: CourseModel }) {
                 </Button>
               )}
             </Col>
-          </Space>
+          </Row>
         </Row>
 
         <Divider />
