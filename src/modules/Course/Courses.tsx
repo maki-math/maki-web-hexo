@@ -16,11 +16,11 @@ export function CourseListPage() {
   const deleteCourse = (course: CourseModel) => {
     api.courses
       .coursesDestroy(course.id)
-      .then((res) => {
+      .then(() => {
         message.success('删除成功');
         refresh();
       })
-      .catch((err) => {
+      .catch(() => {
         message.error('删除失败, 请稍后重试.');
       });
   };
@@ -137,7 +137,7 @@ export const CoursesPage: FC<unknown> = () => {
         path="/courses/:id"
         render={(props) => {
           return (
-            <StandardPageLayout title="课程详情">
+            <StandardPageLayout title="课程详情" back>
               <CourseDetailPage id={props.match.params.id} />
             </StandardPageLayout>
           );
