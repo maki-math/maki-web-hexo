@@ -1,16 +1,9 @@
 import { ContentNodeModel } from '@/generated-api/Api';
 import { api } from '@/utils/api';
-import { useRequest } from 'ahooks';
-import { Layout, Menu } from 'antd';
-import React, { useState } from 'react';
-import { ArticleDisplay } from './PostDisplay/PostDisplay';
+import { Menu } from 'antd';
+import React from 'react';
 
 const { SubMenu } = Menu;
-const { Content, Sider } = Layout;
-
-export interface Props {
-  id: number;
-}
 
 export const findInTreeById = (
   root: ContentNodeModel | undefined,
@@ -56,51 +49,51 @@ export const renderMenu = (root: ContentNodeModel | undefined) => {
   return <></>;
 };
 
-export function ArticlePage({ id }: Props) {
-  const { data, loading, error } = useRequest(
-    () => {
-      return getArticleNodeRoot(id);
-    },
-    { refreshDeps: [id] }
-  );
+// export function ArticlePage({ id }: Props) {
+//   const { data, loading, error } = useRequest(
+//     () => {
+//       return getArticleNodeRoot(id);
+//     },
+//     { refreshDeps: [id] }
+//   );
 
-  const [selectedKeys, setSelectedKeys] = useState<string[]>([String(id)]);
-  return (
-    <Layout hasSider>
-      <Sider
-        style={{
-          width: 200,
-          overflow: 'auto',
-          position: 'fixed',
-          left: 0,
-          top: 88,
-          bottom: 0,
-        }}
-      >
-        <Menu
-          mode="inline"
-          style={{ height: '100%' }}
-          selectedKeys={selectedKeys}
-          onSelect={({ key, keyPath }) => {
-            setSelectedKeys([key]);
-            const targetContentNode = findInTreeById(data?.root, key);
-          }}
-        >
-          {
-            <SubMenu
-              key={String(data?.root?.id)}
-              title={<span>{data?.root?.label}</span>}
-            >
-              {renderMenu(data?.root)}
-            </SubMenu>
-          }
-        </Menu>
-      </Sider>
-      <Layout className="h-full" style={{ padding: '24px 0', marginLeft: 150 }}>
-        <Content style={{ padding: '0 24px', minHeight: 280 }}>
-          <ArticleDisplay articleId={id}></ArticleDisplay>
-        </Content>
-      </Layout>
-    </Layout>
-  );
-}
+//   const [selectedKeys, setSelectedKeys] = useState<string[]>([String(id)]);
+//   return (
+//     <Layout hasSider>
+//       <Sider
+//         style={{
+//           width: 200,
+//           overflow: 'auto',
+//           position: 'fixed',
+//           left: 0,
+//           top: 88,
+//           bottom: 0,
+//         }}
+//       >
+//         <Menu
+//           mode="inline"
+//           style={{ height: '100%' }}
+//           selectedKeys={selectedKeys}
+//           onSelect={({ key, keyPath }) => {
+//             setSelectedKeys([key]);
+//             const targetContentNode = findInTreeById(data?.root, key);
+//           }}
+//         >
+//           {
+//             <SubMenu
+//               key={String(data?.root?.id)}
+//               title={<span>{data?.root?.label}</span>}
+//             >
+//               {renderMenu(data?.root)}
+//             </SubMenu>
+//           }
+//         </Menu>
+//       </Sider>
+//       <Layout className="h-full" style={{ padding: '24px 0', marginLeft: 150 }}>
+//         <Content style={{ padding: '0 24px', minHeight: 280 }}>
+//           <ArticleDisplay articleId={id}></ArticleDisplay>
+//         </Content>
+//       </Layout>
+//     </Layout>
+//   );
+// }
