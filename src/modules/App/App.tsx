@@ -8,7 +8,7 @@ import {
   useAuth,
 } from '@/utils/auth-token';
 import { usePageTracking, useTracking } from '@/utils/tracking';
-import { Button, Col, Divider, Layout, Menu, Typography } from 'antd';
+import { BackTop, Button, Col, Divider, Layout, Menu, Typography } from 'antd';
 import 'antd/dist/antd.css';
 import React from 'react';
 import {
@@ -80,6 +80,7 @@ function AppContent() {
       <TokenProvider>
         <PermissionsProvider>
           <Layout>
+            <BackTop />
             <Nav></Nav>
             <Content>
               <Switch>
