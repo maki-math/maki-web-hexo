@@ -4,17 +4,9 @@ import { AuthWrapper } from '@/utils/AuthWrapper';
 import { api } from '@/utils/api';
 import { splitTagsString } from '@/utils/tags';
 import { useRequest } from 'ahooks';
-import {
-  Col,
-  Divider,
-  Layout,
-  PageHeader,
-  Row,
-  Skeleton,
-  Tabs,
-  Tag,
-} from 'antd';
-import moment from 'moment';
+import { Col, Divider, Layout, Row, Skeleton, Tabs, Tag } from 'antd';
+import { PageHeader } from '@ant-design/pro-layout';
+import dayjs from 'dayjs';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -37,12 +29,12 @@ function QuestionDetail({ question }: { question: QuestionModel }) {
           onBack={() => window.history.back()}
         >
           <Content style={{ padding: '0 24px', minHeight: 600 }}>
-            <Row span={24}>
+            <Row>
               <Col>
                 难度: <Tag color="red">困难</Tag>
               </Col>
               <Col offset={1}>
-                创建时间: {moment(question.created_at).format('YYYY-MM-DD')}
+                创建时间: {dayjs(question.created_at).format('YYYY-MM-DD')}
               </Col>
               <Col offset={1}>创建者: {question.author}</Col>
               <Col offset={1}>

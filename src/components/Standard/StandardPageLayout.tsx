@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
-import { Layout, PageHeader } from 'antd';
+import { PageHeader } from '@ant-design/pro-layout';
+import { Layout } from 'antd';
 import React from 'react';
 const { Content } = Layout;
 

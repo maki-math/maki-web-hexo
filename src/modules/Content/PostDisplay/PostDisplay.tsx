@@ -1,7 +1,8 @@
 import { StandardMDContainer } from '@/components/Standard/StandardMDContainer';
 import { api } from '@/utils/api';
 import { useRequest } from 'ahooks';
-import { Layout, PageHeader, Skeleton } from 'antd';
+import { PageHeader } from '@ant-design/pro-layout';
+import { Layout, Skeleton } from 'antd';
 import React from 'react';
 
 const { Content } = Layout;

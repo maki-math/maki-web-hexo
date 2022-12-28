@@ -8,8 +8,18 @@ import {
   useAuth,
 } from '@/utils/auth-token';
 import { usePageTracking, useTracking } from '@/utils/tracking';
-import { BackTop, Button, Col, Divider, Layout, Menu, Typography } from 'antd';
-import 'antd/dist/antd.css';
+import {
+  Button,
+  Col,
+  Divider,
+  FloatButton,
+  Layout,
+  Menu,
+  Typography,
+} from 'antd';
+
+// import 'antd/dist/antd.css';
+
 import React from 'react';
 import {
   HashRouter as Router,
@@ -80,7 +90,7 @@ function AppContent() {
       <TokenProvider>
         <PermissionsProvider>
           <Layout>
-            <BackTop />
+            <FloatButton.BackTop />
             <Nav></Nav>
             <Content>
               <Switch>
