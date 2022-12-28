@@ -28,7 +28,8 @@
     "react-dom": "^18.0.0",
     "react-ga4": "^1.4.1",
     "react-router-dom": "^5",
-    "vditor": "^3.8.13"
+    "vditor": "^3.8.13",
+    "minimatch": ">=3.0.5"
   },
   "devDependencies": {
     "@commitlint/cli": "^14.1.0",
