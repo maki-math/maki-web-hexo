@@ -25,13 +25,13 @@
     "antd": "5.x",
     "axios": "^0.26.1",
     "constate": "^3.3.2",
-    "moment": "^2.29.4",
+    "dayjs": "^1.11.7",
+    "minimatch": ">=3.0.5",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-ga4": "^1.4.1",
     "react-router-dom": "^5",
-    "vditor": "^3.8.13",
-    "minimatch": ">=3.0.5"
+    "vditor": "^3.8.13"
   },
   "devDependencies": {
     "@commitlint/cli": "^14.1.0",

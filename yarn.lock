@@ -1809,7 +1809,7 @@ dateformat@^2.0.0:
   resolved "https://registry.npmmirror.com/dateformat/-/dateformat-2.2.0.tgz#4065e2013cf9fb916ddfd82efb506ad4c6769062"
   integrity sha512-GODcnWq3YGoTnygPfi02ygEiRxqUxpJwuRHjdhJYuxpcZmDq4rjBiXYmbCCzStxo176ixfLT6i4NPwQooRySnw==
 
-dayjs@^1.11.1, dayjs@^1.11.4:
+dayjs@^1.11.1, dayjs@^1.11.4, dayjs@^1.11.7:
   version "1.11.7"
   resolved "https://registry.npmmirror.com/dayjs/-/dayjs-1.11.7.tgz#4b296922642f70999544d1144a2c25730fce63e2"
   integrity sha512-+Yw9U6YO5TQohxLcIkrXBeY73WP3ejHWVvx8XCk3gxvQDCTEmS48ZrSZCKciI7Bhl/uCMyxYtE9UqRILmFphkQ==
@@ -3872,11 +3872,6 @@ mkdirp@^0.5.0, mkdirp@^0.5.1:
   integrity sha512-NKmAlESf6jMGym1++R0Ra7wvhV+wFW63FaSOFPwRahvea0gMUcGUhVeAg/0BC0wiv9ih5NYPB1Wn1UEI1/L+xQ==
   dependencies:
     minimist "^1.2.5"
-
-moment@^2.29.4:
-  version "2.29.4"
-  resolved "https://registry.npmmirror.com/moment/-/moment-2.29.4.tgz#3dbe052889fe7c1b2ed966fcb3a77328964ef108"
-  integrity sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==
 
 ms@*, ms@^2.0.0, ms@^2.1.1:
   version "2.1.3"

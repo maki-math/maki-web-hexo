@@ -14,7 +14,7 @@ import {
   Tabs,
   Typography,
 } from 'antd';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { CourseContent } from './components/CourseContent';
@@ -46,7 +46,7 @@ export function CourseDetail({ course }: { course: CourseModel }) {
               <Title level={2}>{course.title}</Title>
               <p>课程代码 : {course.courseCode}</p>
               <p>授课老师 : {course.teacher}</p>
-              <p>开课时间 : {moment(course.created_at).format('YYYY-MM-DD')}</p>
+              <p>开课时间 : {dayjs(course.created_at).format('YYYY-MM-DD')}</p>
               <AuthWrapper codename="change_course">
                 <Link to={path}>编辑课程</Link>
               </AuthWrapper>

@@ -10,7 +10,7 @@ import { QuestionSetNodeEditingPage } from './QuestionSetNodeEditingPage';
 import { QuestionEditingPage } from './QuestionEditingPage';
 import { QuestionDetailPage } from './QuestionDetailPage';
 import { AuthWrapper } from '@/utils/AuthWrapper';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 export function QuestionList() {
   const { data, loading, refresh } = useRequest(api.question.questionList);
@@ -19,11 +19,11 @@ export function QuestionList() {
   const deleteQuestion = (question: QuestionModel) => {
     api.question
       .questionDestroy(question.id)
-      .then((res) => {
+      .then(() => {
         message.success('删除成功');
         refresh();
       })
-      .catch((err) => {
+      .catch(() => {
         message.error('删除失败, 请稍后重试.');
       });
   };
@@ -60,7 +60,7 @@ export function QuestionList() {
       dataIndex: 'created_at',
       key: 'created_at',
       render: (date: string) => {
-        return <span>{moment(date).format('YYYY-MM-DD')}</span>;
+        return <span>{dayjs(date).format('YYYY-MM-DD')}</span>;
       },
       sorter: (a, b) => a.created_at < b.created_at,
       sortDirections: ['descend'],
@@ -70,7 +70,7 @@ export function QuestionList() {
       dataIndex: 'updated_at',
       key: 'updated_at',
       render: (date: string) => {
-        return <span>{moment(date).format('YYYY-MM-DD')}</span>;
+        return <span>{dayjs(date).format('YYYY-MM-DD')}</span>;
       },
       sorter: (a, b) => a.updated_at < b.updated_at,
       sortDirections: ['descend'],

@@ -17,8 +17,7 @@ import {
   Menu,
   Typography,
 } from 'antd';
-
-// import 'antd/dist/antd.css';
+import 'antd/dist/reset.css';
 
 import React from 'react';
 import {
