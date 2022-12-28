@@ -40,7 +40,14 @@ const { Content, Footer } = Layout;
 const Nav = withRouter(({ history }) => {
   const isAuthed = useAuth(AuthModuleEnum.QuestionPage);
   return (
-    <CustomLayoutHeader style={{ position: 'sticky', top: 0, zIndex: 10 }}>
+    <CustomLayoutHeader
+      style={{
+        position: 'sticky',
+        top: 0,
+        zIndex: 10,
+        backgroundColor: '#fff',
+      }}
+    >
       <h2
         className="logo"
         style={{ marginRight: '10px', whiteSpace: 'nowrap' }}
