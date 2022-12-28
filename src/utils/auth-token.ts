@@ -29,7 +29,7 @@ export const useIsLoggedIn = () => {
     if (!token) {
       return undefined;
     }
-    return api.auth.authUserRetrieve().catch((err) => {
+    return api.auth.authUserRetrieve().catch((_err: unknown) => {
       setToken('');
     });
   };
@@ -54,7 +54,7 @@ export enum AuthModuleEnum {
   QuestionPage = 'question_page',
 }
 
-export const useAuth = (key: AuthModuleEnum) => {
+export const useAuth = (_key: AuthModuleEnum) => {
   const { isLoggedIn } = useIsLoggedIn();
   // TODO handle module key here
   return isLoggedIn;
@@ -94,7 +94,7 @@ export const fetchPermissions = (
     .then((res): PermissionModel[] => {
       return res.data.groups[0].permissions;
     })
-    .catch((err) => {
+    .catch((_err: unknown) => {
       return [] as PermissionModel[];
     })
     .then((permissions) => {

@@ -1,8 +1,8 @@
 import { api } from '@/utils/api';
-import { getToken, useIsLoggedIn, useTokenContext } from '@/utils/auth-token';
+import { useIsLoggedIn, useTokenContext } from '@/utils/auth-token';
 import { DownOutlined } from '@ant-design/icons';
 import { useRequest } from 'ahooks';
-import { Button, Dropdown, Menu, message, Space } from 'antd';
+import { Button, Dropdown, Menu, Space, message } from 'antd';
 import React, { useCallback, useState } from 'react';
 import { UserLoginModal } from './UserLoginModal';
 import { UserRegisterModal } from './UserRegisterModal';
@@ -33,7 +33,7 @@ export function UserLoginIndicator() {
   const [isLoginModalVisible, setIsLoginModalVisible] = useState(false);
   const [isRegisterModalVisible, setIsRegisterModalVisible] = useState(false);
   const [
-    isForgottenPasswordModalVisible,
+    _isForgottenPasswordModalVisible,
     setIsForgottenPasswordModalVisible,
   ] = useState(false);
 

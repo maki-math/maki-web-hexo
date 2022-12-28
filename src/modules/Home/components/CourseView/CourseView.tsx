@@ -1,7 +1,16 @@
 import { CourseGalleryModel, CourseModel } from '@/generated-api/Api';
 import { api } from '@/utils/api';
 import { useRequest } from 'ahooks';
-import { Card, Col, Image, Row, Tabs, Typography, Skeleton, Layout } from 'antd';
+import {
+  Card,
+  Col,
+  Image,
+  Row,
+  Tabs,
+  Typography,
+  Skeleton,
+  Layout,
+} from 'antd';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -11,7 +20,7 @@ const { TabPane } = Tabs;
 
 function CourseCard({ course }: { course: CourseModel }) {
   const path = { pathname: `/courses/${course.id}`, state: { course: course } };
-  const [ellipsis, setEllipsis] = React.useState(true);
+  const [ellipsis] = React.useState(true);
   return (
     <div>
       <Link to={path}>
@@ -61,7 +70,7 @@ function SubjectView({ courses }: { courses: CourseModel[] }) {
 }
 
 function CourseView() {
-  const { data, loading } = useRequest(api.courseGallery.courseGalleryList);
+  const { data } = useRequest(api.courseGallery.courseGalleryList);
   const courseGallery = data?.data ?? [];
 
   const recommendCourseGallery = courseGallery?.slice(-1) ?? [];
@@ -92,25 +101,30 @@ function CourseCategoryView({
   courseGallery: CourseGalleryModel[];
   title: string;
 }) {
-
   return (
     <div style={{ marginTop: '20px' }}>
       <h1 className="h1-font-weight-700">{title}</h1>
-      <Skeleton title={false} paragraph={{ rows: 6 }} active loading={courseGallery.length === 0}>
-        {
-          courseGallery?.[1] ?
-            <Tabs defaultActiveKey="0" type="card" size={'small'}>
-              {courseGallery.map(({ categoryAlias, courses }, index) => {
-                return (
-                  <TabPane tab={categoryAlias} key={index}>
-                    <SubjectView courses={courses} key={index}></SubjectView>
-                  </TabPane>
-                );
-              })}
-            </Tabs>
-            :
-            <SubjectView courses={courseGallery?.[0]?.courses ?? [] }></SubjectView>
-        }
+      <Skeleton
+        title={false}
+        paragraph={{ rows: 6 }}
+        active
+        loading={courseGallery.length === 0}
+      >
+        {courseGallery?.[1] ? (
+          <Tabs defaultActiveKey="0" type="card" size={'small'}>
+            {courseGallery.map(({ categoryAlias, courses }, index) => {
+              return (
+                <TabPane tab={categoryAlias} key={index}>
+                  <SubjectView courses={courses} key={index}></SubjectView>
+                </TabPane>
+              );
+            })}
+          </Tabs>
+        ) : (
+          <SubjectView
+            courses={courseGallery?.[0]?.courses ?? []}
+          ></SubjectView>
+        )}
       </Skeleton>
     </div>
   );

@@ -20,12 +20,7 @@ interface Props {
 
 type LoginFormData = LoginModel & { rememberMe: boolean };
 
-export function UserLoginModal({
-  visible,
-  onClose,
-  onRegister,
-  onForgottenPassword,
-}: Props) {
+export function UserLoginModal({ visible, onClose, onRegister }: Props) {
   const { setToken } = useTokenContext();
   const { setPermissions } = usePermissionsContext();
   const getUserInfo = (data: LoginModel) => {

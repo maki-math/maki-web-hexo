@@ -1,13 +1,13 @@
+import { mathFormat } from '@/components/Standard/StandardMDContainer';
 import { StandardPageLayout } from '@/components/Standard/StandardPageLayout';
 import { VditorEditor } from '@/components/Standard/StandardVditorEditor';
-import React, { useState } from 'react';
-import { useRequest } from 'ahooks';
-import { Form, Input, Button, message, Skeleton, Col, Row, Row, Space } from 'antd';
 import { QuestionModel } from '@/generated-api/Api';
 import { api } from '@/utils/api';
+import { useRequest } from 'ahooks';
+import { Button, Col, Form, Input, Row, Skeleton, Space, message } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { mathFormat } from '@/components/Standard/StandardMDContainer';
 
 export const VditorCDN = 'https://www.maki-math.com/static/vditor@3.8.13';
 
@@ -44,7 +44,7 @@ function QuestionEditing({ question }: { question: QuestionModel }) {
         };
         history.push(path);
       })
-      .catch((err) => {
+      .catch(() => {
         message.error('上传失败, 请稍后重试.');
       });
   };
@@ -91,8 +91,15 @@ function QuestionEditing({ question }: { question: QuestionModel }) {
           <Row justify="center">
             <Col>
               <Space direction="horizontal">
-                <Button type="primary" htmlType="submit" disabled={loading}>上传</Button>
-                <Button disabled={loading} onClick={() => window.history.back()}>取消</Button>
+                <Button type="primary" htmlType="submit" disabled={loading}>
+                  上传
+                </Button>
+                <Button
+                  disabled={loading}
+                  onClick={() => window.history.back()}
+                >
+                  取消
+                </Button>
               </Space>
             </Col>
           </Row>
@@ -105,7 +112,7 @@ function QuestionEditing({ question }: { question: QuestionModel }) {
 export const QuestionEditingPage = ({ id }: { id: number }) => {
   let question;
   if (id > 0) {
-    const { data, loading } = useRequest(
+    const { data } = useRequest(
       () => {
         return api.question.questionRetrieve(id);
       },

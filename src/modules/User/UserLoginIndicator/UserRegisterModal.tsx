@@ -33,7 +33,7 @@ export function UserRegisterModal({ visible, onClose }: Props) {
         fetchPermissions(setPermissions);
         onClose?.();
       })
-      .catch((err) => {
+      .catch(() => {
         message.error('注册失败，请重试');
         // TODO 根据err内容在表单中展示错误信息
       });

@@ -1,27 +1,25 @@
 import { StandardMDContainer } from '@/components/Standard/StandardMDContainer';
 import { QuestionModel } from '@/generated-api/Api';
+import { AuthWrapper } from '@/utils/AuthWrapper';
 import { api } from '@/utils/api';
-import moment from 'moment';
-import { useRequest } from 'ahooks';
 import { splitTagsString } from '@/utils/tags';
+import { useRequest } from 'ahooks';
 import {
-  Layout,
-  Skeleton,
-  Tabs,
+  Col,
   Divider,
-  Typography,
+  Layout,
   PageHeader,
   Row,
-  Col,
+  Skeleton,
+  Tabs,
   Tag,
 } from 'antd';
+import moment from 'moment';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { AuthWrapper } from '@/utils/AuthWrapper';
 
 const { Content } = Layout;
 const { TabPane } = Tabs;
-const { Title } = Typography;
 
 function QuestionDetail({ question }: { question: QuestionModel }) {
   const path = {
