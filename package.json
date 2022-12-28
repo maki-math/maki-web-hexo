@@ -10,6 +10,7 @@
     "dev-w-local-server": "vite --port 3000 --mode development-local-server",
     "build": "vite build",
     "serve": "vite preview",
+    "tc": "tsc --noEmit",
     "lint": "eslint --fix src",
     "lint-error-only": "eslint --fix --quiet src",
     "gen-api-localhost": "npx swagger-typescript-api --type-suffix Model -p http://127.0.0.1:8000/schema/ -o ./src/generated-api --clean-output --axios",
