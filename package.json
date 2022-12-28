@@ -31,6 +31,7 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-ga4": "^1.4.1",
+    "react-github-btn": "^1.4.0",
     "react-router-dom": "^5",
     "vditor": "^3.8.13"
   },

@@ -2680,6 +2680,11 @@ git-raw-commits@^2.0.0:
     split2 "^3.0.0"
     through2 "^4.0.0"
 
+github-buttons@^2.22.0:
+  version "2.22.1"
+  resolved "https://registry.npmmirror.com/github-buttons/-/github-buttons-2.22.1.tgz#1221aef6dee885665c81b9b3e913471951790ec1"
+  integrity sha512-937dpW009lbV8p1gg1SoUvUnJBnfJKYU6CEJcsdoLnBzI4YP7Y8oT/M0O7WTQwfErTYLCG9t0W1huaexSLx7yA==
+
 glob-parent@^5.1.2:
   version "5.1.2"
   resolved "https://registry.npmmirror.com/glob-parent/-/glob-parent-5.1.2.tgz#869832c58034fe68a4093c17dc15e8340d8401c4"
@@ -5030,6 +5035,13 @@ react-ga4@^1.4.1:
   version "1.4.1"
   resolved "https://registry.npmmirror.com/react-ga4/-/react-ga4-1.4.1.tgz#6ee2a2db115ed235b2f2092bc746b4eeeca9e206"
   integrity sha512-ioBMEIxd4ePw4YtaloTUgqhQGqz5ebDdC4slEpLgy2sLx1LuZBC9iYCwDymTXzcntw6K1dHX183ulP32nNdG7w==
+
+react-github-btn@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.npmmirror.com/react-github-btn/-/react-github-btn-1.4.0.tgz#92654107e92658e60dd977c7a92b212f806da78d"
+  integrity sha512-lV4FYClAfjWnBfv0iNlJUGhamDgIq6TayD0kPZED6VzHWdpcHmPfsYOZ/CFwLfPv4Zp+F4m8QKTj0oy2HjiGXg==
+  dependencies:
+    github-buttons "^2.22.0"
 
 react-is@^16.12.0, react-is@^16.13.1, react-is@^16.6.0, react-is@^16.7.0:
   version "16.13.1"

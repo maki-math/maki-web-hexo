@@ -1,5 +1,4 @@
 import { CustomLayoutHeader } from '@/components/CustomLayoutHeader/CustomLayoutHeader';
-import { GithubOutlined } from '@/components/Icon/Icon';
 import { REPOSITORY_URL } from '@/dicts/global';
 import {
   AuthModuleEnum,
@@ -9,21 +8,22 @@ import {
 } from '@/utils/auth-token';
 import { usePageTracking, useTracking } from '@/utils/tracking';
 import {
-  Button,
   Col,
   Divider,
   FloatButton,
   Layout,
   Menu,
+  Space,
   Typography,
 } from 'antd';
 import 'antd/dist/reset.css';
 
 import React from 'react';
+import GitHubButton from 'react-github-btn';
 import {
-  HashRouter as Router,
   Link,
   Route,
+  HashRouter as Router,
   Switch,
   withRouter,
 } from 'react-router-dom';
@@ -118,18 +118,18 @@ function AppContent() {
             </Content>
             <Footer style={{ textAlign: 'center' }}>
               <Divider></Divider>
-              <div>
-                <Button
-                  shape="circle"
-                  type="text"
-                  size="large"
-                  onClick={() => window.open(REPOSITORY_URL)}
+              <Space direction="vertical">
+                <GitHubButton
+                  data-show-count="true"
+                  data-size="large"
+                  data-icon="octicon-star"
+                  href={REPOSITORY_URL}
                 >
-                  <GithubOutlined />
-                </Button>
-              </div>
-              <div>Copyright © 2020 - 2023 Maki's Lab. 保留所有权利.</div>
-              <a href="http://beian.miit.gov.cn">沪ICP备2022010774号</a>
+                  Star
+                </GitHubButton>
+                <div>Copyright © 2020 - 2023 Maki's Lab. 保留所有权利.</div>
+                <a href="http://beian.miit.gov.cn">沪ICP备2022010774号</a>
+              </Space>
             </Footer>
           </Layout>
         </PermissionsProvider>
