@@ -29,6 +29,7 @@ import {
 } from 'react-router-dom';
 import { ArticleListPage } from '../Content/ContentListPage';
 import { CoursesPage } from '../Course/Courses';
+import { DiaryPage } from '../Diary/DiaryPage';
 import { HomePage } from '../Home/HomePage';
 import { QuestionsPage } from '../Questions/QuestionsPage';
 import { UserLoginIndicator } from '../User/UserLoginIndicator/UserLoginIndicator';
@@ -80,6 +81,16 @@ const Nav = withRouter(({ history }) => {
               </Link>
             </Menu.Item>
           )}
+          {isAuthed && (
+            <Menu.Item key="/diary">
+              <Link to="/diary">
+                日拱一卒
+                <Typography.Text type="danger">
+                  <sup>开发中</sup>
+                </Typography.Text>
+              </Link>
+            </Menu.Item>
+          )}
         </Menu>
       </Col>
       <div>
@@ -105,6 +116,9 @@ function AppContent() {
                 </Route>
                 <Route path="/content">
                   <ArticleListPage />
+                </Route>
+                <Route path="/diary">
+                  <DiaryPage></DiaryPage>
                 </Route>
                 <Route path="/questions">
                   <QuestionsPage />
