@@ -1,5 +1,7 @@
 import axios from 'axios';
-import { UserProfile } from './user-profile';
+
+// TODO use real UserProfile definition
+type UserProfile = any;
 
 // TODO use enum
 export type DailyRecordType = {
