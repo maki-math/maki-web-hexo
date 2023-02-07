@@ -1,4 +1,6 @@
 import { StandardPageLayout } from '@/components/Standard/StandardPageLayout';
+import { api } from '@/utils/api';
+import { useIsLoggedIn } from '@/utils/auth-token';
 import { Card, Col, Form, Modal, Row, Typography, message } from 'antd';
 import React, { useCallback } from 'react';
 import { DiaryEditor } from './DiaryEditor';
@@ -12,38 +14,59 @@ export interface DiaryFormData {
 export const DiaryPage = () => {
   const [form] = Form.useForm<DiaryFormData>();
 
-  const onFinish = useCallback(({ content: rawContent }: DiaryFormData) => {
-    const { parsed, unparsed } = parseDailyRecord(rawContent);
-    const successDetail = <Col span={24}>记录解析成功 {parsed.length} 条</Col>;
-    const failureDetail = (
-      <div>
-        解析失败{unparsed.length}条：
-        {unparsed.map((item) => {
-          return <Row>{item}</Row>;
-        })}
-        可更正后再试。
-      </div>
-    );
-    const content = (
-      <Row>
-        {successDetail}
-        {unparsed.length ? failureDetail : undefined}
-      </Row>
-    );
-    Modal.confirm({
-      title: '确认解析结果',
-      content,
-      async onOk() {
-        try {
-          // TODO call api here
-          message.success('记录成功');
-          form.resetFields();
-        } catch (error) {
-          message.error('记录失败，请联系管理员');
-        }
-      },
-    });
-  }, []);
+  const { isLoggedIn, payload: loginPayload } = useIsLoggedIn();
+  const currentUserId = loginPayload?.data.pk;
+
+  const onFinish = useCallback(
+    ({ content: rawContent }: DiaryFormData) => {
+      if (!currentUserId) {
+        message.error('当前用户未登录，请登录后再打卡');
+        return;
+      }
+      const { parsed, unparsed } = parseDailyRecord(rawContent);
+      const successDetail = <Col span={24}>解析成功 {parsed.length} 条</Col>;
+      const failureDetail = (
+        <div>
+          解析失败{unparsed.length}条：
+          {unparsed.map((item) => {
+            return <Row>{item}</Row>;
+          })}
+        </div>
+      );
+      const modalContent = (
+        <Row>
+          {successDetail}
+          {unparsed.length ? failureDetail : undefined}
+        </Row>
+      );
+      if (parsed.length) {
+        Modal.confirm({
+          title: '是否提交解析成功的条目',
+          content: modalContent,
+          async onOk() {
+            try {
+              // TODO get current UserProfile id in server
+              const _currentUserProfileId = 1;
+              await api.diary.diaryCreate(({
+                author: { id: currentUserId },
+                items: parsed,
+              } as unknown) as any);
+              message.success('记录成功');
+              form.resetFields();
+            } catch (error) {
+              message.error('记录失败，请联系管理员');
+            }
+          },
+        });
+      } else {
+        Modal.error({
+          title: '没有可解析的内容',
+          content: failureDetail,
+        });
+      }
+    },
+    [currentUserId]
+  );
 
   return (
     <StandardPageLayout title="日拱一卒" subTitle="功不唐捐">
@@ -51,7 +74,12 @@ export const DiaryPage = () => {
         <Col xl={6} xs={24}>
           <Card>
             <Typography.Title level={5}>今日打卡</Typography.Title>
-            <Form<DiaryFormData> form={form} onFinish={onFinish}>
+            <Form<DiaryFormData>
+              form={form}
+              onFinish={onFinish}
+              disabled={!isLoggedIn}
+              initialValues={{ content: '学习数学分析课程：1页' }}
+            >
               <DiaryEditor></DiaryEditor>
             </Form>
           </Card>
