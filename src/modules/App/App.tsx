@@ -83,12 +83,7 @@ const Nav = withRouter(({ history }) => {
           )}
           {isAuthed && (
             <Menu.Item key="/diary">
-              <Link to="/diary">
-                日拱一卒
-                <Typography.Text type="danger">
-                  <sup>开发中</sup>
-                </Typography.Text>
-              </Link>
+              <Link to="/diary">日拱一卒</Link>
             </Menu.Item>
           )}
         </Menu>

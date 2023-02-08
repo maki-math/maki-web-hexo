@@ -24,7 +24,7 @@ export const DiaryList = ({ shouldRefresh }: Props) => {
         loading={loading}
         itemLayout="horizontal"
         loadMore={false}
-        locale={{ emptyText: <Empty description="此功能正在开发中~"></Empty> }}
+        locale={{ emptyText: <Empty description="暂无本周打卡记录"></Empty> }}
         dataSource={list}
         renderItem={(item) => {
           const time = humanizeTimeString(item.updatedAt);
