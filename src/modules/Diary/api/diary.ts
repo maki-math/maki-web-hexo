@@ -1,4 +1,5 @@
 import axios from 'axios';
+import dayjs from 'dayjs';
 
 // TODO use real UserProfile definition
 type UserProfile = any;
@@ -32,7 +33,7 @@ export interface DiaryListQueryPayload {
 
 export type TimeString = string & { tag?: 'TimeString' };
 export function humanizeTimeString(timeString: TimeString) {
-  return new Date(timeString).toLocaleString('zh-CN');
+  return dayjs(timeString).format('dddd YYYY-MM-DD HH:mm:ss');
 }
 
 export interface DiaryItem {
