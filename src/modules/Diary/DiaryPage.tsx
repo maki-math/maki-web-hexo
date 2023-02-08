@@ -1,6 +1,7 @@
 import { StandardPageLayout } from '@/components/Standard/StandardPageLayout';
 import { api } from '@/utils/api';
 import { useIsLoggedIn } from '@/utils/auth-token';
+import { useCounter } from 'ahooks';
 import { Card, Col, Form, Modal, Row, Typography, message } from 'antd';
 import React, { useCallback } from 'react';
 import { DiaryEditor } from './DiaryEditor';
@@ -16,6 +17,8 @@ export const DiaryPage = () => {
 
   const { isLoggedIn, payload: loginPayload } = useIsLoggedIn();
   const currentUserId = loginPayload?.data.pk;
+
+  const [shouldRefreshHistory, { inc: refreshHistory }] = useCounter();
 
   const onFinish = useCallback(
     ({ content: rawContent }: DiaryFormData) => {
@@ -52,6 +55,7 @@ export const DiaryPage = () => {
               } as any);
               message.success('记录成功');
               form.resetFields();
+              refreshHistory();
             } catch (error) {
               message.error('记录失败，请联系管理员');
             }
@@ -77,15 +81,13 @@ export const DiaryPage = () => {
               form={form}
               onFinish={onFinish}
               disabled={!isLoggedIn}
-              // TODO remove initialValues
-              initialValues={{ content: '学习数学分析课程：1页' }}
             >
               <DiaryEditor></DiaryEditor>
             </Form>
           </Card>
         </Col>
         <Col xl={18} xs={24}>
-          <DiaryHistory></DiaryHistory>
+          <DiaryHistory shouldRefresh={shouldRefreshHistory}></DiaryHistory>
         </Col>
       </Row>
     </StandardPageLayout>

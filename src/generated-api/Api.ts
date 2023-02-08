@@ -1299,10 +1299,14 @@ export class Api<
      * @request GET:/diary/
      * @secure
      */
-    diaryList: (params: RequestParams = {}) =>
+    diaryList: (
+      query?: { span_literal?: 'week' | 'day' },
+      params: RequestParams = {}
+    ) =>
       this.request<DiaryModel[], any>({
         path: `/diary/`,
         method: 'GET',
+        query: query,
         secure: true,
         format: 'json',
         ...params,
