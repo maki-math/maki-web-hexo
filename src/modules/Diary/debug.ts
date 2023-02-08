@@ -25,7 +25,7 @@ function prettifyDiary({
 
 export function formatDailyRecords(records: DailyRecordType[]) {
   if (records.length) {
-    return records.map((x) => prettifyDiary(x)).join(';\n');
+    return records.map((x) => prettifyDiary(x)).join('\n');
   }
   return '本日内容为空';
 }

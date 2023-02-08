@@ -1,5 +1,8 @@
 import axios from 'axios';
-import { UserProfile } from './user-profile';
+import dayjs from 'dayjs';
+
+// TODO use real UserProfile definition
+type UserProfile = any;
 
 // TODO use enum
 export type DailyRecordType = {
@@ -30,7 +33,7 @@ export interface DiaryListQueryPayload {
 
 export type TimeString = string & { tag?: 'TimeString' };
 export function humanizeTimeString(timeString: TimeString) {
-  return new Date(timeString).toLocaleString('zh-CN');
+  return dayjs(timeString).format('dddd YYYY-MM-DD HH:mm:ss');
 }
 
 export interface DiaryItem {

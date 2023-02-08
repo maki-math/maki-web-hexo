@@ -54,10 +54,19 @@ export interface CourseGalleryModel {
   courses: CourseModel[];
 }
 
-export interface GroupModel {
-  /** @format uri */
-  url: string;
+export interface DiaryModel {
+  id?: number;
+  items: Record<string, any>;
 
+  /** @format date-time */
+  createdAt: string;
+
+  /** @format date-time */
+  updatedAt: string;
+  author: UserProfileModel;
+}
+
+export interface GroupModel {
   /** 名称 */
   name: string;
   permissions: PermissionModel[];
@@ -154,10 +163,19 @@ export interface PatchedCourseCategoryModel {
   name?: string;
 }
 
-export interface PatchedGroupModel {
-  /** @format uri */
-  url?: string;
+export interface PatchedDiaryModel {
+  id?: number;
+  items?: Record<string, any>;
 
+  /** @format date-time */
+  createdAt?: string;
+
+  /** @format date-time */
+  updatedAt?: string;
+  author?: UserProfileModel;
+}
+
+export interface PatchedGroupModel {
   /** 名称 */
   name?: string;
   permissions?: PermissionModel[];
@@ -194,8 +212,7 @@ export interface PatchedQuestionSetNodeModel {
 }
 
 export interface PatchedUserModel {
-  /** @format uri */
-  url?: string;
+  id?: number;
 
   /**
    * 用户名
@@ -237,6 +254,20 @@ export interface PatchedUserDetailsModel {
 
   /** 姓氏 */
   last_name?: string;
+}
+
+export interface PatchedUserProfileModel {
+  id?: number;
+  user?: UserModel;
+
+  /** 时区 */
+  time_zone?: string;
+
+  /**
+   * 微信内部id
+   * 为空时意味着没有绑定微信号，清空后可重新绑定微信号
+   */
+  wechat_internal_id?: string;
 }
 
 export interface PermissionModel {
@@ -314,8 +345,7 @@ export interface TokenModel {
 }
 
 export interface UserModel {
-  /** @format uri */
-  url: string;
+  id: number;
 
   /**
    * 用户名
@@ -357,6 +387,20 @@ export interface UserDetailsModel {
 
   /** 姓氏 */
   last_name?: string;
+}
+
+export interface UserProfileModel {
+  id?: number;
+  user: UserModel;
+
+  /** 时区 */
+  time_zone?: string;
+
+  /**
+   * 微信内部id
+   * 为空时意味着没有绑定微信号，清空后可重新绑定微信号
+   */
+  wechat_internal_id?: string;
 }
 
 export interface VerifyEmailModel {
@@ -1246,6 +1290,122 @@ export class Api<
         ...params,
       }),
   };
+  diary = {
+    /**
+     * No description
+     *
+     * @tags diary
+     * @name DiaryList
+     * @request GET:/diary/
+     * @secure
+     */
+    diaryList: (
+      query?: { span_literal?: 'week' | 'day' },
+      params: RequestParams = {}
+    ) =>
+      this.request<DiaryModel[], any>({
+        path: `/diary/`,
+        method: 'GET',
+        query: query,
+        secure: true,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags diary
+     * @name DiaryCreate
+     * @request POST:/diary/
+     * @secure
+     */
+    diaryCreate: (data: DiaryModel, params: RequestParams = {}) =>
+      this.request<DiaryModel, any>({
+        path: `/diary/`,
+        method: 'POST',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags diary
+     * @name DiaryRetrieve
+     * @request GET:/diary/{id}/
+     * @secure
+     */
+    diaryRetrieve: (id: number, params: RequestParams = {}) =>
+      this.request<DiaryModel, any>({
+        path: `/diary/${id}/`,
+        method: 'GET',
+        secure: true,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags diary
+     * @name DiaryUpdate
+     * @request PUT:/diary/{id}/
+     * @secure
+     */
+    diaryUpdate: (id: number, data: DiaryModel, params: RequestParams = {}) =>
+      this.request<DiaryModel, any>({
+        path: `/diary/${id}/`,
+        method: 'PUT',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags diary
+     * @name DiaryPartialUpdate
+     * @request PATCH:/diary/{id}/
+     * @secure
+     */
+    diaryPartialUpdate: (
+      id: number,
+      data: PatchedDiaryModel,
+      params: RequestParams = {}
+    ) =>
+      this.request<DiaryModel, any>({
+        path: `/diary/${id}/`,
+        method: 'PATCH',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags diary
+     * @name DiaryDestroy
+     * @request DELETE:/diary/{id}/
+     * @secure
+     */
+    diaryDestroy: (id: number, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/diary/${id}/`,
+        method: 'DELETE',
+        secure: true,
+        ...params,
+      }),
+  };
   groups = {
     /**
      * @description API endpoint that allows groups to be viewed or edited.
@@ -1625,6 +1785,181 @@ export class Api<
     userPermissionsList: (params: RequestParams = {}) =>
       this.request<UserModel[], any>({
         path: `/user-permissions/`,
+        method: 'GET',
+        secure: true,
+        format: 'json',
+        ...params,
+      }),
+  };
+  userProfile = {
+    /**
+     * No description
+     *
+     * @tags user_profile
+     * @name UserProfileList
+     * @request GET:/user_profile/
+     * @secure
+     */
+    userProfileList: (params: RequestParams = {}) =>
+      this.request<UserProfileModel[], any>({
+        path: `/user_profile/`,
+        method: 'GET',
+        secure: true,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags user_profile
+     * @name UserProfileCreate
+     * @request POST:/user_profile/
+     * @secure
+     */
+    userProfileCreate: (data: UserProfileModel, params: RequestParams = {}) =>
+      this.request<UserProfileModel, any>({
+        path: `/user_profile/`,
+        method: 'POST',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags user_profile
+     * @name UserProfileRetrieve
+     * @request GET:/user_profile/{id}/
+     * @secure
+     */
+    userProfileRetrieve: (id: number, params: RequestParams = {}) =>
+      this.request<UserProfileModel, any>({
+        path: `/user_profile/${id}/`,
+        method: 'GET',
+        secure: true,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags user_profile
+     * @name UserProfileUpdate
+     * @request PUT:/user_profile/{id}/
+     * @secure
+     */
+    userProfileUpdate: (
+      id: number,
+      data: UserProfileModel,
+      params: RequestParams = {}
+    ) =>
+      this.request<UserProfileModel, any>({
+        path: `/user_profile/${id}/`,
+        method: 'PUT',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags user_profile
+     * @name UserProfilePartialUpdate
+     * @request PATCH:/user_profile/{id}/
+     * @secure
+     */
+    userProfilePartialUpdate: (
+      id: number,
+      data: PatchedUserProfileModel,
+      params: RequestParams = {}
+    ) =>
+      this.request<UserProfileModel, any>({
+        path: `/user_profile/${id}/`,
+        method: 'PATCH',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags user_profile
+     * @name UserProfileDestroy
+     * @request DELETE:/user_profile/{id}/
+     * @secure
+     */
+    userProfileDestroy: (id: number, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/user_profile/${id}/`,
+        method: 'DELETE',
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags user_profile
+     * @name UserProfileAssociateWechatCreate
+     * @request POST:/user_profile/associate_wechat/
+     * @secure
+     */
+    userProfileAssociateWechatCreate: (
+      data: UserProfileModel,
+      params: RequestParams = {}
+    ) =>
+      this.request<UserProfileModel, any>({
+        path: `/user_profile/associate_wechat/`,
+        method: 'POST',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags user_profile
+     * @name UserProfileCurrentRetrieve
+     * @request GET:/user_profile/current/
+     * @secure
+     */
+    userProfileCurrentRetrieve: (params: RequestParams = {}) =>
+      this.request<UserProfileModel, any>({
+        path: `/user_profile/current/`,
+        method: 'GET',
+        secure: true,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags user_profile
+     * @name UserProfileWechatInternalIdRetrieve
+     * @request GET:/user_profile/wechat_internal_id/{wechat_internal_id}
+     * @secure
+     */
+    userProfileWechatInternalIdRetrieve: (
+      wechatInternalId: string,
+      params: RequestParams = {}
+    ) =>
+      this.request<UserProfileModel, any>({
+        path: `/user_profile/wechat_internal_id/${wechatInternalId}`,
         method: 'GET',
         secure: true,
         format: 'json',

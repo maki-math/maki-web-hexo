@@ -5,9 +5,10 @@ import { DiaryItem } from './api/diary';
 
 interface Props {
   onSelectDiary?: (x: DiaryItem) => void;
+  shouldRefresh?: number;
 }
 
-export const DiaryHistory = ({ onSelectDiary }: Props) => {
+export const DiaryHistory = ({ onSelectDiary, shouldRefresh }: Props) => {
   return (
     <Card>
       <Space>
@@ -18,7 +19,10 @@ export const DiaryHistory = ({ onSelectDiary }: Props) => {
           暂时只支持查询本周的打卡记录
         </Typography.Text>
       </Space>
-      <DiaryList onCopy={onSelectDiary}></DiaryList>
+      <DiaryList
+        onCopy={onSelectDiary}
+        shouldRefresh={shouldRefresh}
+      ></DiaryList>
     </Card>
   );
 };
