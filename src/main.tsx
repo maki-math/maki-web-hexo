@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
-import * as weekday from 'dayjs/plugin/weekday';
+import weekday from 'dayjs/plugin/weekday';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './modules/App/App';
