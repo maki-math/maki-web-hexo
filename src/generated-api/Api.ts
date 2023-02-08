@@ -261,7 +261,7 @@ export interface PatchedUserProfileModel {
   user?: UserModel;
 
   /** 时区 */
-  time_zone?: TimeZoneEnumModel;
+  time_zone?: string;
 
   /**
    * 微信内部id
@@ -336,8 +336,6 @@ export interface SignedObjectUrlModel {
   rawUrl: string;
 }
 
-export enum TimeZoneEnumModel {}
-
 /**
  * Serializer for Token model.
  */
@@ -396,7 +394,7 @@ export interface UserProfileModel {
   user: UserModel;
 
   /** 时区 */
-  time_zone?: TimeZoneEnumModel;
+  time_zone?: string;
 
   /**
    * 微信内部id
@@ -1923,6 +1921,23 @@ export class Api<
         body: data,
         secure: true,
         type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags user_profile
+     * @name UserProfileCurrentRetrieve
+     * @request GET:/user_profile/current/
+     * @secure
+     */
+    userProfileCurrentRetrieve: (params: RequestParams = {}) =>
+      this.request<UserProfileModel, any>({
+        path: `/user_profile/current/`,
+        method: 'GET',
+        secure: true,
         format: 'json',
         ...params,
       }),

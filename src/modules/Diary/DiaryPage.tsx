@@ -45,12 +45,11 @@ export const DiaryPage = () => {
           content: modalContent,
           async onOk() {
             try {
-              // TODO get current UserProfile id in server
-              const _currentUserProfileId = 1;
-              await api.diary.diaryCreate(({
-                author: { id: currentUserId },
+              const userProfile = await api.userProfile.userProfileCurrentRetrieve();
+              await api.diary.diaryCreate({
+                author: { id: userProfile.data.id },
                 items: parsed,
-              } as unknown) as any);
+              } as any);
               message.success('记录成功');
               form.resetFields();
             } catch (error) {
@@ -78,6 +77,7 @@ export const DiaryPage = () => {
               form={form}
               onFinish={onFinish}
               disabled={!isLoggedIn}
+              // TODO remove initialValues
               initialValues={{ content: '学习数学分析课程：1页' }}
             >
               <DiaryEditor></DiaryEditor>
