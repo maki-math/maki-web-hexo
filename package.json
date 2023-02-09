@@ -17,6 +17,7 @@
     "gen-api": "npx swagger-typescript-api --type-suffix Model -p http://api.maki-math.com/schema/ -o ./src/generated-api --clean-output --axios"
   },
   "dependencies": {
+    "@ant-design/cssinjs": "^1.5.6",
     "@ant-design/pro-layout": "^7.4.0",
     "@emotion/css": "^11.5.0",
     "@emotion/react": "^11.6.0",
