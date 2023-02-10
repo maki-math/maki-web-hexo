@@ -13,7 +13,8 @@ interface Props {
 export const DiaryList = ({ shouldRefresh }: Props) => {
   const { data, loading } = useRequest(
     async () => {
-      return api.diary.diaryList({ span_literal: 'week' });
+      // @ts-expect-error FIXME update server schema
+      return api.diary.diaryList({ timeRange: 'week' });
     },
     { refreshDeps: [shouldRefresh] }
   );
