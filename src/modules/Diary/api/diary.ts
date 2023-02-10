@@ -1,4 +1,3 @@
-import axios from 'axios';
 import dayjs from 'dayjs';
 
 // TODO use real UserProfile definition
@@ -43,14 +42,3 @@ export interface DiaryItem {
   updatedAt: TimeString;
   id: number;
 }
-
-export const diary = {
-  create(payload: DiaryCreatePayload) {
-    return axios.post<typeof payload, DiaryItem>(`/diary/`, payload);
-  },
-  queryList(payload: DiaryListQueryPayload) {
-    return axios.get<typeof payload, DiaryItem[]>(`/diary/`, {
-      params: payload,
-    });
-  },
-};
