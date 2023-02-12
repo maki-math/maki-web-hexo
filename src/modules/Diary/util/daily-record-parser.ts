@@ -1,4 +1,3 @@
-export type ParsedRecord = { record: string[] };
 export type UnparsedLine = string;
 export type DailyRecordParseResult = {
   parsed: DailyRecordType[];
