@@ -36,8 +36,6 @@ import { UserLoginIndicator } from '../User/UserLoginIndicator/UserLoginIndicato
 import { BackToHome } from './components/BackToHome';
 import Scroll2Top from './components/Scroll2Top';
 
-import { StyleProvider } from '@ant-design/cssinjs';
-
 const { Content, Footer } = Layout;
 
 const Nav = withRouter(({ history }) => {
@@ -153,11 +151,9 @@ function App() {
   useTracking();
 
   return (
-    <StyleProvider hashPriority="high">
-      <Router>
-        <AppContent></AppContent>
-      </Router>
-    </StyleProvider>
+    <Router>
+      <AppContent></AppContent>
+    </Router>
   );
 }
 
