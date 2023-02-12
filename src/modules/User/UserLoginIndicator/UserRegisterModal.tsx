@@ -86,7 +86,7 @@ export function UserRegisterModal({ visible, onClose }: Props) {
 
   return (
     <Modal
-      open={visible}
+      visible={visible}
       okText="确定"
       cancelText="取消"
       onOk={() => form.submit()}

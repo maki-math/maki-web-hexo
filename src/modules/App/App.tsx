@@ -7,17 +7,8 @@ import {
   useAuth,
 } from '@/utils/auth-token';
 import { usePageTracking, useTracking } from '@/utils/tracking';
-import {
-  Col,
-  Divider,
-  FloatButton,
-  Layout,
-  Menu,
-  Space,
-  Typography,
-} from 'antd';
-import 'antd/dist/reset.css';
-
+import { BackTop, Col, Divider, Layout, Menu, Space, Typography } from 'antd';
+import 'antd/dist/antd.css';
 import React from 'react';
 import GitHubButton from 'react-github-btn';
 import {
@@ -102,7 +93,7 @@ function AppContent() {
       <TokenProvider>
         <PermissionsProvider>
           <Layout>
-            <FloatButton.BackTop />
+            <BackTop />
             <Nav></Nav>
             <Content>
               <Switch>
