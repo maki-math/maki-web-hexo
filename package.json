@@ -24,7 +24,7 @@
     "@emotion/styled": "^11.6.0",
     "ahooks": "^3.3.0",
     "ali-oss": "^6.17.1",
-    "antd": "5.1.7",
+    "antd": "5.x",
     "axios": "^0.26.1",
     "constate": "^3.3.2",
     "dayjs": "^1.11.7",
