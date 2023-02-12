@@ -1,12 +1,12 @@
 import { LoginModel } from '@/generated-api/Api';
 import { api } from '@/utils/api';
 import {
-  useTokenContext,
-  usePermissionsContext,
   fetchPermissions,
+  usePermissionsContext,
+  useTokenContext,
 } from '@/utils/auth-token';
 import { useRequest } from 'ahooks';
-import { Checkbox, Form, Input, message, Modal, Row, Col } from 'antd';
+import { Checkbox, Col, Form, Input, Modal, Row, message } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
 import React, { useCallback } from 'react';
 import { Link } from 'react-router-dom';
@@ -80,9 +80,9 @@ export function UserLoginModal({ visible, onClose, onRegister }: Props) {
           <Input.Password />
         </Form.Item>
 
-        <Form.Item wrapperCol={{ offset: 6, span: 16 }}>
+        <Form.Item wrapperCol={{ sm: { offset: 6, span: 16 } }}>
           <Row justify="space-between">
-            <Col span={6}>
+            <Col sm={6}>
               <Form.Item name="remember" valuePropName="checked">
                 <Checkbox>记住我</Checkbox>
               </Form.Item>
@@ -94,7 +94,7 @@ export function UserLoginModal({ visible, onClose, onRegister }: Props) {
                 </Link>
               </Form.Item>
             </Col> */}
-            <Col span={5.5}>
+            <Col sm={5.5}>
               <Form.Item>
                 <Link to={{}} onClick={onRegister}>
                   立即注册
