@@ -18,7 +18,7 @@ export type DailyRecordType = {
 
 export function parseDailyRecord(s: string): DailyRecordParseResult {
   /* eslint-disable no-useless-escape */
-  const DailyRecordPattern = /(?<action>编写|讲授|学习|挑错|讨论|刷题|绘制)(?<objectName>.*?)(?<objectType>讲义|习题集|课程|习题课|讲座|解题指南|笔记|词条|插图)\s*[:：]\s*(?<quant>[\d\.]+)(?<unit>[^（]*)(:?[（(](?<annotation>已完成)[)）])?/;
+  const DailyRecordPattern = /(?<action>编写|讲授|学习|挑错|讨论|刷题|绘制|阅读|练习)(?<objectName>.*?)(?<objectType>讲义|习题集|课程|习题课|讲座|解题指南|笔记|词条|插图|书|文献)\s*[:：]\s*(?<quant>[\d\.]+)(?<unit>[^（]*)(:?[（(](?<annotation>已完成)[)）])?/;
   /* eslint-enable no-useless-escape */
   const lines = s.split('\n');
   const result: DailyRecordType[] = [];
