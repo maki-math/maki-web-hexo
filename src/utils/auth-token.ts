@@ -1,7 +1,7 @@
+import { PermissionModel } from '@/generated-api/Api';
 import { useLocalStorageState, useRequest } from 'ahooks';
 import constate from 'constate';
 import { api } from './api';
-import { PermissionModel } from '@/generated-api/Api';
 
 const StorageKeyStore = {
   Token: 'token',
@@ -22,6 +22,10 @@ function useTokenStorage() {
 
 export const [TokenProvider, useTokenContext] = constate(useTokenStorage);
 
+function jumpToHomePage() {
+  window.location.href = '/';
+}
+
 export const useIsLoggedIn = () => {
   const { token, setToken } = useTokenContext();
   const verifyLogIn = async () => {
@@ -31,6 +35,7 @@ export const useIsLoggedIn = () => {
     }
     return api.auth.authUserRetrieve().catch((_err: unknown) => {
       setToken('');
+      jumpToHomePage();
     });
   };
 
