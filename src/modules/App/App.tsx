@@ -59,6 +59,11 @@ const Nav = withRouter(({ history }) => {
           <Menu.Item key="/courses">
             <Link to="/courses">课程</Link>
           </Menu.Item>
+          {isAuthed && (
+            <Menu.Item key="/diary">
+              <Link to="/diary">日拱一卒</Link>
+            </Menu.Item>
+          )}
           <Menu.Item key="/content">
             <Link to="/content">文章</Link>
           </Menu.Item>
@@ -70,11 +75,6 @@ const Nav = withRouter(({ history }) => {
                   <sup>alpha</sup>
                 </Typography.Text>
               </Link>
-            </Menu.Item>
-          )}
-          {isAuthed && (
-            <Menu.Item key="/diary">
-              <Link to="/diary">日拱一卒</Link>
             </Menu.Item>
           )}
         </Menu>
