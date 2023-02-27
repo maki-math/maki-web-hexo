@@ -86,7 +86,7 @@ export const DiaryPage = () => {
             </Form>
           </Card>
         </Col>
-        <Col xl={18} xs={24}>
+        <Col xl={18} xs={24} style={isLoggedIn ? {} : { display: 'none' }}>
           <DiaryHistory shouldRefresh={shouldRefreshHistory}></DiaryHistory>
         </Col>
       </Row>
