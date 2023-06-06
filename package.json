@@ -54,7 +54,7 @@
     "textlint": "^12.0.2",
     "textlint-rule-ja-space-between-half-and-full-width": "^2.2.0",
     "typescript": "^4.8.0-dev.20220723",
-    "vite": "^3.0.2"
+    "vite": "^3.2.7"
   },
   "husky": {
     "hooks": {
